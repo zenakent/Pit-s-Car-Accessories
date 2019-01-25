@@ -1,0 +1,133 @@
+<% include ./partials/header %>
+
+<div class="title-wrapper">
+      <div class="container"><div class="container-inner">
+        <!--<h1><span>MEN</span> CATEGORY</h1>-->
+        <!--<em>Over 4000 Items are available here</em>-->
+      </div></div>
+</div>
+
+<div class="main">
+      <div class="container">
+        
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-40">
+          <!-- BEGIN SIDEBAR -->
+          <% include ./partials/sidebar %>
+          <!-- END SIDEBAR -->
+
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-7">
+            <div class="product-page">
+              <div class="row">
+                <div class="col-md-6 col-sm-6">
+                  <div class="product-main-image">
+                    <img src="<%= foundItem.image %>" alt="Cool green dress with red bell" class="img-responsive" data-BigImgsrc="assets/pages/img/products/model7.jpg">
+                  </div>
+                  <!--<div class="product-other-images">-->
+                  <!--  <a href="assets/pages/img/products/model3.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model3.jpg"></a>-->
+                  <!--  <a href="assets/pages/img/products/model4.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model4.jpg"></a>-->
+                  <!--  <a href="assets/pages/img/products/model5.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model5.jpg"></a>-->
+                  <!--</div>-->
+                </div> <% console.log(foundItem) %>
+                <div class="col-md-6 col-sm-6">
+                  <h1><%= foundItem.name %></h1>
+                  <div class="price-availability-block clearfix">
+                    <div class="price">
+                      <strong><span>$</span><%= foundItem.price %></strong>
+                      
+                    </div>
+                    <div class="availability">
+                      Availability: <strong><%= foundItem.quantity %></strong>
+                    </div>
+                  </div>
+                  <div class="description">
+                    <p><%= foundItem.description %></p>
+                  </div>
+                  <div class="product-page-cart">
+                    <!--<div class="product-quantity">-->
+                    <!--    <input id="product-quantity" type="text" value="1" readonly class="form-control input-sm">-->
+                    <!--</div>-->
+                    <a href="/cart/add-to-cart/<%= foundItem._id %>"><button class="btn btn-primary" type="submit">Add to cart</button></a>
+                  </div>
+                  <!--<div class="review">-->
+                  <!--  <input type="range" value="4" step="0.25" id="backing4">-->
+                  <!--  <div class="rateit" data-rateit-backingfld="#backing4" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">-->
+                  <!--  </div>-->
+                  <!--  <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;">Write a review</a>-->
+                  <!--</div>-->
+                  
+                </div>
+
+                <div class="product-page-content">
+                  <ul id="myTab" class="nav nav-tabs">
+                    <li class="active"><a href="#Reviews" data-toggle="tab">Reviews</a></li>
+                  </ul>
+                  <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="Reviews">
+                      <!--<p>There are no reviews for this product.</p>-->
+                      <% foundItem.reviews.forEach(function(review) { %>
+                      <div class="review-item clearfix">
+                        <div class="review-item-submitted">
+                          <strong><%= review.author %></strong>
+                          <em><%= moment(review.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></em>
+                          <div class="rateit" data-rateit-value="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        </div>                                              
+                        <div class="review-item-content">
+                            <p><%= review.text %></p>
+                           
+                        </div>
+                        <div>
+                          <form action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=DELETE" method="POST" class="reviews-form" >
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
+                        </div>
+                      </div>
+                      <% }) %>
+                      
+
+                      <!-- BEGIN FORM-->
+                      <% if (!currentUser) { %>
+                      <h1><a href="/login">Log in</a> to write a review</h1>
+                      <% } else { %>
+                      <form action="/shop-item/<%= foundItem._id %>/reviews" method="POST" class="reviews-form" role="form">
+                        <h2>Write a review</h2>
+                        <div class="form-group">
+                          <label for="name">Name <span class="require">*</span></label><% console.log(currentUser) %>
+                          <input type="text" class="form-control" name="review[author]"  disabled id="name" value="<%= currentUser.firstName %>" >
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="review">Review <span class="require">*</span></label>
+                          <textarea class="form-control" rows="8" id="review" name="review[text]"></textarea>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--  <label for="email">Rating</label>-->
+                        <!--  <input type="range" value="4" step="0.25" id="backing5">-->
+                        <!--  <div class="rateit" data-rateit-backingfld="#backing5" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">-->
+                        <!--  </div>-->
+                        <!--</div>-->
+                        <div class="padding-top-20">                  
+                          <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                      </form>
+                      <% } %>
+                      
+                      <!-- END FORM--> 
+                    </div>
+                  </div>
+                </div>
+
+                <!--<div class="sticker sticker-sale"></div>-->
+              </div>
+            </div>
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+
+        
+      </div>
+    </div>
+
+<% include ./partials/footer %>

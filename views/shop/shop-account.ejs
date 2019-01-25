@@ -1,0 +1,44 @@
+<% include ./partials/header %>
+
+<div class="main margin-bottom-40">
+      <div class="container">
+        
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-100">
+          <!-- BEGIN SIDEBAR -->
+          <div class="sidebar col-md-3 col-sm-3">
+            <ul class="list-group margin-bottom-25 sidebar-menu">
+              
+              
+              <li class="list-group-item clearfix"><a href="/profile"><i class="fa fa-angle-right"></i> My account</a></li>
+              <li class="list-group-item clearfix"><a href="/profile/orders"><i class="fa fa-angle-right"></i> Orders</a></li>
+              <%# console.log(currentUser) %>
+              
+            </ul>
+          </div>
+          <!-- END SIDEBAR -->
+
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-7">
+            <h1 style="color: white">My Account Page</h1>
+            <div class="content-page">
+              <h3>My Account</h3>
+              <ul>
+                <li><a href="/profile/<%= currentUser._id %>/edit">Edit your account information</a></li>
+                <!--<li><a href="javascript:;">Change your password</a></li>-->
+              </ul>
+              <hr>
+
+              <h3>My Orders</h3>
+              <ul>
+                <li><a href="/profile/<%= currentUser.id %>/orders">View your order history</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+      </div>
+    </div>
+
+<% include ./partials/footer %>

@@ -1,0 +1,148 @@
+<% include ./partials/header %>
+
+    <!-- BEGIN SLIDER -->
+    <div class="page-slider margin-bottom-35">
+        <div id="carousel-example-generic" class="carousel slide carousel-slider " data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <!-- First slide -->
+                <div class="item carousel-item-four active">
+                    <div class="container">
+                        <div class="carousel-position-four text-center">
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second slide -->
+                <div class="item carousel-item-five ">
+                    <div class="container">
+                        <div class="carousel-position-four text-center">
+                            
+                        </div>                        
+                    </div>
+                </div>
+
+                <!-- Third slide -->
+                <div class="item carousel-item-six">
+                    <div class="container">
+                        <div class="carousel-position-four text-center">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fourth slide -->
+                <div class="item carousel-item-seven">
+                   <div class="center-block">
+                        <div class="center-block-wrap">
+                            <div class="center-block-body">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control carousel-control-shop" href="#carousel-example-generic" role="button" data-slide="prev">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </a>
+            <a class="right carousel-control carousel-control-shop" href="#carousel-example-generic" role="button" data-slide="next">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <!-- END SLIDER -->
+
+    <div class="main">
+      <div class="container">
+        <!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
+        <div class="row margin-bottom-40">
+          <!-- BEGIN SALE PRODUCT -->
+          <div class="col-md-12 sale-product">
+            <div class="owl-carousel owl-carousel3">
+              <% prods.forEach(function(prod) { %>
+              <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                    <img src="<%= prod.image %>" class="img-responsive" alt="<%= prod.name %>">
+                    <div>
+                      <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>
+                      <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>
+                    </div>
+                  </div>
+                  <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
+                  <div class="pi-price"><span>₱</span><%= prod.price %></div>
+                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
+                </div>
+              </div>
+              
+              
+              <% }) %>
+              
+            </div>
+          </div>
+          <!-- END SALE PRODUCT -->
+        </div>
+        <!-- END SALE PRODUCT & NEW ARRIVALS -->
+      </div>
+    </div>
+    
+<div class="container">
+    <div class="row margin-bottom-40">
+        
+          <div class="col-md-6">
+              <h1>About us</h1>
+              <p style="line-height: 2;">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel elit scelerisque mauris pellentesque pulvinar. Ultrices sagittis orci a scelerisque purus semper eget duis. Eu mi bibendum neque egestas congue. Scelerisque purus semper eget duis at tellus at. Commodo ullamcorper a lacus vestibulum sed arcu. Lacinia at quis risus sed vulputate. Urna duis convallis convallis tellus. Duis ut diam quam nulla. Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Sit amet nisl suscipit adipiscing bibendum est ultricies integer.
+                <br>
+                <br>
+In ante metus dictum at tempor. Sit amet mattis vulputate enim nulla aliquet porttitor. Ipsum suspendisse ultrices gravida dictum. Amet purus gravida quis blandit turpis. Pellentesque adipiscing commodo elit at. Proin fermentum leo vel orci porta non. Tortor at risus viverra adipiscing at in. Arcu dui vivamus arcu felis bibendum ut tristique et. Facilisis leo vel fringilla est. Volutpat odio facilisis mauris sit. Elementum pulvinar etiam non quam lacus suspendisse. Senectus et netus et malesuada fames ac turpis egestas maecenas. Molestie ac feugiat sed lectus vestibulum mattis. Nunc scelerisque viverra mauris in. Sit amet purus gravida quis.
+              </p>
+          </div>
+          <!-- BEGIN PROMO -->
+          <div class="col-md-6 shop-index-carousel">
+            <div class="content-slider">
+              <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43346076_263413117693468_6809108453768822784_n.jpg?_nc_cat=101&_nc_ht=scontent.fmnl17-1.fna&oh=0a5ac6ea9684014f0f0795051be60408&oe=5CB657CE" class="img-responsive" height="auto" width="455">
+                  </div>
+                  <div class="item">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43632656_264354137599366_892901238159441920_n.jpg?_nc_cat=108&_nc_ht=scontent.fmnl17-1.fna&oh=43804527f1732685e24062e9780b5c00&oe=5CFAE7FD" class="img-responsive" height="auto" width="455">
+                  </div>
+                  <div class="item">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/38072264_228840071150773_5692702597903810560_n.jpg?_nc_cat=106&_nc_ht=scontent.fmnl17-1.fna&oh=fa1018a7b3def8c642d595fc94999601&oe=5CB75808" class="img-responsive" height="auto" width="455">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END PROMO -->
+    </div>
+</div>
+
+    
+
+   
+
+    
+<!-- BEGIN fast view of a product -->
+    <% include ./partials/fastView %>
+<!-- END fast view of a product -->   
+<% include ./partials/footer %>

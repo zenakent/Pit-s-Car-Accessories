@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head BEGIN -->
+<head>
+  <meta charset="utf-8">
+  <title>Pit's Car Accessories</title>
+
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  
+  <!--<link rel="shortcut icon" href="favicon.ico">-->
+
+  <!-- Fonts START -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|PT+Sans+Narrow:400,700|Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet"><!--- fonts for slider on the index page -->  
+  <!-- Fonts END -->
+
+  <!-- Global styles START -->          
+  <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  
+  <!-- Global styles END --> 
+   
+  <!-- Page level plugin styles START -->
+  <link href="/assets/pages/css/animate.css" rel="stylesheet">
+  <link href="/assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
+  <link href="/assets/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
+  <!-- Page level plugin styles END -->
+
+  <!-- Theme styles START -->
+  <link href="/assets/pages/css/components.css" rel="stylesheet">
+  <link href="/assets/pages/css/slider.css" rel="stylesheet">
+  <link href="/assets/pages/css/style-shop.css" rel="stylesheet" type="text/css">
+  <link href="/assets/corporate/css/style.css" rel="stylesheet">
+  <link href="/assets/corporate/css/style-responsive.css" rel="stylesheet">
+  <link href="/assets/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
+  <link href="/assets/corporate/css/custom.css" rel="stylesheet">
+  <!-- Theme styles END -->
+</head>
+<!-- Head END -->
+
+<!-- Body BEGIN -->
+<body class="ecommerce">   
+
+    <!-- BEGIN TOP BAR -->
+    <div class="pre-header">
+        <div class="container">
+            <div class="row">
+                <!-- BEGIN TOP BAR LEFT PART -->
+                <div class="col-md-6 col-sm-6 additional-shop-info">
+                    <ul class="list-unstyled list-inline">
+                        <li><i class="fa fa-phone"></i><span>0927-771-1193</span></li>   
+                        <li class=""><i class="fas fa-address-card"></i> <span>Treelane III Bayan Luma V Imus, Cavite 4103</span></li>
+                    </ul>
+                </div>
+                <!-- END TOP BAR LEFT PART -->
+                <!-- BEGIN TOP BAR MENU -->
+                <div class="col-md-6 col-sm-6 additional-nav">
+                    <ul class="list-unstyled list-inline pull-right">
+                        
+                        <% if (!currentUser) { %>
+                          <li><a href="/register">Register</a></li>
+                          <li><a href="/login">Log In</a></li>
+                        <% } else { %>
+                          <li><a href="/profile/<%= currentUser._id %>"><%= currentUser.firstName %></a></li>
+                          <li><a href="/logout">Log Out</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+                <!-- END TOP BAR MENU -->
+            </div>
+        </div>        
+    </div>
+    <!-- END TOP BAR -->
+
+    <!-- BEGIN HEADER -->
+    <div class="header">
+      <div class="container">
+        <a class="site-logo pb-0" href="/"><img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/28577304_159399294761518_2217302082468241221_n.jpg?_nc_cat=107&_nc_ht=scontent.fmnl17-1.fna&oh=4a84fdec83080e81b3acfbe528fb5608&oe=5CC0A938" alt="Pit's Shop Car Accessories" height="auto" width="128"></a>
+
+        <a href="javascript:void(0);" class="mobi-toggler"><i class="fa fa-bars"></i></a>
+
+        <!-- BEGIN CART -->
+        <div class="top-cart-block">
+          <div class="top-cart-info">
+            <a  class="top-cart-info-count">
+              <% if (!session.cart) { %>
+                0
+              <% } else { %>
+                <%= session.cart.totalQty %>
+              <% } %>
+            </a>
+            <a  class="top-cart-info-value">
+              <% if (!session.cart) { %>
+                <span>₱</span>0.00
+              <% } else { %>
+                <span>₱</span><%= session.cart.totalPrice %>.00
+              <% } %>
+            </a>
+          </div>
+          <i class="fa fa-shopping-cart"></i>
+                        
+          <div class="top-cart-content-wrapper">
+            <div class="top-cart-content">
+              <ul class="scroller" style="height: 250px;">
+                <% if (!session.cart) { %>
+                  Cart is Empty
+                <% } else { %>
+                  <%var arr = [] %>
+                    <% for ( var id in session.cart.items ) { %>
+                      <% arr.push(session.cart.items[id]) %>
+                    <% } %>
+                  <%# console.log("hey i'm over here ") %>
+                  <%# console.log(arr) %>
+                  
+                  <% arr.forEach(function(cartItems) { %>
+                    <li>
+                      <a href="shop-item.html"><img src="<%= cartItems.item.image %>" alt="<%= cartItems.item.name %>" width="37" height="34"></a>
+                      <span class="cart-content-count">x <%= cartItems.qty %></span>
+                      <strong><a href="shop-item.html"><%= cartItems.item.name %></a></strong>
+                      <em>₱<%= cartItems.price %></em>
+                      <a href="/cart/remove/<%= cartItems.item._id %>" class="del-goods">&nbsp;</a>
+                    </li>
+                  <% }) %>
+                <% } %>
+              </ul>
+              <div class="text-right">
+                <a href="/cart" class="btn btn-default">View Cart</a>
+                <a href="/checkout" class="btn btn-primary">Checkout</a>
+              </div>
+            </div>
+          </div>            
+        </div>
+        <!--END CART -->
+
+        <!-- BEGIN NAVIGATION -->
+        <div class="header-navigation">
+          <ul>
+            <li><a href="/product-list">Store</a></li>
+            <!--<li class="dropdown">-->
+            <!--  <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">-->
+            <!--    Store -->
+                
+            <!--  </a>-->
+                
+              <!-- BEGIN DROPDOWN MENU -->
+            <!--  <ul class="dropdown-menu">-->
+            <!--    <li class="dropdown-submenu">-->
+            <!--      <a href="/product-list">Hi Tops</a>-->
+            <!--    </li>-->
+            <!--    <li><a href="shop-product-list.html">Running Shoes</a></li>-->
+            <!--    <li><a href="shop-product-list.html">Jackets and Coats</a></li>-->
+            <!--  </ul>-->
+              <!-- END DROPDOWN MENU -->
+            <!--</li>-->
+            <!--<li class="dropdown dropdown-megamenu">-->
+            <!--  <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">-->
+            <!--    Man-->
+                
+            <!--  </a>-->
+            <!--  <ul class="dropdown-menu">-->
+            <!--    <li>-->
+            <!--      <div class="header-navigation-content">-->
+            <!--        <div class="row">-->
+            <!--          <div class="col-md-4 header-navigation-col">-->
+            <!--            <h4>Footwear</h4>-->
+            <!--            <ul>-->
+            <!--              <li><a href="shop-product-list.html">Astro Trainers</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Basketball Shoes</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Boots</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Canvas Shoes</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Football Boots</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Golf Shoes</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Hi Tops</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Indoor and Court Trainers</a></li>-->
+            <!--            </ul>-->
+            <!--          </div>-->
+            <!--          <div class="col-md-4 header-navigation-col">-->
+            <!--            <h4>Clothing</h4>-->
+            <!--            <ul>-->
+            <!--                <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@kartikbhattacharjee?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Kartik Bhattacharjee"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Kartik Bhattacharjee</span></a>-->
+            <!--              <li><a href="shop-product-list.html">Base Layer</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Character</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Chinos</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Combats</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Cricket Clothing</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Fleeces</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Gilets</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Golf Tops</a></li>-->
+            <!--            </ul>-->
+            <!--          </div>-->
+            <!--          <div class="col-md-4 header-navigation-col">-->
+            <!--            <h4>Accessories</h4>-->
+            <!--            <ul>-->
+            <!--              <li><a href="shop-product-list.html">Belts</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Caps</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Gloves, Hats and Scarves</a></li>-->
+            <!--            </ul>-->
+
+            <!--            <h4>Clearance</h4>-->
+            <!--            <ul>-->
+            <!--              <li><a href="shop-product-list.html">Jackets</a></li>-->
+            <!--              <li><a href="shop-product-list.html">Bottoms</a></li>-->
+            <!--            </ul>-->
+            <!--          </div>-->
+            <!--          <div class="col-md-12 nav-brands">-->
+            <!--            <ul>-->
+            <!--              <li><a href="shop-product-list.html"><img title="esprit" alt="esprit" src="assets/pages/img/brands/esprit.jpg"></a></li>-->
+            <!--              <li><a href="shop-product-list.html"><img title="gap" alt="gap" src="assets/pages/img/brands/gap.jpg"></a></li>-->
+            <!--              <li><a href="shop-product-list.html"><img title="next" alt="next" src="assets/pages/img/brands/next.jpg"></a></li>-->
+            <!--              <li><a href="shop-product-list.html"><img title="puma" alt="puma" src="assets/pages/img/brands/puma.jpg"></a></li>-->
+            <!--              <li><a href="shop-product-list.html"><img title="zara" alt="zara" src="assets/pages/img/brands/zara.jpg"></a></li>-->
+            <!--            </ul>-->
+            <!--          </div>-->
+            <!--        </div>-->
+            <!--      </div>-->
+            <!--    </li>-->
+            <!--  </ul>-->
+            <!--</li>-->
+            <!-- BEGIN TOP SEARCH -->
+            <li class="menu-search">
+              <span class="sep"></span>
+              <i class="fa fa-search search-btn"></i>
+              <div class="search-box">
+                <form action="#">
+                  <div class="input-group">
+                    <input type="text" placeholder="Search" class="form-control">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" type="submit">Search</button>
+                    </span>
+                  </div>
+                </form>
+              </div> 
+            </li>
+            <!-- END TOP SEARCH -->
+          </ul>
+        </div>
+        <!-- END NAVIGATION -->
+      </div>
+    </div>
+    <!-- Header END -->
+    
+    
+    

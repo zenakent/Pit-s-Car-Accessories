@@ -1,0 +1,67 @@
+<% include ./partials/header %>
+
+<section class="no-padding-top">
+  <div class="container-fuid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="block">
+        <div class="title"><strong>Add New Item</strong></div>
+          <form action="/admin" method="POST">
+           <div class="form-group row">
+              <label class="col-sm-3 form-control-label">Product Name</label>
+              <div class="col-sm-9">
+              <input type="text" class="form-control" name="prod[name]" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 form-control-label">Product Image</label>
+              <div class="col-sm-9">
+              <input type="text" class="form-control" name="prod[image]" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 form-control-label">Product Price</label>
+              <div class="col-sm-3">
+              <input type="text" class="form-control" name="prod[price]" required>
+              </div>
+              <label class="col-sm-1 form-control-label">Product Quantity</label>
+              <div class="col-sm-2">
+              <input type="text" class="form-control" name="prod[quantity]" required>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 form-control-label">Product Brand</label>
+              <div class="col-sm-3">
+              <input type="text" class="form-control" name="prod[brand]" required>
+              </div>
+              <label class="col-sm-1 form-control-label">Product type</label>
+              <div class="col-sm-2">
+              <input type="text" class="form-control" name="prod[type]" placeholder="Types of produces. i.e Wheels, Lights, Steering Wheels..." required>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label class="col-sm-3 form-control-label">Product Description</label>
+              <div class="col-sm-9">
+              <textarea id="" cols="30" rows="10" class="form-control" name="prod[description]" required></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-9 ml-auto">
+                <button type="submit" class="btn btn-primary">Add Item</button>
+                <a href="/admin" class="btn btn-info ml-3">Cancel</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById("home").classList.remove('active');
+  document.getElementById("addItem").classList.add('active');
+</script>
+
+<% include ./partials/footer %>

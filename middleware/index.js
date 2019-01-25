@@ -1,0 +1,60 @@
+let session = require('express-session');
+let mongoose = require("mongoose");
+let MongoStore = require("connect-mongo")(session);
+var User = require("../models/user");
+
+
+//all the midleware goes here
+var middlewareObj = {};
+
+middlewareObj.sessionMW = session({
+    secret: "Kenobi: Hello There! General Grievous: General Kenobi! ",
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore(
+        { 
+            mongooseConnection: mongoose.connection, 
+            // touchAfter: 24 * 3600, //24 hours
+        }
+    ), // stores session in db,
+    cookie: {maxAge: 180 * 60 * 1000} //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+});
+
+//middleware to see if logged in
+middlewareObj.isLoggedIn = function(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash("error", "Please Login First!");
+        res.redirect("/login");
+    }
+};
+
+middlewareObj.isAdmin = function(req, res, next) {
+    if (req.user.isAdmin) {
+        return next();
+    } else {
+        req.flash("error", "You are not Admin!");
+        res.redirect("/");
+    }
+};
+
+middlewareObj.checkProfileOwnership = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        
+        User.findById(req.params.id, function (err, foundUser) {
+            
+            if (err || !foundUser) {
+                req.flash("error", "That user does not exit!");
+            } else if (foundUser._id.equals(req.params.id) || req.user.isAdmin) {
+                req.user = foundUser;
+                next();
+            } else {
+                req.flash("error", "You do not have permission to do that");
+                res.redirect("back");
+            }
+        });
+    }
+};
+
+module.exports = middlewareObj;

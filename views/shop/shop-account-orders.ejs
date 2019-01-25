@@ -1,0 +1,88 @@
+<% include ./partials/header %>
+
+<div class="main margin-bottom-40">
+      <div class="container">
+        
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-100">
+          <!-- BEGIN SIDEBAR -->
+          <div class="sidebar col-md-3 col-sm-3">
+            <ul class="list-group margin-bottom-25 sidebar-menu">
+              
+              
+              <li class="list-group-item clearfix"><a href="/profile"><i class="fa fa-angle-right"></i> My account</a></li>
+              <li class="list-group-item clearfix"><a href="/profile/orders"><i class="fa fa-angle-right"></i> Orders</a></li>
+              <li class="list-group-item clearfix"><a href="javascript:;"><i class="fa fa-angle-right"></i> Address book</a></li>
+              
+            </ul>
+          </div>
+          <!-- END SIDEBAR -->
+
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-7">
+            <h1 style="color: white">My Orders Page</h1>
+            <div class="goods-page">
+              <% orders.forEach(function(product) { %>
+              <div class="goods-data clearfix">
+                <div class="table-wrapper-responsive">
+                  
+                <table summary="Shopping cart">
+                  <tr>
+                    <th class="goods-page-image">Image</th>
+                    <th class="goods-page-description">Description</th>
+                    <th class="goods-page-quantity">Quantity</th>
+                    <th class="goods-page-price">Unit price</th>
+                    <th class="goods-page-total" colspan="2">Total</th>
+                  </tr>
+                  <%var arr = [] %>
+                  <% for ( var id in product.cart.items ) { %>
+                    <% arr.push(product.cart.items[id]) %>
+                  <% } %>
+                 
+                   <% arr.forEach(function(orderItem) { %>
+                     <tr>
+                      <td class="goods-page-image">
+                        <a href="javascript:;"><img src="<%= orderItem.item.image %>" alt="<%= orderItem.item.name %>"></a>
+                      </td>
+                      <td class="goods-page-description">
+                        <h3><a href="javascript:;"><%= orderItem.item.name %></a></h3>
+                      </td>
+                      <td class="goods-page-price">
+                        <div class="product-quantity">
+                            <%= orderItem.qty %>
+                        </div>
+                      </td>
+                      <td class="goods-page-price">
+                        <strong><span>₱</span><%= orderItem.item.price %></strong>
+                      </td>
+                      <td class="goods-page-total">
+                        <strong><span>₱</span><%= orderItem.price %></strong>
+                      </td>
+                    </tr>
+                   <% }) %>
+                  
+                  
+                  
+                </table>
+                
+                </div>
+
+                <div class="shopping-total">
+                  <ul>
+                    <li class="shopping-total-price">
+                      <em>Total</em>
+                      <strong class="price"><span>₱</span><%= product.cart.totalPrice %></strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+      </div>
+    </div>
+
+<% include ./partials/footer %>

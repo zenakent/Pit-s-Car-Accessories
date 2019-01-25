@@ -1,0 +1,55 @@
+<% include ./partials/header %>
+
+<!-- Page Content Start -->
+       <div class="col-lg-12">
+          <div class="block margin-bottom-sm">
+            <div class="title"><strong>Product List</strong></div>
+            <div class="table-responsive"> 
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Brand</th>
+                    <th>Type</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (prods <= 0) { %>
+                       <tr>
+                         <th>There</th>
+                         <th>are</th>
+                         <th>No</th>
+                         <th>Products</th>
+                         <th>at All</th>
+                       </tr>
+                  <% } else { %>
+                       <% prods.forEach(function(prod) { %>
+                            <tr>
+                                 <th><img src="<%= prod.image %>" height="45" width="45"></img></th>
+                                 <th><%= prod.brand %></th>
+                                 <th><%= prod.type %></th>
+                                 <th><%= prod.name %></th>
+                                 <th><%= prod.price %></th>
+                                 <th><%= prod.quantity %></th>
+                                 <th>
+                                      <a href="/admin/<%= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>
+                                      <form action="/admin/<%= prod._id %>?_method=DELETE" method="POST" style="display:inline">
+                                           <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                                      </form>
+                                 </th>
+                                 
+                            </tr>
+                       <% }) %>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Page Content End -->
+
+<% include ./partials/footer %>

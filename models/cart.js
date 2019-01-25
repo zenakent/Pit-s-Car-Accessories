@@ -1,0 +1,70 @@
+// var mongoose = require("mongoose");
+
+// var cartSchema = new mongoose.Schema({
+    
+// });
+
+// module.exports = mongoose.model("Cart", cartSchema);
+
+
+
+
+
+
+module.exports = function Cart(oldCart) {
+    this.items = oldCart.items || {};
+    this.totalQty = oldCart.totalQty || 0;
+    this.totalPrice = oldCart.totalPrice || 0;
+    
+    this.add = function(item, id) {
+        //get the item and item id
+        //also want to group items instead of having 3 rows of the same game in the cart
+        var storedItem = this.items[id]; //this will help in checking if an item id is already stored in cart and just adds the qty
+        //if item is not stored do this
+        if (!storedItem) {
+            storedItem = this.items[id] = {
+                item: item, 
+                qty: 0, 
+                price: 0,
+            };
+        }
+            //if item is stored already do this
+            storedItem.qty = storedItem.qty + 1;
+            storedItem.price = storedItem.item.price * storedItem.qty;
+            this.totalQty++;
+            this.totalPrice += storedItem.item.price;
+    };
+    
+    this.raiseByOne = function(id) {
+        this.items[id].qty++;
+        this.items[id].price += this.items[id].item.price;
+        this.totalQty++;
+        this.totalPrice += this.items[id].item.price;
+    }
+    
+    this.reduceByOne = function(id) {
+        this.items[id].qty--;
+        this.items[id].price -= this.items[id].item.price;
+        this.totalQty--;
+        this.totalPrice -= this.items[id].item.price;
+        
+        if (this.items[id].qty <= 0) {
+            delete this.items[id];
+        }
+    };
+    
+    this.removeItem = function(id) {
+        this.totalQty -= this.items[id].qty;
+        this.totalPrice -= this.items[id].price;
+        delete this.items[id];
+    };
+    
+    //this will output a list for cart
+    this.generateArray = function() {
+        let arr = [];
+        for (let id in this.items) {
+            arr.push(this.items[id]);
+        }
+        return arr;
+    };
+};
