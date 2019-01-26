@@ -9,7 +9,7 @@
 
 <div class="main">
       <div class="container">
-        
+        <h1 style="color: red;"><%= message %></h1>
         <!-- BEGIN SIDEBAR & CONTENT -->
         <div class="row margin-bottom-40">
           <!-- BEGIN SIDEBAR -->
@@ -69,7 +69,7 @@
                       <% foundItem.reviews.forEach(function(review) { %>
                       <div class="review-item clearfix">
                         <div class="review-item-submitted">
-                          <strong><%= review.author %></strong>
+                          <strong><%= review.author.name %></strong> <%# console.log(review) %>
                           <em><%= moment(review.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></em>
                           <div class="rateit" data-rateit-value="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                         </div>                                              
@@ -77,11 +77,14 @@
                             <p><%= review.text %></p>
                            
                         </div>
+                        
+                        <% if (currentUser && review.author.id.equals(currentUser._id)) { %>
                         <div>
                           <form action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=DELETE" method="POST" class="reviews-form" >
                             <button type="submit" class="btn btn-danger">Delete</button>
                           </form>
                         </div>
+                        <% } %>
                       </div>
                       <% }) %>
                       
@@ -92,10 +95,10 @@
                       <% } else { %>
                       <form action="/shop-item/<%= foundItem._id %>/reviews" method="POST" class="reviews-form" role="form">
                         <h2>Write a review</h2>
-                        <div class="form-group">
-                          <label for="name">Name <span class="require">*</span></label><% console.log(currentUser) %>
-                          <input type="text" class="form-control" name="review[author]"  disabled id="name" value="<%= currentUser.firstName %>" >
-                        </div>
+                        <!--<div class="form-group">-->
+                        <!--  <label for="name">Name <span class="require">*</span></label>-->
+                        <!--  <input type="text" class="form-control" name="review[author]" id="name" value="<%= currentUser.firstName %> <%= currentUser.lastName %> " readonly>-->
+                        <!--</div>-->
                         
                         <div class="form-group">
                           <label for="review">Review <span class="require">*</span></label>

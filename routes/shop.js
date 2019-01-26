@@ -22,7 +22,7 @@ router.get("/", function(req, res) {
             res.render("shop/shop-index-header-fix");
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-index-header-fix", {prods: prods });
+            res.render("shop/shop-index-header-fix", {prods: prods, message: req.flash("error") });
         }
     }); 
     
@@ -59,7 +59,7 @@ router.post("/register", function(req, res) {
 
 //show login form
 router.get("/login", function(req, res) {
-    res.render("shop/login");
+    res.render("shop/login", {message: req.flash("error")});
 });
 
 //handle sign in logic
@@ -86,13 +86,14 @@ router.get("/logout", function(req, res) {
     });
 });
 
+
+//route for user profile
 router.get("/profile/:id", middleware.isLoggedIn, middleware.checkProfileOwnership, function(req, res) {
     User.findById(req.params.id, function(err, foundUser) {
         if (err) {
             console.log(err);
         } else {
-            // console.log(foundUser);
-            res.render('shop/shop-account', {foundUser: foundUser});
+             res.render('shop/shop-account', {foundUser: foundUser, message: req.flash("error")});
         }
     });
     // res.render('shop/shop-account');
@@ -162,7 +163,7 @@ router.get("/shop-item/:id", function(req, res) {
             console.log(err);
             res.redirect("back");
         } else {
-            res.render("shop/shop-item", {foundItem: foundItem, momentTimezone: momentTimezone});
+            res.render("shop/shop-item", {foundItem: foundItem, message: req.flash("error")});
         }
     });
 });
@@ -183,10 +184,10 @@ router.get("/shop-item/:id", function(req, res) {
 router.get("/product-list", function(req, res) {
     Product.find({}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+            res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
@@ -194,10 +195,10 @@ router.get("/product-list", function(req, res) {
 router.get("/product-list-steeringWheel", function(req, res) {
     Product.find({"type": "Steering Wheel"}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+            res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
@@ -205,10 +206,10 @@ router.get("/product-list-steeringWheel", function(req, res) {
 router.get("/product-list-alarm", function(req, res) {
     Product.find({"type": "Alarm"}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+            res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
@@ -216,10 +217,10 @@ router.get("/product-list-alarm", function(req, res) {
 router.get("/product-list-strutBar", function(req, res) {
     Product.find({"type": "Strut Bar"}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+            res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
@@ -227,10 +228,10 @@ router.get("/product-list-strutBar", function(req, res) {
 router.get("/product-list-airIntake", function(req, res) {
     Product.find({"type": "Air Intake"}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+           res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
@@ -238,13 +239,18 @@ router.get("/product-list-airIntake", function(req, res) {
 router.get("/product-list-plateAccessories", function(req, res) {
     Product.find({"type": "Plate Accessories"}, function(err, prods) {
         if (err) {
-            res.render("shop/shop-product-list");
+            res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods });
+            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
         }
     }); 
 });
+
+
+//===============================================
+//review routes
+//================================================
 
 
 //review create route
@@ -253,7 +259,7 @@ router.post("/shop-item/:id/reviews" , middleware.isLoggedIn, function(req, res)
     //create new review
     //connect new review to product
     //redirect back to product show page
- 
+
     Product.findById(req.params.id, function(err, product) {
       if (err) {
           console.log(err);
@@ -263,7 +269,11 @@ router.post("/shop-item/:id/reviews" , middleware.isLoggedIn, function(req, res)
               if (err) {
                   console.log(err);
               } else {
-                //   console.log(product);
+                  
+                  //add user and user Id to review
+                  review.author.id = req.user._id;
+                  review.author.name = req.user.firstName + " " + req.user.lastName;
+                  review.save();
                   product.reviews.push(review);
                   product.save();
                   res.redirect("/shop-item/"  + product._id);
@@ -274,7 +284,7 @@ router.post("/shop-item/:id/reviews" , middleware.isLoggedIn, function(req, res)
 });
 
 //review update route
-router.put("/shop-item/:id/reviews/:review_id", function(req, res) {
+router.put("/shop-item/:id/reviews/:review_id", middleware.checkReviewOwnership, function(req, res) {
     Review.findById(req.params.review_id, req.body.review, function(err, updatedReview) {
         if (err) {
             console.log(err);
@@ -286,14 +296,14 @@ router.put("/shop-item/:id/reviews/:review_id", function(req, res) {
 });
 
 //review destroy route
-router.delete("/shop-item/:id/reviews/:review_id", function(req, res) {
+router.delete("/shop-item/:id/reviews/:review_id", middleware.checkReviewOwnership, function(req, res) {
     Review.findByIdAndRemove(req.params.review_id, function(err) {
         if (err) {
             res.redirect("back");
         } else {
             res.redirect("back");
         }
-    })
+    });
 });
 
 
