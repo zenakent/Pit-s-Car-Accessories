@@ -75,8 +75,8 @@ app.use(async function(req, res, next) {
                     res.locals.notifications = admin.notifications;
                 });
                 
-                let order = await Order.find({"orderFulfilled": true});
-                res.locals.orders = order;
+                let order = await Order.find({"orderFulfilled": false});
+                res.locals.ordersAll = order;
                 
             } catch(err) {
                 console.log(err);

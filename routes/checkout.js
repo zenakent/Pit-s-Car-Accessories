@@ -91,7 +91,8 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         
     } catch(err) {
         console.log(err);
-      res.redirect('back');
+        req.flash("error", "Something went Wrong!");
+        res.redirect('back');
     }
 });
 

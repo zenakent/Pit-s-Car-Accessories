@@ -15,14 +15,52 @@ var middleware = require("../middleware/index.js");
 
 //admin home page route
 router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    Product.find({}, function(err, prods) {
-        if (err) {
-            res.render("admin/index");
-        } else {
-            res.render("admin/index", {prods: prods });
-        }
-    }); 
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Product.find().or([{name: regex}, {brand: regex}, {type: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, prods) {
+           Product.countDocuments({name: regex}).exec(function(err, count) {
+              if (err) {
+                  console.log(err);
+                  res.redirect("back");
+              } else {
+                  if (prods.length < 1) {
+                      noMatch = "No product could match that query, please try again";
+                      req.flash("error", noMatch);
+                  }
+                  
+                  res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search});
+              }
+           });
+        });
+    } else {
+        Product.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, prods) {
+           Product.countDocuments().exec(function(err, count) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.flash("error", noMatch);
+                   res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false});
+               }
+           }) ;
+        });
+    }
 });
+
+//admin home page route original
+// router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     Product.find({}, function(err, prods) {
+//         if (err) {
+//             res.render("admin/index");
+//         } else {
+//             res.render("admin/index", {prods: prods });
+//         }
+//     }); 
+// });
 
 
 //admin addItem new route
@@ -34,7 +72,7 @@ router.get("/addItem", middleware.isLoggedIn, middleware.isAdmin, function (req,
 router.post("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
    Product.create(req.body.prod, function(err, newProd) {
        if (err) {
-           console.log("Something went wrong");
+           req.flash("error", "Something went wrong!");
            console.log(err);
            res.redirect("/admin/addItem");
        } else {
@@ -47,7 +85,7 @@ router.post("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
 router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     Product.findById(req.params.id, function(err, foundProduct) {
         if (err) {
-            console.log("couldn't find that product");
+            req.flash("error", "couldn't find that product");
             res.redirect("/admin");
         } else {
             res.render("admin/editItem", {prod: foundProduct});
@@ -59,7 +97,7 @@ router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req,
 router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     Product.findByIdAndUpdate(req.params.id, req.body.prod, function(err, updatedProduct) {
         if (err) {
-            console.log("Something went wrong");
+            req.flash("error", "Something went wrong");
             res.redirect("/admin");
         } else {
             res.redirect("/admin");
@@ -154,6 +192,8 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
     }
 });
 
+
+//add a mark all as read
 
 //=============================
 //Admin ORDER END

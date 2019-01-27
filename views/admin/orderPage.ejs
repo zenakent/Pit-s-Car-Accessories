@@ -12,6 +12,8 @@
                <th>Address</th>
                <th>Contact Number</th>
                <th>Payment Method</th>
+               <th>Order ID</th>
+               <th>Order At</th>
              </tr>
            </thead>
            <tbody>
@@ -21,6 +23,8 @@
                  <th><%= foundOrder.address %></th>
                  <th><%= foundOrder.contactNumber %></th>
                  <th><%= foundOrder.paymentMethod %></th>
+                 <th><%= foundOrder._id %></th>
+                 <th><%=  moment(foundOrder.createdAt).format('MMMM Do YYYY, h:mm:ss a'); %></th>
                  <!--<th>-->
                  <!--     <a href="/admin/<%#= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>-->
                  <!--     <form action="/admin/<%#= prod._id %>?_method=DELETE" method="POST" style="display:inline">-->

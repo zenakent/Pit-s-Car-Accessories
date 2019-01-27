@@ -1,5 +1,4 @@
 <% include ./partials/header %>
-
 <div class="col-lg-12">
     <div class="block margin-bottom-sm">
         <div class="title"><strong>Old Orders</strong></div>
@@ -8,6 +7,8 @@
                 <thead>
                   <tr>
                     <th>Order For</th>
+                    <th>Order Id</th>
+                    <th>Ordered At</th>
                     <th>Contact Number</th>
                     <th>Payment Method</th>
                     <th>Total Price</th>
@@ -21,9 +22,12 @@
                         
                             <tr>
                                  <th><a href="/admin/orders/<%= order._id %>"><%= order.firstName %> <%= order.lastName %> </a></th>
+                                 <th><%= order._id %></th>
+                                 <th><%=  moment(order.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></th>
                                  <th><%= order.contactNumber %></th>
                                  <th><%= order.paymentMethod %></th>
                                  <th>₱<%= order.cart.totalPrice %></th>
+                                 
                                  <!--<th><%#= prod.name %></th>-->
                                  <!--<th><%#= prod.price %></th>-->
                                  <!--<th><%#= prod.quantity %></th>-->
