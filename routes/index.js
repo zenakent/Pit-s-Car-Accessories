@@ -161,7 +161,12 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 
 //customer page
 router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    res.render("admin/customerList")
-})
+    res.render("admin/customerList");
+});
+
+//function for protection from regex attacks
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
 module.exports = router;

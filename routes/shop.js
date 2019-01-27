@@ -186,16 +186,55 @@ router.get("/shop-item/:id", function(req, res) {
 });
 */
 
+
+// for searching for more than one parameter = Campground.find({$or: [{name: regex,}, {location: regex}, {"author.username":regex}]}, function(err, allCampgrounds){
 router.get("/product-list", function(req, res) {
-    Product.find({}, function(err, prods) {
-        if (err) {
-            res.render("shop/shop-product-list", {message: req.flash("error")});
-        } else {
-            // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
-        }
-    }); 
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Product.find().or([{name: regex}, {brand: regex}, {type: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, prods) {
+           Product.countDocuments({name: regex}).exec(function(err, count) {
+              if (err) {
+                  console.log(err);
+                  res.redirect("back");
+              } else {
+                  if (prods.length < 1) {
+                      noMatch = "No product could match that query, please try again";
+                      req.flash("error", noMatch);
+                  }
+                  res.render("shop/shop-product-list", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search});
+              }
+           });
+        });
+    } else {
+        Product.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, prods) {
+           Product.countDocuments().exec(function(err, count) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   res.render("shop/shop-product-list", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false});
+               }
+           }) ;
+        });
+    }
 });
+
+
+//original product list page
+// router.get("/product-list", function(req, res) {
+//     Product.find({}, function(err, prods) {
+//         if (err) {
+//             res.render("shop/shop-product-list", {message: req.flash("error")});
+//         } else {
+//             // var cart = new Cart(req.session.cart);
+//             res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
+//         }
+//     }); 
+// });
 
 router.get("/product-list-steeringWheel", function(req, res) {
     Product.find({"type": "Steering Wheel"}, function(err, prods) {
@@ -400,7 +439,7 @@ router.post('/reset/:token', function(req, res) {
                 done(err, user);
               });
             });
-          })
+          });
         } else {
             req.flash("error", "Passwords do not match.");
             return res.redirect('back');
@@ -433,5 +472,8 @@ router.post('/reset/:token', function(req, res) {
 });
 
 
-
+//function for protection from regex attacks
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 module.exports = router;
