@@ -70,7 +70,11 @@
           <!-- BEGIN SALE PRODUCT -->
           <div class="col-md-12 sale-product">
             <div class="owl-carousel owl-carousel3">
-              <% prods.forEach(function(prod) { %>
+              <% var itemArr = [] %>
+              <% for (var i = 0; i <= 4; i++) { %>
+              <% itemArr.push(prods[i]) %>
+              <% } %>
+              <% itemArr.forEach(function(prod) { %>
               <div>
                 <div class="product-item">
                   <div class="pi-img-wrapper">
