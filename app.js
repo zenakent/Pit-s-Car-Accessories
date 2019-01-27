@@ -30,7 +30,7 @@ mongoose.connect("mongodb://localhost:27017/ecommerce", { useNewUrlParser: true 
 // mongodb://maui:a12345@ds123783.mlab.com:23783/library //used to connect to onlineDB
 // mongoose.connect("mongodb://maui:a12345@ds123783.mlab.com:23783/library", { useNewUrlParser: true });
 // mongoose.connect('mongodb+srv://test:test1@cluster0-lqhsl.mongodb.net/', {dbName: 'test', useNewUrlParser: true}); // this is how you connect to mongodb atlas
-mongoose.connect('mongodb+srv://pit:<PASSWORD>@cluster0-hrlea.mongodb.net/test?retryWrites=true', {dbName: 'ecommerce', useNewUrlParser: true}); // this is how you connect to mongodb atlas
+mongoose.connect('mongodb+srv://pit:pit1@cluster0-hrlea.mongodb.net/test?retryWrites=true', {dbName: 'ecommerce', useNewUrlParser: true}); // this is how you connect to mongodb atlas
 // mongodb+srv://pit:<PASSWORD>@cluster0-hrlea.mongodb.net/test?retryWrites=true
 app.use(bodyParser.urlencoded({extended: true}));
 // app.use(cookieParser());
