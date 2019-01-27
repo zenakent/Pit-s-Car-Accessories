@@ -75,29 +75,27 @@
         <!--BEGIN CONTENT -->
         <div class="col-md-9 col-sm-7">
           <div class="content-form-page pt-4">
-              <h1>Sign in</h1>
+              <h1>Reset Password</h1>
               
               <hr>
-            <form role="form" class="form-horizontal form-without-legend" action="/login" method="POST">
+            <form role="form" class="form-horizontal form-without-legend" action="/reset/<%= token %>" method="POST">
              <h1 style="color: red;"><%= error %><%= success %></h1>
               
-              <div class="form-group">
-                <label class="col-lg-2 control-label" for="email">E-Mail</span></label>
-                <div class="col-lg-8">
-                  <input type="text" id="first-name" class="form-control" name="email" placeholder="Email" required>
-                </div>
-              </div>
               <div class="form-group">
                 <label class="col-lg-2 control-label" for="last-name">Password</label>
                 <div class="col-lg-8">
                   <input type="password" class="form-control" name="password" placeholder="Password" required>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="last-name">Confirm Password</label>
+                <div class="col-lg-8">
+                  <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" required>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
-                  <button class="btn btn-primary" type="submit">Sign in</button>
-                  <a href="/register" class="btn btn-link"><button type="button" class="btn btn-link">Make an account</button></a>
-                  <a href="/forgot" class="btn btn-link"><button type="button" class="btn btn-link">Forgot Password?</button></a>
+                  <button class="btn btn-primary" type="submit">Reset Password</button>
                 </div>
               </div>
             </form>

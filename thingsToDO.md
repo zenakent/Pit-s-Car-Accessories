@@ -1,7 +1,7 @@
 add csrf protection to fields
-add success fields for successfully buying something
+add success fields for successfully buying something -- done
 momentarily add credit card transactions
-add password reset
+add password reset -- done
 radio buttons = if this is selected. do this. research that
 
 sessions are impleted so even though somehow a person grabbed a users cookie.

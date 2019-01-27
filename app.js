@@ -9,7 +9,7 @@ let LocalStrategy = require("passport-local");
 let mongoose = require("mongoose");
 let flash = require("connect-flash");
 let methodOverride = require("method-override");
-let cookieParser = require('cookie-parser');
+// let cookieParser = require('cookie-parser');
 let MongoStore = require("connect-mongo")(session);
 
 var User = require("./models/user");
@@ -83,6 +83,9 @@ app.use(async function(req, res, next) {
             }
         }
     }
+    
+   res.locals.error = req.flash("error");
+   res.locals.success = req.flash("success");
     
     next();
 });

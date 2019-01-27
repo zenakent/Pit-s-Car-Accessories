@@ -1,7 +1,7 @@
 
 
 
-var pusher = new Pusher('db76396892f7f71a4340', { cluster: 'ap1' });
+var pusher = new Pusher('process.env.PUSHER_APP_KEY', { cluster: 'process.env.PUSHER_APP_KEY' });
 
 // retrieve the socket ID once we're connected
 pusher.connection.bind('connected', function () {
@@ -17,6 +17,6 @@ pusher.subscribe('notifications')
             orders += 1;
              $('.notifcount').text(notifCount);
              $('.orderCount').text(orders);
-            $('#notifList').append('<a href="/admin/notifications/' +notification._id + '" class="dropdown-item message d-flex align-items-center"><div class="content"><strong class="d-block">'+notification.name+'</strong><span class="d-block">Ordered Something</span></div></a>  ')
+             $('#notifList').append('<a href="/admin/notifications/' +notification._id + '" class="dropdown-item message d-flex align-items-center"><div class="content"><strong class="d-block">'+notification.name+'</strong><span class="d-block">Ordered Something</span></div></a>  ')
         });
         

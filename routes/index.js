@@ -7,6 +7,8 @@ var middleware = require("../middleware/index.js");
 
 
 
+
+
 //=============================
 //Admin CRUD START
 //=============================
@@ -119,18 +121,6 @@ router.get("/orders/:id", middleware.isLoggedIn, middleware.isAdmin, function(re
         }
     });
 });
-
-// router.put("/orders/:id", async  function(req, res) {
-//     try {
-//         let order = await Order.findById(req.params.id);
-//         order.orderFulfilled = true;
-//         order.save();
-//         res.redirect("/admin/orders");
-//     } 
-//     catch(err) {
-//         res.redirect("back");
-//     }
-// });
 
 router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
   Order.findById(req.params.id, function(err, foundOrder) {

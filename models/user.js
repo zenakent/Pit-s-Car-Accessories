@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema({
     email: {
         type: String, 
         required: true,
+        unique: true,
         validate: [validator.isEmail, 'invalid email'],
     },
     password: {
@@ -39,6 +40,8 @@ var UserSchema = new mongoose.Schema({
     	   ref: 'Notification'
     	}
     ],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 });
 
 UserSchema.plugin(passportLocalMongoose , { usernameField : 'email' });
