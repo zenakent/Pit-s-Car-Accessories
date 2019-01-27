@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 let express = require("express");
 let app = express();
 let session = require('express-session');
@@ -12,13 +14,14 @@ let MongoStore = require("connect-mongo")(session);
 
 var User = require("./models/user");
 let Cart = require("./models/cart");
+let Order = require("./models/order");
 
 //routes example var reviewRoutes = require("./routes/reviews");
 let indexRoutes = require("./routes/index");
 let shopRoutes = require("./routes/shop");
 let cartRoutes = require("./routes/cart");
 let checkoutRoutes = require("./routes/checkout");
-let reviewRoutes = require("./routes/review");
+// let reviewRoutes = require("./routes/review");
 
 //========================================
 mongoose.set("useFindAndModify", false);
@@ -57,9 +60,30 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(function(req, res, next) {
+app.use(async function(req, res, next) {
     res.locals.session = req.session;
     res.locals.currentUser = req.user;
+    
+    
+    if (req.user) {
+        if (req.user.isAdmin == true) {
+            try {
+                let user = await User.find({"isAdmin": true}).populate('notifications', null, {isRead: false}).exec();
+                // console.log(user);
+                
+                user.forEach(function(admin) {
+                    res.locals.notifications = admin.notifications;
+                });
+                
+                let order = await Order.find({"orderFulfilled": true});
+                res.locals.orders = order;
+                
+            } catch(err) {
+                console.log(err);
+            }
+        }
+    }
+    
     next();
 });
 

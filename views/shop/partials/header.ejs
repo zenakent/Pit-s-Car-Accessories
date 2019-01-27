@@ -64,6 +64,9 @@
                           <li><a href="/register">Register</a></li>
                           <li><a href="/login">Log In</a></li>
                         <% } else { %>
+                          <% if (currentUser.isAdmin) { %>
+                            <li><a href="/admin">Admin Page</a></li>
+                          <% } %>
                           <li><a href="/profile/<%= currentUser._id %>"><%= currentUser.firstName %></a></li>
                           <li><a href="/logout">Log Out</a></li>
                         <% } %>

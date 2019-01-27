@@ -1,0 +1,78 @@
+<% include ./partials/header %>
+
+<!-- Page Content Start -->
+<div class="col-lg-12">
+     <div class="block margin-bottom-sm">
+       <div class="title"><strong>Order Page</strong></div>
+       <div class="table-responsive"> 
+         <table class="table table-striped">
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>Address</th>
+               <th>Contact Number</th>
+               <th>Payment Method</th>
+             </tr>
+           </thead>
+           <tbody>
+               <tr>
+                 <!--<th><img src="<%#= prod.image %>" height="45" width="45"></img></th>-->
+                 <th><%= foundOrder.firstName %> <%= foundOrder.lastName %></th>
+                 <th><%= foundOrder.address %></th>
+                 <th><%= foundOrder.contactNumber %></th>
+                 <th><%= foundOrder.paymentMethod %></th>
+                 <!--<th>-->
+                 <!--     <a href="/admin/<%#= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>-->
+                 <!--     <form action="/admin/<%#= prod._id %>?_method=DELETE" method="POST" style="display:inline">-->
+                 <!--          <input type="submit" value="Delete" class="btn btn-outline-danger" />-->
+                 <!--     </form>-->
+                 <!--</th>-->
+            </tr>
+           </tbody>
+         </table>
+       </div>
+       <br><hr><br>
+       <div class="title"><strong>Cart</strong></div>
+       <div class="table-responsive margin-bottom-sm"> 
+         <table class="table table-striped">
+           <thead>
+             <tr>
+               <th>Image</th>
+               <th>Product Name</th>
+               <th>Product Brand</th>
+               <th>Product Type</th>
+               <th>Quantity</th>
+               <th>Product Price</th>
+             </tr>
+           </thead>
+           <tbody>
+               <% var arr = [] %>
+               <% for (var id in foundOrder.cart.items) {%>
+                   <% arr.push(foundOrder.cart.items[id]) %>
+               <% } %>
+               <% arr.forEach(function(order) { %>
+               <tr>
+                 <th><img src="<%= order.item.image %>" height="45" width="45"></img></th>
+                 <th><%= order.item.name %></th>
+                 <th><%= order.item.brand %></th>
+                 <th><%= order.item.type %></th>
+                 <th><%= order.qty %></th>
+                 <th><%= order.price %></th>
+            </tr>
+            <% }) %>
+           </tbody>
+         </table>
+       </div>
+       <div class="row justify-content-end">
+           <h4><strong>Total Price: </strong> <%= foundOrder.cart.totalPrice %></h4>
+           <% if (foundOrder.orderFulfilled == false) { %>
+               <a href="/admin/orders/update/<%= foundOrder._id %>" class="btn btn-primary"> Done</a>
+           <% } %>
+           
+       </div>
+     </div>
+</div>
+
+<!-- Page Content End -->
+
+<% include ./partials/footer %>

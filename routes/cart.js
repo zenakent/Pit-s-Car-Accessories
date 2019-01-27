@@ -25,9 +25,10 @@ router.get('/add-to-cart/:id', function(req, res) {
         //   console.log(product._id);
            cart.add(product, product._id);
            req.session.cart = cart;
+           
         //   console.log(req.session.cart);
         //   eval(require('locus'));
-           res.redirect("back");
+          res.redirect("back");
        }
    });
 });
@@ -67,6 +68,12 @@ router.delete("/add-to-cart/:id", function(req, res) {
             res.redirect("/");
         }
     })
+});
+
+router.get("/api", function(req, res) {
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
+    
+    res.json(cart.generateArray());
 });
 
 module.exports = router;

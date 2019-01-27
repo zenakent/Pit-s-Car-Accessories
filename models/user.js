@@ -33,6 +33,12 @@ var UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    notifications: [
+    	{
+    	   type: mongoose.Schema.Types.ObjectId,
+    	   ref: 'Notification'
+    	}
+    ],
 });
 
 UserSchema.plugin(passportLocalMongoose , { usernameField : 'email' });

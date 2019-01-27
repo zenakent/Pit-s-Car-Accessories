@@ -69,8 +69,8 @@
                     </div>
                   </div>
                   <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
-                  <div class="pi-price">$<%= prod.price %></div>
-                  <a href="javascript:;" class="btn btn-default add2cart">Add to cart</a>
+                  <div class="pi-price">₱<%= prod.price %></div>
+                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
                 </div>
               </div>
               <% }) %>

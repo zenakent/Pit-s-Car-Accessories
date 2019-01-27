@@ -15,23 +15,23 @@ let orderSchema = new mongoose.Schema({
    },
    address: {
        type: String,
-    //   required: true,
+       required: true,
    },
    firstName: {
        type: String,
-    //   required: true,
+       required: true,
    },
    lastName: {
        type: String,
-    //   required: true,
+       required: true,
    },
    contactNumber: {
        type: Number,
-    //   required: true,
+       required: true,
    },
    city: {
        type: String,
-    //   required: true,
+       required: true,
    },
    paymentMethod: {
        type: String,
@@ -39,7 +39,11 @@ let orderSchema = new mongoose.Schema({
    createdAt: { 
       type: Date, 
       default: Date.now 
-   }
+   },
+   orderFulfilled: {
+      type: Boolean,
+      default: false,
+   },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

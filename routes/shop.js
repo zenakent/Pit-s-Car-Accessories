@@ -68,14 +68,14 @@ router.post("/login", middleware.sessionMW, passport.authenticate("local",
     successRedirect: "/",
     failureRedirect: "/login",
 }),function(req, res) {
-    // req.session.reload(function(err) { 
-    //     res.redirect("/");
-    // });
+    
 });
 
 //logout route
 router.get("/logout", function(req, res) {
     req.logout();
+    // req.session.cart = null;
+    // res.redirect("/");
     req.session.save();
     req.session.destroy(function(err) {
         if (err) {
