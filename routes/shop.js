@@ -25,7 +25,7 @@ router.get("/", function(req, res) {
             res.render("shop/shop-index-header-fix");
         } else {
             // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-index-header-fix", {prods: prods, message: req.flash("error") });
+            res.render("shop/shop-index-header-fix", {prods: prods});
         }
     }); 
     
