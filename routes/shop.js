@@ -70,11 +70,25 @@ router.get("/login", function(req, res) {
 //handle sign in logic
 router.post("/login", middleware.sessionMW, passport.authenticate("local", 
 {
-    successRedirect: "/",
+    
     failureRedirect: "/login",
 }),function(req, res) {
-    req.flash('success', 'Wrong Email or Password');
+    if (req.user.isAdmin === true) {
+        res.redirect("/admin");
+    }
+    if (req.user.isAdmin === false) {
+        res.redirect("/");
+    } 
 });
+
+// //handle sign in logic
+// router.post("/login", middleware.sessionMW, passport.authenticate("local", 
+// {
+//     successRedirect: "/",
+//     failureRedirect: "/login",
+// }),function(req, res) {
+    
+// });
 
 //logout route
 router.get("/logout", function(req, res) {
