@@ -70,7 +70,7 @@
        <div class="row justify-content-end">
            <h4><strong>Total Price: </strong> <%= foundOrder.cart.totalPrice %></h4>
            <% if (foundOrder.orderFulfilled == false) { %>
-               <a href="/admin/orders/update/<%= foundOrder._id %>" class="btn btn-primary"> Done</a>
+               <a href="/admin/orders/update/<%= foundOrder.id %>" class="btn btn-primary"> Done</a>
            <% } %>
            
        </div>

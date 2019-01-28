@@ -1,7 +1,7 @@
 
 
 
-var pusher = new Pusher('process.env.PUSHER_APP_KEY', { cluster: 'process.env.PUSHER_APP_KEY' });
+var pusher = new Pusher('db76396892f7f71a4340', { cluster: 'ap1' });
 
 // retrieve the socket ID once we're connected
 pusher.connection.bind('connected', function () {

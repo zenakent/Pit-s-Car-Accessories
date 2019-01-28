@@ -171,7 +171,7 @@ router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, func
         foundOrder.orderFulfilled = true;
         foundOrder.save();
         //   console.log(foundOrder);
-          res.redirect("/admin/orders")
+          res.redirect("/admin/orders/oldOrders")
       }
   }) 
 });

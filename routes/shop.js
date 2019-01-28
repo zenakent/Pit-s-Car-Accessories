@@ -81,15 +81,6 @@ router.post("/login", middleware.sessionMW, passport.authenticate("local",
     } 
 });
 
-// //handle sign in logic
-// router.post("/login", middleware.sessionMW, passport.authenticate("local", 
-// {
-//     successRedirect: "/",
-//     failureRedirect: "/login",
-// }),function(req, res) {
-    
-// });
-
 //logout route
 router.get("/logout", function(req, res) {
     req.logout();
@@ -186,19 +177,6 @@ router.get("/shop-item/:id", function(req, res) {
         }
     });
 });
-
-/* original show page for items
-//show page for individual item
-router.get("/shop-item/:id", function(req, res) {
-    Product.findById(req.params.id, function(err, foundItem) {
-        if (err) {
-            res.redirect("back");
-        } else {
-            res.render("shop/shop-item", {foundItem: foundItem});
-        }
-    });
-});
-*/
 
 
 // for searching for more than one parameter = Campground.find({$or: [{name: regex,}, {location: regex}, {"author.username":regex}]}, function(err, allCampgrounds){
@@ -473,7 +451,7 @@ router.post('/reset/:token', function(req, res) {
         from: 'pitsCarAccessories@gmail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+          'This is a confirmation that the password for your account ' + user.email + ' at Pit\' Car Accessories\' website has just been changed.\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
         req.flash('success', 'Success! Your password has been changed.');
