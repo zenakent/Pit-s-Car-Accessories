@@ -63,7 +63,7 @@ router.post("/register", function(req, res, next) {
             if (err) {
                 console.log(err);
                 req.flash('error', 'A user with the given username is already registered');
-                return res.render("shop/register");
+                return res.render("shop/register", {'error': 'A user with the given username is already registered'});
             }
             // passport.authenticate("local")(req,res, function() {
             //     req.flash('success', 'An Email validation has been sent to ' + newUser.email + 'please check your email to validate.');
@@ -113,10 +113,6 @@ router.get('/register/:token', function(req, res) {
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
           return res.redirect('/forgot');
-        }
-        
-        if (user === null) {
-            res.redirect("yahoo.com")
         }
         res.render('shop/emailValidate', {token: req.params.token});
     });
@@ -168,46 +164,65 @@ router.get("/login", function(req, res) {
     res.render("shop/login",);
 });
 
-//handle sign in logic
-router.get("/login/login", middleware.sessionMW, function(req, res, next) {
-    passport.authenticate("local", function(err, user, info) {
+//handle sign in logic **crashes when a non existing user is logging in
+router.post("/login/login", function(req, res, next) {
+    User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
-            return next(err);
-        }
-        if (!user) {
-            res.redirect("/login");
+            console.log(err);
         }
         
-        req.logIn(user, function(err) {
-            if (err) {
-                return next(err);
-            } else if (user.isAdmin === true) {
-                res.redirect("/admin");
-            } else if (user.isAdmin === false && user.isActivated === true) {
-                res.redirect("/");
-            } else {
-                if (user.isAdmin === false && user.isActivated === false) {
-                    req.flash("error", "Your Email has not been validated. Please check your Email");
-                    res.redirect("/login");
-                } else {
-                    req.flash("error", "Wrong Email or Password. Try again");
+        if (!user) {
+            req.flash("error", "That account does not exist");
+            res.redirect("/login")
+        } else {
+            passport.authenticate("local", function(err, user, info) {
+                if (err) {
+                    return next(err);
+                }
+                if (!user) {
                     res.redirect("/login");
                 }
-            }
-        });
-    })(req, res, next);
+                
+                req.logIn(user, function(err) {
+                    if (err) {
+                        return next(err);
+                    } else if (user.isAdmin === true) {
+                        res.redirect("/admin");
+                    } else if (user.isAdmin === false && user.isActivated === true) {
+                        res.redirect("/product-list");
+                    } else {
+                        if (user.isAdmin === false && user.isActivated === false) {
+                            req.flash("error", "Your Email has not been validated. Please check your Email");
+                            res.redirect("/login");
+                        } else {
+                            req.flash("error", "Wrong Email or Password. Try again");
+                            res.redirect("/login");
+                        }
+                    }
+                });
+            })(req, res, next);
+        }
+    })
+    
 });
 
 // //handle sign in logic original
-// router.post("/login", middleware.sessionMW, passport.authenticate("local", 
+// router.post("/login/login", middleware.sessionMW, passport.authenticate("local", 
 // {
+//     failureFlash: 'Invalid username or password.',
 //     failureRedirect: "/login",
+    
 // }),function(req, res) {
 //     if (req.user.isAdmin === true) {
 //         res.redirect("/admin");
 //     }
-//     if (req.user.isAdmin === false) {
-//         res.redirect("/");
+//     if (req.user.isAdmin === false && req.user.isActivated === true) {
+//         res.redirect("/product-list");
+//     }
+//     if (req.user.isAdmin === false && req.user.isActivated === false) {
+//         req.flash("error", "Your Email has not been validated. Please check your Email");
+//         req.logout();
+//         res.redirect("/login");
 //     } 
 // });
 
@@ -261,23 +276,6 @@ router.put("/profile/:id", middleware.isLoggedIn,  middleware.checkProfileOwners
         }
     });
 });
-
-// router.get("/profile/orders", function(req, res) {
-//     Order.find({user: req.user}, function(err, orders) {
-//         if (err) {
-//             return res.write('Error!');
-//         }
-        
-//         var cart;
-//         orders.forEach(function(order) {
-//             cart = new Cart(order.cart);
-//             order.items = cart.generateArray();
-//         });
-       
-//         res.render('shop/shop-account-orders', {orders: orders});
-//     });
-// });
-
 
 //profile orders page
 router.get("/profile/:id/orders", middleware.isLoggedIn, function(req, res) {
