@@ -1,9 +1,9 @@
 add csrf protection to fields
-add success fields for successfully buying something
+add success fields for successfully buying something --done
 momentarily add credit card transactions
 radio buttons = if this is selected. do this. research that
 add to send email when an order has been received.
-make a receipt, when someone ordered. take them there to the receipt page.
+make a receipt, when someone ordered. take them there to the receipt page. -- that's the order page already
 
 csrf protection
 sessions are impleted so even though somehow a person grabbed a users cookie.

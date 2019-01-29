@@ -70,11 +70,32 @@
           <!-- BEGIN SALE PRODUCT -->
           <div class="col-md-12 sale-product">
             <div class="owl-carousel owl-carousel3">
+              <% if (prods.length <= 4) { %>
+              <% prods.forEach(function(prod) { %>
+              <div>
+                <div class="product-item">
+                  <div class="pi-img-wrapper">
+                    <img src="<%= prod.image %>" class="img-responsive" alt="<%= prod.name %>">
+                    <div>
+                      <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>
+                      <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>
+                    </div>
+                  </div>
+                  <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
+                  <div class="pi-price"><span>₱</span><%= prod.price %></div>
+                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
+                </div>
+              </div>
+              
+              <% }) %>
+              
+              <% } else { %>
               <% var itemArr = [] %>
               <% for (var i = 0; i <= 4; i++) { %>
               <% itemArr.push(prods[i]) %>
               <% } %>
               <% itemArr.forEach(function(prod) { %>
+              
               <div>
                 <div class="product-item">
                   <div class="pi-img-wrapper">
@@ -92,6 +113,7 @@
               
               
               <% }) %>
+              <% } %>
               
             </div>
           </div>

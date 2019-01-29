@@ -39,7 +39,12 @@ var UserSchema = new mongoose.Schema({
     	   ref: 'Notification'
     	}
     ],
+    isActivated: {
+        type: Boolean,
+        default: false
+    },
     resetPasswordToken: String,
+    emailToken: String,
     resetPasswordExpires: Date,
 });
 
