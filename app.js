@@ -66,7 +66,7 @@ app.use(async function(req, res, next) {
     res.locals.session = req.session;
     res.locals.currentUser = req.user;
     
-    console.log(req.session)
+    
     if (req.user) {
         if (req.user.isAdmin == true) {
             try {
