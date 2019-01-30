@@ -15,7 +15,7 @@ middlewareObj.sessionMW = session({
     store: new MongoStore(
         { 
             // mongooseConnection: mongoose.connection, 
-             url: 'mongodb://localhost:27017/ecommerce'
+             url: 'mongodb+srv://pit:pit1@cluster0-hrlea.mongodb.net/test?retryWrites=true'
             // touchAfter: 24 * 3600, //24 hours
         }
     ), // stores session in db,
