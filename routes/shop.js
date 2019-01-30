@@ -46,8 +46,6 @@ router.post("/register", function(req, res, next) {
         done(err, token);
       });
     },
-    
-    //don't need this for signing up logic start don't need an expiring token as well
     function(token, done) {
         var newUser = new User({
         email: req.body.email,
@@ -65,15 +63,10 @@ router.post("/register", function(req, res, next) {
                 req.flash('error', 'A user with the given username is already registered');
                 return res.render("shop/register", {'error': 'A user with the given username is already registered'});
             }
-            // passport.authenticate("local")(req,res, function() {
-            //     req.flash('success', 'An Email validation has been sent to ' + newUser.email + 'please check your email to validate.');
-            //     res.redirect("/");
-            // });
-            
             done(err, token, user);
         });
     },
-     //don't need this for signing up logic end
+    
     function(token, user, done) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
@@ -109,7 +102,6 @@ router.post("/register", function(req, res, next) {
 
 router.get('/register/:token', function(req, res) {
     User.findOne({ emailToken: req.params.token}, function(err, user) {
-        console.log(user)
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
           return res.redirect('/forgot');
@@ -164,8 +156,8 @@ router.get("/login", function(req, res) {
     res.render("shop/login",);
 });
 
-//handle sign in logic **crashes when a non existing user is logging in
-router.post("/login/login", function(req, res, next) {
+
+router.post("/login/login", middleware.sessionMW, function(req, res, next) {
     User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
             console.log(err);
@@ -173,7 +165,7 @@ router.post("/login/login", function(req, res, next) {
         
         if (!user) {
             req.flash("error", "That account does not exist");
-            res.redirect("/login")
+            res.redirect("/login");
         } else {
             passport.authenticate("local", function(err, user, info) {
                 if (err) {
@@ -202,7 +194,7 @@ router.post("/login/login", function(req, res, next) {
                 });
             })(req, res, next);
         }
-    })
+    });
     
 });
 
@@ -228,17 +220,13 @@ router.post("/login/login", function(req, res, next) {
 
 //logout route
 router.get("/logout", function(req, res) {
-    req.logout();
-    // req.session.cart = null;
-    // res.redirect("/");
     req.session.save();
-    req.session.destroy(function(err) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/");
-        }
-    });
+    req.logout();
+    req.session.cart = null
+    res.redirect("/");
+    // req.session.save();
+    // req.session.cart = null
+    
 });
 
 

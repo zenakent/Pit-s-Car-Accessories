@@ -14,3 +14,8 @@ delimitation list:
 client does not track supplier
 no graphs/charts to show which products are selling like pancakes
 cannot track shipments
+
+
+
+what you can do with the cart.
+save it to the user model  when the user is logging out and when the user has ordered null the cart

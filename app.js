@@ -46,13 +46,13 @@ app.use(require("express-session")({
     secret: "Hello There",
     resave: false,
     saveUninitialized: false,
-    // store: new MongoStore(
-    //     { 
-    //         mongooseConnection: mongoose.connection, 
-    //         touchAfter: 24 * 3600, //24 hours
-    //     }
-    // ), // stores session in db,
-    // cookie: {maxAge: 180 * 60 * 1000} //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+    store: new MongoStore(
+        { 
+            mongooseConnection: mongoose.connection, 
+            touchAfter: 24 * 3600, //24 hours
+        }
+    ), // stores session in db,
+    cookie: {maxAge: 180 * 60 * 10000} //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
 }));
 
 app.use(passport.initialize());
@@ -66,7 +66,7 @@ app.use(async function(req, res, next) {
     res.locals.session = req.session;
     res.locals.currentUser = req.user;
     
-    
+    console.log(req.session)
     if (req.user) {
         if (req.user.isAdmin == true) {
             try {
