@@ -14,9 +14,9 @@ pusher.connection.bind('connected', function () {
 pusher.subscribe('notifications')
         .bind('post_updated', function (notification) {
             notifCount += 1;
-            orders += 1;
+            orderscounts += 1;
              $('.notifcount').text(notifCount);
-             $('.orderCount').text(orders);
+             $('.orderCount').text(orderscounts);
              $('#notifList').append('<a href="/admin/notifications/' +notification._id + '" class="dropdown-item message d-flex align-items-center"><div class="content"><strong class="d-block">'+notification.name+'</strong><span class="d-block">Ordered Something</span></div></a>  ')
         });
         

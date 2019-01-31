@@ -5,6 +5,10 @@ let Notification = require("../models/notification");
 var Order = require("../models/order");
 var middleware = require("../middleware/index.js");
 
+let csrf = require("csurf");
+// {csrfToken: req.csrfToken()}
+let csrfProtection = csrf();
+router.use(csrfProtection);
 
 
 
@@ -65,7 +69,7 @@ router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
 
 //admin addItem new route
 router.get("/addItem", middleware.isLoggedIn, middleware.isAdmin, function (req, res) {
-    res.render("admin/addItem");
+    res.render("admin/addItem", {csrfToken: req.csrfToken()});
 });
 
 //admin create route
@@ -88,7 +92,7 @@ router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req,
             req.flash("error", "couldn't find that product");
             res.redirect("/admin");
         } else {
-            res.render("admin/editItem", {prod: foundProduct});
+            res.render("admin/editItem", {prod: foundProduct, csrfToken: req.csrfToken()});
         }
     });
 });

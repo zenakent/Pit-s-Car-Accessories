@@ -7,13 +7,18 @@ let Product = require("../models/product");
 let Notification = require("../models/notification");
 var middleware = require("../middleware/index.js");
 
+let csrf = require("csurf");
+// {csrfToken: req.csrfToken()}
+let csrfProtection = csrf();
+router.use(csrfProtection);
+
 
 router.get("/", middleware.isLoggedIn, function(req, res) {
     if (!req.session.cart) {
         return res.redirect("/cart");
     }
     var cart = new Cart(req.session.cart);
-    res.render("shop/shop-checkout", {products: cart.generateArray(), total: cart.totalPrice});
+    res.render("shop/shop-checkout", {products: cart.generateArray(), total: cart.totalPrice, csrfToken: req.csrfToken()});
 });
 
 

@@ -11,10 +11,10 @@ var middleware = require("../middleware/index.js");
 var async =require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
-// let csrf = require("csurf");
+let csrf = require("csurf");
 // {csrfToken: req.csrfToken()}
-// let csrfProtection = csrf();
-// router.use(csrfProtection);
+let csrfProtection = csrf();
+router.use(csrfProtection);
 
 
 
@@ -34,7 +34,7 @@ router.get("/", function(req, res) {
 
 //show register form
 router.get("/register", function(req, res) {
-    res.render("shop/register");
+    res.render("shop/register", {csrfToken: req.csrfToken()});
 });
 
 //hande signup logic
@@ -100,16 +100,18 @@ router.post("/register", function(req, res, next) {
   });
 });
 
+//email validate form
 router.get('/register/:token', function(req, res) {
     User.findOne({ emailToken: req.params.token}, function(err, user) {
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
           return res.redirect('/forgot');
         }
-        res.render('shop/emailValidate', {token: req.params.token});
+        res.render('shop/emailValidate', {token: req.params.token, csrfToken: req.csrfToken()});
     });
 });
 
+//email validate sets account to active
 router.post('/register/:token', function(req, res) {
   async.waterfall([
     function(done) {
@@ -153,7 +155,7 @@ router.post('/register/:token', function(req, res) {
 
 //show login form
 router.get("/login", function(req, res) {
-    res.render("shop/login",);
+    res.render("shop/login", {csrfToken: req.csrfToken()});
 });
 
 
@@ -464,7 +466,7 @@ router.delete("/shop-item/:id/reviews/:review_id", middleware.checkReviewOwnersh
 //================================================
 
 router.get("/forgot", function(req, res) {
-    res.render("shop/forgotPS", {message: req.flash("error")});
+    res.render("shop/forgotPS", {message: req.flash("error"), csrfToken: req.csrfToken()});
 });
 
 router.post('/forgot', function(req, res, next) {
@@ -528,7 +530,7 @@ router.get('/reset/:token', function(req, res) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('shop/resetPS', {token: req.params.token});
+    res.render('shop/resetPS', {token: req.params.token, csrfToken: req.csrfToken()});
   });
 });
 // might not need this one too start
