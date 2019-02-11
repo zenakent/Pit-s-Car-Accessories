@@ -4,7 +4,7 @@ momentarily add credit card transactions
 radio buttons = if this is selected. do this. research that
 add to send email when an order has been received. -- order page already
 make a receipt, when someone ordered. take them there to the receipt page. -- that's the order page already
-customer/user list
+customer/user list -done
 
 
 csrf protection are impleted so even though somehow a person grabbed a users session.

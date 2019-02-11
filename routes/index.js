@@ -217,7 +217,7 @@ router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(
 });
 
 //customer page
-router.get("/customerList/:id", function(req, res) {
+router.get("/customerList/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     User.findById(req.params.id, function(err, foundUser) {
         if (err) {
             console.log(err);
@@ -229,7 +229,7 @@ router.get("/customerList/:id", function(req, res) {
 });
 
 
-router.get("/customerList/:id/orders", function(req, res) {
+router.get("/customerList/:id/orders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     User.findById(req.params.id, function(err, foundUser) {
         if (err) {
             console.log(err);
@@ -249,7 +249,7 @@ router.get("/customerList/:id/orders", function(req, res) {
 
 
 //customer destroy route
-router.delete("/customerList/:id", function(req, res) {
+router.delete("/customerList/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     User.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             console.log(err);
