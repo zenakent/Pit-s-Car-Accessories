@@ -37,7 +37,7 @@ router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
                       req.flash("error", noMatch);
                   }
                   
-                  res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search});
+                  res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search, csrfToken: req.csrfToken()});
               }
            });
         });
@@ -48,7 +48,7 @@ router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
                    console.log(err);
                } else {
                    req.flash("error", noMatch);
-                   res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false});
+                   res.render("admin/index", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, csrfToken: req.csrfToken()});
                }
            }) ;
         });
