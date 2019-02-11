@@ -5,7 +5,22 @@
         <div class="title"><strong>Customer List</strong></div>
         <div class="table-responsive">
             <table class="table table-striped">
-                
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Customer ID</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% foundUsers.forEach(function(user)  { %>
+                    <tr>
+                        <th><a href="/admin/customerList/<%= user._id %>"> <%= user.firstName %>  <%= user.lastName %> </a></th>
+                        <th> <%= user._id %> </th>
+                        <th> <%= user.email %> </th>
+                    </tr>
+                    <% }) %>
+                </tbody>
             </table>
         </div>
     </div>

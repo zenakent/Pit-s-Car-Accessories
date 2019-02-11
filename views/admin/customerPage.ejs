@@ -1,0 +1,88 @@
+<% include ./partials/header %>
+
+<div class="col-lg-12">
+    <div class="block margin-bottom-sm">
+        <div class="title"><strong>Customer Info</strong></div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser.firstName %> <%= foundUser.lastName%></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>is Activated</th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser.isActivated %></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser._id %></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser.email %></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Contact No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser.contactNumber %></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><%= foundUser.address %></th>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Something</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <a href="/admin/customerList/<%= foundUser._id %>/orders" class="btn btn-info">Customer Orders</a>
+                            <form action="/admin/customerList/<%= foundUser._id %>?_method=DELETE" method="POST" style="display:inline">
+                                <input type="submit" value="Delete Customer" class="btn btn-danger" />
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            </form>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<% include ./partials/footer %>

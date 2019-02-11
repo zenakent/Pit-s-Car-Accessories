@@ -3,6 +3,7 @@ let router = express.Router();
 let Product = require("../models/product");
 let Notification = require("../models/notification");
 var Order = require("../models/order");
+var User = require("../models/user");
 var middleware = require("../middleware/index.js");
 
 let csrf = require("csurf");
@@ -175,9 +176,9 @@ router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, func
         foundOrder.orderFulfilled = true;
         foundOrder.save();
         //   console.log(foundOrder);
-          res.redirect("/admin/orders/oldOrders")
+          res.redirect("/admin/orders/oldOrders");
       }
-  }) 
+  }); 
 });
 
 //=============================
@@ -203,9 +204,60 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 //Admin ORDER END
 //=============================
 
-//customer page
+//customer list page
 router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    res.render("admin/customerList");
+    User.find({"isAdmin": true}, function(err, foundUsers) {
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        } else {
+            res.render("admin/customerList", {foundUsers: foundUsers});
+        }
+    });
+});
+
+//customer page
+router.get("/customerList/:id", function(req, res) {
+    User.findById(req.params.id, function(err, foundUser) {
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        } else {
+            res.render("admin/customerPage", {foundUser: foundUser, csrfToken: req.csrfToken()});
+        }
+    });
+});
+
+
+router.get("/customerList/:id/orders", function(req, res) {
+    User.findById(req.params.id, function(err, foundUser) {
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        } else {
+            Order.find().where("user").equals(foundUser.id).exec(function(err, foundOrders) {
+                if (err) {
+                    console.log(err);
+                    res.redirect("back");
+                } else {
+                    res.render("admin/customerOrders", {user: foundUser, orders: foundOrders});
+                }
+            });
+        }
+    });
+});
+
+
+//customer destroy route
+router.delete("/customerList/:id", function(req, res) {
+    User.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            req.flash("Success", "You have deleted the customer's account");
+            res.redirect("/admin/customerList");
+        }
+    });
 });
 
 //function for protection from regex attacks

@@ -1,0 +1,68 @@
+<% include ./partials/header %>
+<% orders.reverse() %>
+<% console.log(orders) %>
+
+<% orders.forEach(function(order) { %>
+<div class="col-lg-12">
+    <div class="block margin-bottom-sm">
+        
+        <div class="title"><strong>Order List</strong></div>
+        <div class="table-responsive">
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order ID: </th>
+                        <th> <%= order._id %></th>
+                        <th>Ordred at: </th>
+                        <th> <%= moment(order.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="goods-page-image">Image</th>
+                        <th class="goods-page-description">Description</th>
+                        <th class="goods-page-quantity">Quantity</th>
+                        <th class="goods-page-price">Unit price</th>
+                        <th class="goods-page-total" colspan="2">Total</th>
+                    </tr>
+                    <% var arr = [] %>
+                    <% for (var id in order.cart.items) { %>
+                        <% arr.push(order.cart.items[id]) %>
+                    <% } %>
+                    <% arr.forEach(function(orderItem) { %>
+                    <tr>
+                        <td class="goods-page-image">
+                        <a href="javascript:;"><img src="<%= orderItem.item.image %>" alt="<%= orderItem.item.name %>" style="height: 45px; width: 45px;"></a>
+                      </td>
+                      <td class="goods-page-description">
+                        <h3><a href="javascript:;"><%= orderItem.item.name %></a></h3>
+                      </td>
+                      <td class="goods-page-price">
+                        <div class="product-quantity">
+                            <%= orderItem.qty %>
+                        </div>
+                      </td>
+                      <td class="goods-page-price">
+                        <strong><span>₱</span><%= orderItem.item.price %></strong>
+                      </td>
+                      <td class="goods-page-total">
+                        <strong><span>₱</span><%= orderItem.price %></strong>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            
+        </div>
+        <div class="d-flex justify-content-end">
+              <h3 style="color: #db6574">
+              <em>Total Price:  </em>
+              <strong class="price"><span>₱</span><%= order.cart.totalPrice %></strong>
+              </h3>
+        </div>
+    </div>
+</div>
+<% }) %>
+
+<% include ./partials/footer %>
