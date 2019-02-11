@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 var validator = require('validator');
+var bcrypt = require("bcrypt");
 require('mongoose-type-email');
 
 var UserSchema = new mongoose.Schema({
@@ -47,6 +48,14 @@ var UserSchema = new mongoose.Schema({
     emailToken: String,
     resetPasswordExpires: Date,
 });
+
+UserSchema.methods.encyrptPassword = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSalt(8), null);
+};
+
+UserSchema.methods.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);  
+};
 
 UserSchema.plugin(passportLocalMongoose , { usernameField : 'email' });
 

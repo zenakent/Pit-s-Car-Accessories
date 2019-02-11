@@ -92,7 +92,7 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         
         req.session.cart = null;
         req.flash('success', 'Your Cart has been succesfully ORDERED');
-        res.redirect("/");
+        res.redirect("/profile/" + req.user._id + "/orders");
         
     } catch(err) {
         console.log(err);

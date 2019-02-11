@@ -1,5 +1,5 @@
 <% include ./partials/header %>
-<% console.log(orders) %>
+<% orders.reverse() %>
 <div class="main margin-bottom-40">
       <div class="container">
         
@@ -25,12 +25,14 @@
               <% orders.forEach(function(product) { %>
               <div class="goods-data clearfix">
                 <div class="table-wrapper-responsive">
-                  
+                
                 <table summary="Shopping cart">
                   <thead>
                     <tr>
                     <th>Order ID: </th>
                     <th> <%= product._id %></th>
+                    <th>Ordred at: </th>
+                    <th> <%= moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></th>
                   </tr>
                   </thead>
                   <tbody>
@@ -45,7 +47,6 @@
                   <% for ( var id in product.cart.items ) { %>
                     <% arr.push(product.cart.items[id]) %>
                   <% } %>
-                 
                    <% arr.forEach(function(orderItem) { %>
                      <tr>
                       <td class="goods-page-image">
