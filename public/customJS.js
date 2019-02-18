@@ -1,4 +1,14 @@
-
+$(document).ready(function() {
+    var notifCount = <%= notifications.length %>
+    console.log(notifCount);
+    $('.notifcount').text(notifCount);
+    
+    
+     
+    var orderscounts = <%= ordersAll.length %>
+    console.log(orderscounts);
+    $('.orderCount').text(orderscounts);
+})
 
 
 

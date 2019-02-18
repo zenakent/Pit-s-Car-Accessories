@@ -6,11 +6,38 @@ var Order = require("../models/order");
 var User = require("../models/user");
 var middleware = require("../middleware/index.js");
 
+
+
+
+//================================================
+//multer and cloudinary start 
+//================================================
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'pitscaraccessories', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 let csrf = require("csurf");
 // {csrfToken: req.csrfToken()}
 let csrfProtection = csrf();
 router.use(csrfProtection);
-
 
 
 
@@ -74,17 +101,40 @@ router.get("/addItem", middleware.isLoggedIn, middleware.isAdmin, function (req,
 });
 
 //admin create route
-router.post("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-   Product.create(req.body.prod, function(err, newProd) {
-       if (err) {
-           req.flash("error", "Something went wrong!");
-           console.log(err);
-           res.redirect("/admin/addItem");
-       } else {
-           res.redirect("/admin/addItem");
-       }
-   }); 
+router.post("/", middleware.isLoggedIn, middleware.isAdmin, upload.single('image'), function(req, res) {
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        // add cloudinary url for the image to the campground object under image property
+        
+        console.log(result.secure_url);
+        req.body.prod.image = result.secure_url;
+        // add cloudinary ID for the image to the campground object under image property
+        req.body.prod.imageId = result.public_id;
+       
+        Product.create(req.body.prod, function(err, newProd) {
+            
+            if (err) {
+                req.flash("error", "Something went wrong!");
+                console.log(err);
+                res.redirect("/admin/addItem");
+            } else {
+                req.flash("success", "You've added a new product!");
+                res.redirect("/admin/addItem");
+            }
+        }); 
+    });
 });
+
+// //admin edit route
+// router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     Product.findById(req.params.id, function(err, foundProduct) {
+//         if (err) {
+//             req.flash("error", "couldn't find that product");
+//             res.redirect("/admin");
+//         } else {
+//             res.render("admin/editItem", {prod: foundProduct, csrfToken: req.csrfToken()});
+//         }
+//     });
+// });
 
 //admin edit route
 router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
@@ -98,27 +148,84 @@ router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req,
     });
 });
 
+
+
+// //admin update route
+// router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     Product.findByIdAndUpdate(req.params.id, req.body.prod, function(err, updatedProduct) {
+//         if (err) {
+//             req.flash("error", "Something went wrong");
+//             res.redirect("/admin");
+//         } else {
+//             res.redirect("/admin");
+//         }
+//     });
+// });
+
 //admin update route
-router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    Product.findByIdAndUpdate(req.params.id, req.body.prod, function(err, updatedProduct) {
+router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('image'), function(req, res) {
+    Product.findById(req.params.id, async function(err, prod) {
         if (err) {
-            req.flash("error", "Something went wrong");
-            res.redirect("/admin");
+            req.flash("error", err.message);
         } else {
+            if (req.file) {
+                try {
+                    await cloudinary.v2.uploader.destroy(prod.imageId);
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
+                    prod.image = result.secure_url;
+                    prod.imageId = result.public_id;
+                } catch (err) {
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
+            }
+            
+            prod.name = req.body.name;
+            prod.price = req.body.price;
+            prod.quantity = req.body.quantity;
+            prod.brand = req.body.brand;
+            prod.type = req.body.type;
+            prod.description = req.body.description;
+            
+            prod.save();
+            
+            req.flash("success", "Updated Successfully");
             res.redirect("/admin");
         }
     });
 });
 
+// //admin destroy route
+// router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     Product.findByIdAndRemove(req.params.id, function (err) {
+//         if (err) {
+//             res.redirect("/admin");
+//         } else {
+//             res.redirect("/admin");
+//         }
+//     });
+// });
+
 //admin destroy route
 router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    Product.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            res.redirect("/admin");
-        } else {
-            res.redirect("/admin");
-        }
-    });
+   Product.findById(req.params.id, async function(err, prod) {
+       if (err) {
+           req.flash("error", err.message);
+           res.redirect("/admin");
+       }
+       
+       try {
+           await cloudinary.v2.uploader.destroy(prod.imageId);
+           prod.remove()
+           req.flash("success", "Product deleted successfully!");
+           res.redirect("/admin");
+       } catch (err) {
+           if (err) {
+               req.flash("error", err.message);
+               res.redirect("/admin");
+           }
+       }
+   });
 });
 
 //=============================
