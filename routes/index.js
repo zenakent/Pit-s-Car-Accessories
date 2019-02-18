@@ -47,7 +47,7 @@ router.use(csrfProtection);
 
 //admin home page route
 router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    var perPage = 8;
+    var perPage = 100;
     var pageQuery = parseInt(req.query.page);
     var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;

@@ -6,6 +6,8 @@ add to send email when an order has been received. -- order page already
 make a receipt, when someone ordered. take them there to the receipt page. -- that's the order page already
 customer/user list -done
 
+add pagination
+
 add image upload button to cloudinary --done feb 17 to feb 18
 
 
