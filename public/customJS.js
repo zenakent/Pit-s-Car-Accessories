@@ -1,22 +1,3 @@
-$(document).ready(function() {
-    var notifCount = <%= notifications.length %>
-    console.log(notifCount);
-    $('.notifcount').text(notifCount);
-    
-    
-     
-    var orderscounts = <%= ordersAll.length %>
-    console.log(orderscounts);
-    $('.orderCount').text(orderscounts);
-})
-
-
-
-
-
-
-
-
 var pusher = new Pusher('db76396892f7f71a4340', { cluster: 'ap1' });
 
 // retrieve the socket ID once we're connected
