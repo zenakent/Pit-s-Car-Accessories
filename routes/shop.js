@@ -299,7 +299,7 @@ router.get("/shop-item/:id", function(req, res) {
 
 // for searching for more than one parameter = Campground.find({$or: [{name: regex,}, {location: regex}, {"author.username":regex}]}, function(err, allCampgrounds){
 router.get("/product-list", function(req, res) {
-    var perPage = 8;
+    var perPage = 100;
     var pageQuery = parseInt(req.query.page);
     var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;
@@ -346,30 +346,22 @@ router.get("/product-list", function(req, res) {
 //     }); 
 // });
 
-router.get("/product-list-steeringWheel", function(req, res) {
-    Product.find({"type": "Steering Wheel"}, function(err, prods) {
-        if (err) {
-            res.render("shop/shop-product-list", {message: req.flash("error")});
-        } else {
-            // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
-        }
-    }); 
-});
+//
+//product type list
+// router.get("/product-list-steeringWheel", function(req, res) {
+//     Product.find({"type": "Steering Wheel"}, function(err, prods) {
+//         if (err) {
+//             res.render("shop/shop-product-list", {message: req.flash("error")});
+//         } else {
+            
+//             // var cart = new Cart(req.session.cart);
+//             res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
+//         }
+//     }); 
+// });
 
-router.get("/product-list-alarm", function(req, res) {
-    Product.find({"type": "Alarm"}, function(err, prods) {
-        if (err) {
-            res.render("shop/shop-product-list", {message: req.flash("error")});
-        } else {
-            // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
-        }
-    }); 
-});
-
-router.get("/product-list-strutBar", function(req, res) {
-    Product.find({"type": "Strut Bar"}, function(err, prods) {
+router.get("/product-list-:type", function(req, res) {
+    Product.find({"type": req.params.type}, function(err, prods) {
         if (err) {
             res.render("shop/shop-product-list", {message: req.flash("error")});
         } else {
@@ -378,29 +370,6 @@ router.get("/product-list-strutBar", function(req, res) {
         }
     }); 
 });
-
-router.get("/product-list-airIntake", function(req, res) {
-    Product.find({"type": "Air Intake"}, function(err, prods) {
-        if (err) {
-           res.render("shop/shop-product-list", {message: req.flash("error")});
-        } else {
-            // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
-        }
-    }); 
-});
-
-router.get("/product-list-plateAccessories", function(req, res) {
-    Product.find({"type": "Plate Accessories"}, function(err, prods) {
-        if (err) {
-            res.render("shop/shop-product-list", {message: req.flash("error")});
-        } else {
-            // var cart = new Cart(req.session.cart);
-            res.render("shop/shop-product-list", {prods: prods, message: req.flash("error") });
-        }
-    }); 
-});
-
 
 //===============================================
 //review routes
