@@ -16,11 +16,16 @@ let csrf = require("csurf");
 let csrfProtection = csrf();
 router.use(csrfProtection);
 
+var sr = require('screenres');
+
 
 
 //home route
 router.get("/", function(req, res) {
+    
      Product.find({}, function(err, prods) {
+         
+         
         if (err) {
             res.render("shop/shop-index-header-fix");
         } else {
@@ -96,7 +101,7 @@ router.post("/register", function(req, res, next) {
     
   ], function(err) {
     if (err) return next(err);
-    res.redirect('/shop/register');
+    res.redirect('/shop/register', {csrfToken: req.csrfToken()});
   });
 });
 
@@ -179,6 +184,7 @@ router.post("/login/login", middleware.sessionMW, function(req, res, next) {
                 
                 req.logIn(user, function(err) {
                     if (err) {
+                        req.flash("error", err.message);
                         return next(err);
                     } else if (user.isAdmin === true) {
                         res.redirect("/admin");
@@ -326,7 +332,7 @@ router.get("/product-list", function(req, res) {
                if (err) {
                    console.log(err);
                } else {
-                   res.render("shop/shop-product-list", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false});
+                   res.render("shop/shop-product-list", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, sr: sr});
                }
            }) ;
         });
@@ -334,17 +340,7 @@ router.get("/product-list", function(req, res) {
 });
 
 
-//original product list page
-// router.get("/product-list", function(req, res) {
-//     Product.find({}, function(err, prods) {
-//         if (err) {
-//             res.render("shop/shop-product-list", {message: req.flash("error")});
-//         } else {
-//             // var cart = new Cart(req.session.cart);
-//             res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
-//         }
-//     }); 
-// });
+
 
 //
 //product type list

@@ -115,13 +115,13 @@
 }
 
 .carousel-slider .carousel-item-four {
-    background: url(../../../assets/pages/img/shop-slider/slide1/bg2.jpg);
+    background: url(../../../assets/pages/img/shop-slider/slide1/bg4.jpg);
     background-size: cover;
     background-position: center center;
 }
 
 .carousel-slider .carousel-item-five {
-    background: url(../../../assets/pages/img/shop-slider/slide2/bg2.jpg);
+    background: url("https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43614916_264431287591651_6032942502569312256_n.jpg?_nc_cat=108&_nc_ht=scontent.fmnl17-1.fna&oh=6cd07d3966b8d38d243cfd3529a2327f&oe=5CF82044");
     background-position: center center; 
     background-size: cover;
 }
