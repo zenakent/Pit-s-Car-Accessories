@@ -127,15 +127,15 @@
 }
 
 .carousel-slider .carousel-item-six {
-    background: url(../../../assets/pages/img/shop-slider/slide3/bg2.jpg);
+    background: url(../../../assets/pages/img/shop-slider/slide3/bg3.jpg);
     background-size: cover;
-    background-position: center center;
+    background-position: center 60%;
 }
 
 .carousel-slider .carousel-item-seven {
-    background: url(../../../assets/pages/img/shop-slider/slide4/bg2.jpg);
+    background: url(../../../assets/pages/img/shop-slider/slide4/bg3.jpg);
     background-size: cover;
-    background-position: center center;
+    background-position: center 15%;
 }
 
 .carousel-slider .carousel-item-eight {
