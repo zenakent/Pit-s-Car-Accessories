@@ -5,6 +5,9 @@ let Notification = require("../models/notification");
 var Order = require("../models/order");
 var User = require("../models/user");
 var middleware = require("../middleware/index.js");
+let device = require("express-device");
+
+router.use(device.capture());
 
 
 

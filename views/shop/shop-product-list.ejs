@@ -54,8 +54,29 @@
             <!--    </div>-->
             <!--  </div>-->
             <!--</div>-->
-            <!-- BEGIN PRODUCT LIST -->
-            
+             <!--BEGIN PRODUCT LIST -->
+            <% if (is_desktop) { %>
+            <div class="row product-list">
+              <% prods.forEach(function(prod) { %>
+               <!--PRODUCT ITEM START -->
+              <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="product-item">
+                  <div class="pi-img-wrapper" >
+                    <img src="<%= prod.image %>" class="img-responsive image-same-size" alt="<%= prod.name %>" >
+                    <div>
+                      <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>
+                      <a href="#product-pop-up-<%= prod._id %>" class="btn btn-default fancybox-fast-view">View</a>
+                    </div>
+                  </div>
+                  <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
+                  <div class="pi-price">₱<%= prod.price %></div>
+                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
+                </div>
+              </div>
+              <% }) %>
+               <!--PRODUCT ITEM END -->
+            </div>
+            <% } else if (is_phone) { %>
             <div class="row product-list">
               <% prods.forEach(function(prod) { %>
               <!-- PRODUCT ITEM START -->
@@ -75,8 +96,9 @@
               </div>
               <% }) %>
               <!-- PRODUCT ITEM END -->
-              
             </div>
+            <% } %>
+            
             <!-- END PRODUCT LIST -->
             <!-- BEGIN PAGINATOR -->
             <!--<div class="row">-->

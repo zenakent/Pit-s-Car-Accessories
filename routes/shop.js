@@ -7,6 +7,7 @@ var Cart = require("../models/cart");
 var Order = require("../models/order");
 var Review = require("../models/review");
 var middleware = require("../middleware/index.js");
+let device = require("express-device");
 
 var async =require("async");
 var nodemailer = require("nodemailer");
@@ -18,7 +19,7 @@ router.use(csrfProtection);
 
 var sr = require('screenres');
 
-
+router.use(device.capture());
 
 //home route
 router.get("/", function(req, res) {
@@ -309,6 +310,8 @@ router.get("/product-list", function(req, res) {
     var pageQuery = parseInt(req.query.page);
     var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;
+    
+    console.log(device.capture());
     
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');

@@ -11,6 +11,7 @@ let flash = require("connect-flash");
 let methodOverride = require("method-override");
 // let cookieParser = require('cookie-parser');
 let MongoStore = require("connect-mongo")(session);
+let device = require("express-device");
 
 var User = require("./models/user");
 let Cart = require("./models/cart");
@@ -37,6 +38,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(device.capture());
 app.locals.moment = require('moment');
 
 //====================================================
