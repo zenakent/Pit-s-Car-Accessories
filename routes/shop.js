@@ -286,7 +286,7 @@ router.get("/profile/:id/orders", middleware.isLoggedIn, function(req, res) {
             order.items = cart.generateArray();
         });
        
-        res.render('shop/shop-account-orders', {orders: orders});
+        res.render('shop/shop-account-orders', {orders: orders.reverse()});
     });
 });
 
