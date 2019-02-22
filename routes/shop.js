@@ -297,7 +297,7 @@ router.get("/shop-item/:id", function(req, res) {
             console.log(err);
             res.redirect("back");
         } else {
-            res.render("shop/shop-item", {foundItem: foundItem, message: req.flash("error")});
+            res.render("shop/shop-item", {foundItem: foundItem, message: req.flash("error"), csrfToken: req.csrfToken()});
         }
     });
 });

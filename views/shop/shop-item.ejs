@@ -82,6 +82,7 @@
                         <div>
                           <form action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=DELETE" method="POST" class="reviews-form" >
                             <button type="submit" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           </form>
                         </div>
                         <% } %>
@@ -113,6 +114,7 @@
                         <div class="padding-top-20">                  
                           <button type="submit" class="btn btn-primary">Send</button>
                         </div>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       </form>
                       <% } %>
                       
