@@ -11,7 +11,6 @@ let flash = require("connect-flash");
 let methodOverride = require("method-override");
 // let cookieParser = require('cookie-parser');
 let MongoStore = require("connect-mongo")(session);
-var device = require('express-device');
 
 var User = require("./models/user");
 let Cart = require("./models/cart");
@@ -39,11 +38,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 app.locals.moment = require('moment');
-
-app.use(device.capture());
-
-device.enableDeviceHelpers(app);
-device.enableViewRouting(app);
 
 //====================================================
 // Passport Config
