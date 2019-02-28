@@ -1,0 +1,78 @@
+<% include ./partials/header %>
+
+<div class="col-lg-12">
+    <div class="block margin-bottom-sm">
+        <div class="title"><strong>User List</strong>
+        <form class="form-inline" action="/admin/customerList" method="GET">
+                <div class="form-group">
+                    <label for="inlineFormInput" class="sr-only">Name</label>
+                    <input id="inlineFormInput" type="search" name="search" placeholder="Search User" class="mr-sm-3 form-control">
+                </div>
+                <button type="submit" class="submit btn btn-primary">Search</button>
+            </form>
+        
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Customer ID</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% foundUsers.forEach(function(user)  { %>
+                    <% if(!user.isSuperAdmin) { %>
+                    <tr>
+                        <th><a href="/admin/customerList/<%= user._id %>"> <%= user.firstName %>  <%= user.lastName %> </a></th>
+                        <th> <%= user._id %> </th>
+                        <th> <%= user.email %> </th>
+                        <% if (currentUser.isSuperAdmin && (user.isAdmin === false)) { %>
+                        <th>
+                            <button id="myBtn" class="btn btn-outline-warning">Add Admin</button>
+                                        
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                            
+                              <!-- Modal content -->
+                              <div class="modal-content">
+                                 <span class="close d-flex justify-content-end ">&times;</span>
+                                 <h2 class="d-flex justify-content-center">Are you sure your want to add the user as an Admin?</h2>
+                                 <form class="d-flex justify-content-center" action="/admin/addAdmin/<%= user._id %>" method="POST" style="display:inline">
+                                     <input type="submit" value="Add as an Admin" class="btn btn-danger" />
+                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                 </form>
+                              </div>
+                            </div>
+                        </th>
+                        <% } else if (currentUser.isSuperAdmin && user.isAdmin === true) { %>
+                        <th>
+                            <button id="myBtn" class="btn btn-outline-danger">Remove Admin</button>
+                                        
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                            
+                              <!-- Modal content -->
+                              <div class="modal-content">
+                                 <span class="close d-flex justify-content-end ">&times;</span>
+                                 <h2 class="d-flex justify-content-center">Are you sure your want to remove the user as an Admin?</h2>
+                                 <div class="container d-flex justify-content-center"><a href="/admin/removeAdmin/<%= user._id %>" class="btn btn-danger">Remove as an Admin</a></div>
+                              </div>
+                            </div>
+                        </th>
+                        <% } %>
+                    </tr>
+                    <% } %>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+  document.getElementById("home").classList.remove('active');
+  document.getElementById("customer").classList.add('active');
+</script>
+<% include ./partials/footer %>

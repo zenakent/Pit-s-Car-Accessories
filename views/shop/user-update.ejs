@@ -57,9 +57,16 @@
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <!--<li><a href="shop-account.html">My Account</a></li>-->
-                        <li><a href="/register">Register</a></li>
-                        <li><a href="/login">Log In</a></li>
+                        <% if (!currentUser) { %>
+                          <li><a href="/register">Register</a></li>
+                          <li><a href="/login">Log In</a></li>
+                        <% } else { %>
+                          <% if (currentUser.isAdmin) { %>
+                            <li><a href="/admin">Admin Page</a></li>
+                          <% } %>
+                          <li><a href="/profile/<%= currentUser._id %>"><%= currentUser.firstName %></a></li>
+                          <li><a href="/logout">Log Out</a></li>
+                        <% } %>
                     </ul>
                 </div>
                 <!-- END TOP BAR MENU -->
@@ -68,13 +75,13 @@
     </div>
     <!-- END TOP BAR -->
     <div class="container d-flex justify-content-center">
-        <a class="site-logo mb-4" href="/"><img src="assets/corporate/img/logos/pits-logo.jpg" alt="Pit's Shop Car Accessories" height="auto" width="128"></a>
+        <a class="site-logo mb-4" href="/"><img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/28577304_159399294761518_2217302082468241221_n.jpg?_nc_cat=107&_nc_ht=scontent.fmnl17-1.fna&oh=4a84fdec83080e81b3acfbe528fb5608&oe=5CC0A938" alt="Pit's Shop Car Accessories" height="auto" width="128"></a>
     </div>
     <div class="container d-flex justify-content-center">
         <!--BEGIN CONTENT -->
         <div class="col-md-9 col-sm-7">
           <div class="content-form-page pt-4">
-              <h1>Edit you account</h1>
+              <h1>Edit your account</h1>
               <hr>
             <form role="form" class="form-horizontal form-without-legend" action="/profile/<%= foundUser._id%>?_method=PUT" method="post">
              
@@ -112,12 +119,13 @@
               <div class="form-group">
                 <label class="col-lg-2 control-label" for="address">Address</span></label>
                 <div class="col-lg-8">
-                  <% console.log(foundUser._id) %>
+                  
                   <textarea class="form-control" rows="6" name="user[address]" placeholder="Type your address here" required><%= foundUser.address %> </textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button class="btn btn-primary" type="submit">Update</button>
                   <a href="/profile/<%= foundUser._id %>" class="btn btn-link"><button type="button" class="btn btn-link">go back</button></a>
                 </div>

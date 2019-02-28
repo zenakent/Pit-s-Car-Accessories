@@ -54,7 +54,6 @@ router.post("/register", function(req, res, next) {
     function(token, done) {
         var newUser = new User({
         email: req.body.email,
-        password: req.body.password,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         contactNumber: req.body.contactNumber,
@@ -96,7 +95,7 @@ router.post("/register", function(req, res, next) {
       });
     },
     function() {
-        res.redirect("/");
+        res.redirect("/product-list");
     }
     
   ], function(err) {
@@ -255,9 +254,9 @@ router.get("/profile/:id/edit", middleware.isLoggedIn,  middleware.checkProfileO
     User.findById(req.params.id, function(err, foundUser) {
         if (err) {
             console.log(err);
-        } else {
+        } else { 
             // console.log(foundUser)
-            res.render('shop/user-update', {foundUser: foundUser});
+            res.render('shop/user-update', {foundUser: foundUser, csrfToken: req.csrfToken()});
         }
     });
 });
@@ -404,7 +403,7 @@ router.post("/shop-item/:id/reviews" , middleware.isLoggedIn, function(req, res)
 
 //review update route
 router.put("/shop-item/:id/reviews/:review_id", middleware.checkReviewOwnership, function(req, res) {
-    Review.findById(req.params.review_id, req.body.review, function(err, updatedReview) {
+    Review.findByIdAndUpdate(req.params.review_id, req.body.review, function(err, updatedReview) {
         if (err) {
             console.log(err);
             res.redirect("back");

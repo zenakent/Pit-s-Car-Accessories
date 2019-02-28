@@ -22,14 +22,18 @@ router.get('/add-to-cart/:id', function(req, res) {
        if (err) {
            res.redirect("/");
        } else {
-        //   console.log(product._id);
-           cart.add(product, product._id);
-           req.session.cart = cart;
-           
-        //   console.log(req.session.cart);
-        //   eval(require('locus'));
-          res.redirect("back");
-       }
+            if (product.quantity <= 0) {
+                req.flash("error", "Sorry, This product is not available");
+                res.redirect("back");
+            } else {
+               cart.add(product, product._id);
+               req.session.cart = cart;
+               
+            //   console.log(req.session.cart);
+            //   eval(require('locus'));
+              res.redirect("back");
+            }
+        }
    });
 });
 

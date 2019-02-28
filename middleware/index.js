@@ -41,6 +41,15 @@ middlewareObj.isAdmin = function(req, res, next) {
     }
 };
 
+middlewareObj.isSuperAdmin = function(req, res, next) {
+    if (req.user.isSuperAdmin) {
+        return next();
+    } else {
+        req.flash("error", "You are not Admin!");
+        res.redirect("/");
+    }
+};
+
 middlewareObj.checkProfileOwnership = function (req, res, next) {
     if (req.isAuthenticated()) {
         

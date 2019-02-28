@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
     },
     password: {
         type: String, 
-        required: 'You must provide an password',
     },
     firstName: {
         type: String, 
@@ -31,6 +30,10 @@ var UserSchema = new mongoose.Schema({
         required: 'You must provide a phone/mobile number',
     },
     isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isSuperAdmin: {
         type: Boolean,
         default: false
     },

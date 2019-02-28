@@ -55,6 +55,8 @@ router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         Product.find().or([{name: regex}, {brand: regex}, {type: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, prods) {
+            console.log(prods)
+            
            Product.countDocuments({name: regex}).exec(function(err, count) {
               if (err) {
                   console.log(err);
@@ -235,19 +237,61 @@ router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, r
 //=============================
 //Admin ORDER START
 //=============================
-//orders new page
+
 router.get("/orders/newOrders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    Order.find({"orderFulfilled": false}, function(err, orders) {
-        if (err) {
-            console.log(err);
-            res.redirect("/admin");
-        } else {
-            res.render("admin/orders", {orders: orders});
-        }
-    });
+    var perPage = 100;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Order.find({"orderFulfilled": false}).or([{firstName: regex}, {lastName: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, orders) {
+            console.log(orders)
+           Order.countDocuments({name: regex}).exec(function(err, count) {
+               console.log(count)
+              if (err) {
+                  console.log(err);
+                  res.redirect("back");
+              } else {
+                  if (orders.length < 1) {
+                      noMatch = "No product could match that query, please try again";
+                      req.flash("error", noMatch);
+                  }
+                  
+                  res.render("admin/orders", {orders: orders, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search, csrfToken: req.csrfToken()});
+              }
+           });
+        });
+    } else {
+        Order.find({"orderFulfilled": false}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, orders) {
+           Order.countDocuments().exec(function(err, count) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.flash("error", noMatch);
+                   res.render("admin/orders", {orders: orders, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, csrfToken: req.csrfToken()});
+               }
+           }) ;
+        });
+    }
 });
 
-//fulfilled orders page
+
+
+//orders new page
+// router.get("/orders/newOrders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     Order.find({"orderFulfilled": false}, function(err, orders) {
+//         if (err) {
+//             console.log(err);
+//             res.redirect("/admin");
+//         } else {
+//             res.render("admin/orders", {orders: orders});
+//         }
+//     });
+// });
+
+//fulfilled/old orders page
 router.get("/orders/oldOrders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     Order.find({"orderFulfilled": true}, function(err, orders) {
         if (err) {
@@ -283,7 +327,8 @@ router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, func
         foundOrder.orderFulfilled = true;
         foundOrder.save();
         //   console.log(foundOrder);
-          res.redirect("/admin/orders/oldOrders");
+        req.flash("success", "Order has been completed");
+        res.redirect("/admin/orders/newOrders");
       }
   }); 
 });
@@ -311,17 +356,58 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 //Admin ORDER END
 //=============================
 
-//customer list page
+
 router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-    User.find({"isAdmin": true}, function(err, foundUsers) {
-        if (err) {
-            console.log(err);
-            res.redirect("back");
-        } else {
-            res.render("admin/customerList", {foundUsers: foundUsers});
-        }
-    });
+    var perPage = 100;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        User.find({"isAdmin": false}).or([{firstName: regex}, {lastName: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, foundUsers) {
+            
+           User.countDocuments({name: regex}).exec(function(err, count) {
+               console.log(count)
+              if (err) {
+                  console.log(err);
+                  res.redirect("back");
+              } else {
+                  if (foundUsers.length < 1) {
+                      noMatch = "No product could match that query, please try again";
+                      req.flash("error", noMatch);
+                  }
+                  
+                  res.render("admin/customerList", {foundUsers: foundUsers, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search, csrfToken: req.csrfToken()});
+              }
+           });
+        });
+    } else {
+        User.find({"isAdmin": false}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, foundUsers) {
+           User.countDocuments().exec(function(err, count) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.flash("error", noMatch);
+                   res.render("admin/customerList", {foundUsers: foundUsers, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, csrfToken: req.csrfToken()});
+               }
+           }) ;
+        });
+    }
 });
+
+
+// //customer list page
+// router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+//     User.find({"isAdmin": false}, function(err, foundUsers) {
+//         if (err) {
+//             console.log(err);
+//             res.redirect("back");
+//         } else {
+//             res.render("admin/customerList", {foundUsers: foundUsers});
+//         }
+//     });
+// });
 
 //customer page
 router.get("/customerList/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
@@ -365,6 +451,71 @@ router.delete("/customerList/:id", middleware.isLoggedIn, middleware.isAdmin, fu
             res.redirect("/admin/customerList");
         }
     });
+});
+
+
+
+//add admin route view
+router.get("/addAdmin", middleware.isLoggedIn, middleware.isSuperAdmin, function(req, res) {
+    //$or: [{$and: [{"isSuperAdmin": false}, {"isAdmin": true}]}, {$and: [{"isSuperAdmin": false}, {"isAdmin": false}]} ]
+    User.find({}, function(err, foundUsers) {
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        } else {
+            res.render("admin/userList", {foundUsers: foundUsers, csrfToken: req.csrfToken()});
+        }
+    });
+});
+
+//remove admin route view
+router.get("/removeAdmin/:id", middleware.isLoggedIn, middleware.isSuperAdmin, function(req, res) {
+    User.findById(req.params.id, function(err, user) {
+       if (err) {
+           req.flash("error", err.message);
+       } else {
+           console.log(user)
+           
+           console.log("===========")
+           user.isAdmin = false;
+           
+           console.log(user)
+           user.save();
+           req.flash("success", "Updated Successfully");
+           res.redirect("/admin/addAdmin");
+       }
+   }); 
+});
+
+
+
+//add an admin
+router.post("/addAdmin/:id", middleware.isLoggedIn, middleware.isSuperAdmin, function(req, res) {
+   User.findById(req.params.id, function(err, user) {
+       if (err) {
+           req.flash("error", err.message);
+       } else {
+           user.isAdmin = true;
+           user.save();
+           req.flash("success", "Updated Successfully");
+           res.redirect("/admin/addAdmin");
+       }
+   }); 
+});
+
+
+//remove an admin
+router.post("/removeAdmin/:id", middleware.isLoggedIn, middleware.isSuperAdmin, function(req, res) {
+   User.findById(req.params.id, function(err, user) {
+       if (err) {
+           req.flash("error", err.message);
+       } else {
+           user.isAdmin = true;
+           user.save();
+           req.flash("success", "Updated Successfully");
+           res.redirect("/admin/addAdmin");
+       }
+   }); 
 });
 
 //function for protection from regex attacks

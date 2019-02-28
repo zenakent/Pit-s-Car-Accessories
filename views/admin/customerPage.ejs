@@ -74,10 +74,22 @@
                     <tr>
                         <th>
                             <a href="/admin/customerList/<%= foundUser._id %>/orders" class="btn btn-info">Customer Orders</a>
-                            <form action="/admin/customerList/<%= foundUser._id %>?_method=DELETE" method="POST" style="display:inline">
-                                <input type="submit" value="Delete Customer" class="btn btn-danger" />
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            </form>
+                            <!-- Trigger/Open The Modal -->
+                            <button id="myBtn" class="btn btn-danger">Delete Customer</button>
+                            
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                            
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <span class="close d-flex justify-content-end ">&times;</span>
+                                <h2 class="d-flex justify-content-center">Are you sure your want to remove the customer?</h2>
+                                <form class="d-flex justify-content-center" action="/admin/customerList/<%= foundUser._id %>?_method=DELETE" method="POST" style="display:inline">
+                                        <input type="submit" value="Delete Customer" class="btn btn-danger" />
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                </form>
+                            </div>
+                            </div>
                         </th>
                     </tr>
                 </tbody>

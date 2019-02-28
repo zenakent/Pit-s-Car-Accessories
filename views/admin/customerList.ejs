@@ -2,7 +2,16 @@
 
 <div class="col-lg-12">
     <div class="block margin-bottom-sm">
-        <div class="title"><strong>Customer List</strong></div>
+        <div class="title"><strong>Customer List</strong>
+        <form class="form-inline" action="/admin/customerList" method="GET">
+                <div class="form-group">
+                    <label for="inlineFormInput" class="sr-only">Name</label>
+                    <input id="inlineFormInput" type="search" name="search" placeholder="Search Customer" class="mr-sm-3 form-control">
+                </div>
+                <button type="submit" class="submit btn btn-primary">Search</button>
+            </form>
+        
+        </div>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>

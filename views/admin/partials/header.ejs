@@ -32,17 +32,7 @@
     <body>
         <header class="header">   
       <nav class="navbar navbar-expand-lg">
-        <div class="search-panel">
-          <div class="search-inner d-flex align-items-center justify-content-center">
-            <div class="close-btn">Close <i class="fa fa-close"></i></div>
-            <form id="searchForm" action="/admin" method="GET">
-              <div class="form-group">
-                <input type="search" name="search" placeholder="What are you searching for...">
-                <button type="submit" class="submit">Search</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        
         <div class="container-fluid d-flex align-items-center justify-content-between">
           <div class="navbar-header">
             <!-- Navbar Header--><a href="/admin" class="navbar-brand">
@@ -53,7 +43,7 @@
           </div>
           <div class="right-menu list-inline no-margin-bottom">
             
-            <div class="list-inline-item"><a href="#" class="search-open nav-link"><i class="icon-magnifying-glass-browser"></i></a></div>
+            
             <!--=========================================================-->
             
             <div class="list-inline-item dropdown"><a id="navbarDropdownMenuLink1" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link messages-toggle"><i class="icon-email"></i><span  class="badge dashbg-1 notifcount"></span></a>
@@ -79,7 +69,10 @@
                      
             
             <!-- Log out -->
-            <div class="list-inline-item logout"><a id="logout" href="/" class="nav-link">Shop</a></div>
+            <% if (currentUser.isSuperAdmin) { %> 
+            <div class="list-inline-item logout"><a id="logout" href="/admin/addAdmin" class="nav-link">Add Admin</a></div>
+            <% } %>
+            <div class="list-inline-item logout"><a id="logout" href="/product-list" class="nav-link">Shop</a></div>
             <div class="list-inline-item logout"><a id="logout" href="/logout" class="nav-link">Logout <i class="icon-logout"></i></a></div>
           </div>
         </div>
@@ -92,8 +85,7 @@
         <div class="sidebar-header d-flex align-items-center">
           <div class="avatar"><img src="/img/maui.jpg" alt="..." class="img-fluid rounded-circle"></div>
           <div class="title">
-            <h1 class="h5">Maui Torio</h1>
-            <p>Web Designer</p>
+            <h1 class="h5"><%= currentUser.firstName %> <%= currentUser.lastName %></h1>
           </div>
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>

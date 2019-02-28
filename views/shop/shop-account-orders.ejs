@@ -10,9 +10,9 @@
             <ul class="list-group margin-bottom-25 sidebar-menu">
               
               
-              <li class="list-group-item clearfix"><a href="/profile"><i class="fa fa-angle-right"></i> My account</a></li>
-              <li class="list-group-item clearfix"><a href="/profile/orders"><i class="fa fa-angle-right"></i> Orders</a></li>
-              <li class="list-group-item clearfix"><a href="javascript:;"><i class="fa fa-angle-right"></i> Address book</a></li>
+              <li class="list-group-item clearfix"><a href="/profile/<%= currentUser._id %>"><i class="fa fa-angle-right"></i> My account</a></li>
+              <li class="list-group-item clearfix"><a href="/profile/<%= currentUser.id %>/orders"><i class="fa fa-angle-right"></i> Orders</a></li>
+              
               
             </ul>
           </div>
