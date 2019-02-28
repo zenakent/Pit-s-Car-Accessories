@@ -1,0 +1,23 @@
+<%#console.log(foundItem.reviews) %>
+
+
+<% foundItem.reviews.forEach(function(review) { %>
+    <div id="product-pop-up-<%= review._id%>" style="display: none; width: 700px;">
+            <div class="product-page product-pop-up">
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-3">
+                  
+                 <h2><%= review._id%></h2>
+                  </div>
+                </div>
+                
+                  
+                  
+                </div>
+
+                
+              </div>
+            </div>
+    </div>
+    
+    <% }) %>

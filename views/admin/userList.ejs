@@ -30,15 +30,15 @@
                         <th> <%= user.email %> </th>
                         <% if (currentUser.isSuperAdmin && (user.isAdmin === false)) { %>
                         <th>
-                            <button id="myBtn" class="btn btn-outline-warning">Add Admin</button>
+                            <button id="myBtn" class="btn btn-outline-warning" onclick="showModal('myModal-<%= user._id%>')">Add Admin</button>
                                         
                             <!-- The Modal -->
-                            <div id="myModal" class="modal">
+                            <div id="myModal-<%= user._id%>" class="modal">
                             
                               <!-- Modal content -->
                               <div class="modal-content">
                                  <span class="close d-flex justify-content-end ">&times;</span>
-                                 <h2 class="d-flex justify-content-center">Are you sure your want to add the user as an Admin?</h2>
+                                 <h2 class="d-flex justify-content-center">Are you sure your want to add <%= user.firstName %>  <%= user.lastName %> as an Admin?</h2>
                                  <form class="d-flex justify-content-center" action="/admin/addAdmin/<%= user._id %>" method="POST" style="display:inline">
                                      <input type="submit" value="Add as an Admin" class="btn btn-danger" />
                                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -48,15 +48,15 @@
                         </th>
                         <% } else if (currentUser.isSuperAdmin && user.isAdmin === true) { %>
                         <th>
-                            <button id="myBtn" class="btn btn-outline-danger">Remove Admin</button>
+                            <button id="myBtn" class="btn btn-outline-danger" onclick="showModal('myModal-<%= user._id%>')">Remove Admin</button>
                                         
                             <!-- The Modal -->
-                            <div id="myModal" class="modal">
+                            <div id="myModal-<%= user._id%>" class="modal">
                             
                               <!-- Modal content -->
                               <div class="modal-content">
                                  <span class="close d-flex justify-content-end ">&times;</span>
-                                 <h2 class="d-flex justify-content-center">Are you sure your want to remove the user as an Admin?</h2>
+                                 <h2 class="d-flex justify-content-center">Are you sure your want to remove <%= user.firstName %>  <%= user.lastName %> as an Admin?</h2>
                                  <div class="container d-flex justify-content-center"><a href="/admin/removeAdmin/<%= user._id %>" class="btn btn-danger">Remove as an Admin</a></div>
                               </div>
                             </div>

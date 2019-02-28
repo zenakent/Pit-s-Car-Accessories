@@ -80,16 +80,17 @@
                         
                         <% if (currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
                         <div>
-                          <button class="btn btn-warning" id="myBtn" >EDIT</button>
-
+                          
+                          <button class="btn btn-warning" id="myBtn" onclick="showModal('myModal-<%= review._id%>')">EDIT</button>
+          
                           <!-- The EDIT Modal -->
-                          <div id="myModal" class="modal">
+                          <div id="myModal-<%= review._id%>" class="modal">
                           
                             <!-- Modal content -->
                             <div class="modal-content">
-                              <span class="close">&times;</span>
+                             
                               <form action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=PUT" method="POST" class="reviews-form" role="form">
-                                <h2>EDIT a review</h2>
+                                <h2>EDIT a review</h2>  <span class="close">&times;</span>
                                 <!--<div class="form-group">-->
                                 <!--  <label for="name">Name <span class="require">*</span></label>-->
                                 <!--  <input type="text" class="form-control" name="review[author]" id="name" value="<%= currentUser.firstName %> <%= currentUser.lastName %> " readonly>-->
@@ -113,6 +114,10 @@
                             </div>
                           
                           </div>
+                          
+                          <script>
+                            
+                          </script>
                           
                           <form style="display: inline" action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=DELETE" method="POST" class="reviews-form" >
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -168,7 +173,6 @@
         
       </div>
     </div>
-    
     
 
 <% include ./partials/footer %>

@@ -274,6 +274,7 @@ router.put("/profile/:id", middleware.isLoggedIn,  middleware.checkProfileOwners
 
 //profile orders page
 router.get("/profile/:id/orders", middleware.isLoggedIn, function(req, res) {
+    console.log(req.user)
     Order.find({user: req.user}, function(err, orders) {
         if (err) {
             return res.write('Error!');

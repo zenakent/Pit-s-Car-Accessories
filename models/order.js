@@ -7,7 +7,7 @@ let mongoose = require("mongoose");
 let orderSchema = new mongoose.Schema({
    user: {
        type: mongoose.Schema.Types.ObjectId,
-       ref: "User" //model name
+       ref: "User", //model name
    },
    cart: {
        type: Object,
@@ -46,4 +46,12 @@ let orderSchema = new mongoose.Schema({
    },
 });
 
+
+
 module.exports = mongoose.model("Order", orderSchema);
+
+
+// user: {
+//        type: mongoose.Schema.Types.ObjectId,
+//        ref: "User" //model name
+//    },

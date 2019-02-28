@@ -383,7 +383,7 @@ router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(
            });
         });
     } else {
-        User.find({"isAdmin": false}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, foundUsers) {
+        User.find({isAdmin: false}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, foundUsers) {
            User.countDocuments().exec(function(err, count) {
                if (err) {
                    console.log(err);
@@ -474,12 +474,7 @@ router.get("/removeAdmin/:id", middleware.isLoggedIn, middleware.isSuperAdmin, f
        if (err) {
            req.flash("error", err.message);
        } else {
-           console.log(user)
-           
-           console.log("===========")
            user.isAdmin = false;
-           
-           console.log(user)
            user.save();
            req.flash("success", "Updated Successfully");
            res.redirect("/admin/addAdmin");
