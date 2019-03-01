@@ -85,17 +85,6 @@ router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     }
 });
 
-//admin home page route original
-// router.get("/", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     Product.find({}, function(err, prods) {
-//         if (err) {
-//             res.render("admin/index");
-//         } else {
-//             res.render("admin/index", {prods: prods });
-//         }
-//     }); 
-// });
-
 
 //admin addItem new route
 router.get("/addItem", middleware.isLoggedIn, middleware.isAdmin, function (req, res) {
@@ -126,18 +115,6 @@ router.post("/", middleware.isLoggedIn, middleware.isAdmin, upload.single('image
     });
 });
 
-// //admin edit route
-// router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     Product.findById(req.params.id, function(err, foundProduct) {
-//         if (err) {
-//             req.flash("error", "couldn't find that product");
-//             res.redirect("/admin");
-//         } else {
-//             res.render("admin/editItem", {prod: foundProduct, csrfToken: req.csrfToken()});
-//         }
-//     });
-// });
-
 //admin edit route
 router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     Product.findById(req.params.id, function(err, foundProduct) {
@@ -149,20 +126,6 @@ router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req,
         }
     });
 });
-
-
-
-// //admin update route
-// router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     Product.findByIdAndUpdate(req.params.id, req.body.prod, function(err, updatedProduct) {
-//         if (err) {
-//             req.flash("error", "Something went wrong");
-//             res.redirect("/admin");
-//         } else {
-//             res.redirect("/admin");
-//         }
-//     });
-// });
 
 //admin update route
 router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('image'), function(req, res) {
@@ -197,16 +160,6 @@ router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('im
     });
 });
 
-// //admin destroy route
-// router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     Product.findByIdAndRemove(req.params.id, function (err) {
-//         if (err) {
-//             res.redirect("/admin");
-//         } else {
-//             res.redirect("/admin");
-//         }
-//     });
-// });
 
 //admin destroy route
 router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
@@ -276,20 +229,6 @@ router.get("/orders/newOrders", middleware.isLoggedIn, middleware.isAdmin, funct
         });
     }
 });
-
-
-
-//orders new page
-// router.get("/orders/newOrders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     Order.find({"orderFulfilled": false}, function(err, orders) {
-//         if (err) {
-//             console.log(err);
-//             res.redirect("/admin");
-//         } else {
-//             res.render("admin/orders", {orders: orders});
-//         }
-//     });
-// });
 
 //fulfilled/old orders page
 router.get("/orders/oldOrders", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
@@ -396,18 +335,6 @@ router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(
     }
 });
 
-
-// //customer list page
-// router.get("/customerList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
-//     User.find({"isAdmin": false}, function(err, foundUsers) {
-//         if (err) {
-//             console.log(err);
-//             res.redirect("back");
-//         } else {
-//             res.render("admin/customerList", {foundUsers: foundUsers});
-//         }
-//     });
-// });
 
 //customer page
 router.get("/customerList/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {

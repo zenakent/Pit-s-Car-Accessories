@@ -24,11 +24,6 @@
                   <div class="product-main-image">
                     <img src="<%= foundItem.image %>" alt="Cool green dress with red bell" class="img-responsive" data-BigImgsrc="assets/pages/img/products/model7.jpg">
                   </div>
-                  <!--<div class="product-other-images">-->
-                  <!--  <a href="assets/pages/img/products/model3.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model3.jpg"></a>-->
-                  <!--  <a href="assets/pages/img/products/model4.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model4.jpg"></a>-->
-                  <!--  <a href="assets/pages/img/products/model5.jpg" class="fancybox-button" rel="photos-lib"><img alt="Berry Lace Dress" src="assets/pages/img/products/model5.jpg"></a>-->
-                  <!--</div>-->
                 </div> 
                 <div class="col-md-6 col-sm-6">
                   <h1><%= foundItem.name %></h1>
@@ -45,18 +40,11 @@
                     <p><%= foundItem.description %></p>
                   </div>
                   <div class="product-page-cart">
-                    <!--<div class="product-quantity">-->
-                    <!--    <input id="product-quantity" type="text" value="1" readonly class="form-control input-sm">-->
-                    <!--</div>-->
+                    
                     <a href="/cart/add-to-cart/<%= foundItem._id %>"><button class="btn btn-primary" type="submit">Add to cart</button></a>
+                    
+                     
                   </div>
-                  <!--<div class="review">-->
-                  <!--  <input type="range" value="4" step="0.25" id="backing4">-->
-                  <!--  <div class="rateit" data-rateit-backingfld="#backing4" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">-->
-                  <!--  </div>-->
-                  <!--  <a href="javascript:;">7 reviews</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:;">Write a review</a>-->
-                  <!--</div>-->
-                  
                 </div>
 
                 <div class="product-page-content">
@@ -91,21 +79,11 @@
                              
                               <form action="/shop-item/<%= foundItem._id %>/reviews/<%= review._id%>?_method=PUT" method="POST" class="reviews-form" role="form">
                                 <h2>EDIT a review</h2>  <span class="close">&times;</span>
-                                <!--<div class="form-group">-->
-                                <!--  <label for="name">Name <span class="require">*</span></label>-->
-                                <!--  <input type="text" class="form-control" name="review[author]" id="name" value="<%= currentUser.firstName %> <%= currentUser.lastName %> " readonly>-->
-                                <!--</div>-->
                                 
                                 <div class="form-group">
                                   <label for="review">Review <span class="require">*</span></label>
                                   <textarea class="form-control" rows="8" id="review" name="review[text]"><%= review.text %></textarea>
                                 </div>
-                                <!--<div class="form-group">-->
-                                <!--  <label for="email">Rating</label>-->
-                                <!--  <input type="range" value="4" step="0.25" id="backing5">-->
-                                <!--  <div class="rateit" data-rateit-backingfld="#backing5" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">-->
-                                <!--  </div>-->
-                                <!--</div>-->
                                 <div class="padding-top-20">                  
                                   <button type="submit" class="btn btn-primary">Submit Review</button>
                                 </div>
@@ -135,21 +113,10 @@
                       <% } else { %>
                       <form action="/shop-item/<%= foundItem._id %>/reviews" method="POST" class="reviews-form" role="form">
                         <h2>Write a review</h2>
-                        <!--<div class="form-group">-->
-                        <!--  <label for="name">Name <span class="require">*</span></label>-->
-                        <!--  <input type="text" class="form-control" name="review[author]" id="name" value="<%= currentUser.firstName %> <%= currentUser.lastName %> " readonly>-->
-                        <!--</div>-->
-                        
                         <div class="form-group">
                           <label for="review">Review <span class="require">*</span></label>
                           <textarea class="form-control" rows="8" id="review" name="review[text]"></textarea>
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--  <label for="email">Rating</label>-->
-                        <!--  <input type="range" value="4" step="0.25" id="backing5">-->
-                        <!--  <div class="rateit" data-rateit-backingfld="#backing5" data-rateit-resetable="false"  data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5">-->
-                        <!--  </div>-->
-                        <!--</div>-->
                         <div class="padding-top-20">                  
                           <button type="submit" class="btn btn-primary" <% if (currentUser && foundItem.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>>Submit Review</button>
                         </div>
@@ -162,7 +129,7 @@
                   </div>
                 </div>
 
-                <!--<div class="sticker sticker-sale"></div>-->
+                
               </div>
             </div>
           </div>

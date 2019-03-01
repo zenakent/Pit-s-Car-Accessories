@@ -132,30 +132,6 @@ router.post('/register/:token', function(req, res) {
   });
 });
 
-// //hande signup logic original
-// router.post("/register", function(req, res) {
-//     var newUser = new User({
-//         email: req.body.email,
-//         password: req.body.password,
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         contactNumber: req.body.contactNumber,
-//         address: req.body.address
-//     });
-//     User.register(newUser, req.body.password, function(err, user) {
-//         if (err) {
-//             console.log(err);
-//             req.flash('error', 'A user with the given username is already registered');
-//             return res.render("shop/register");
-//         }
-//         passport.authenticate("local")(req,res, function() {
-//             req.flash('success', 'Successfully made an account');
-//             res.redirect("/");
-//         });
-//     });
-// });
-
-
 
 //show login form
 router.get("/login", function(req, res) {
@@ -205,25 +181,6 @@ router.post("/login/login", middleware.sessionMW, function(req, res, next) {
     
 });
 
-// //handle sign in logic original
-// router.post("/login/login", middleware.sessionMW, passport.authenticate("local", 
-// {
-//     failureFlash: 'Invalid username or password.',
-//     failureRedirect: "/login",
-    
-// }),function(req, res) {
-//     if (req.user.isAdmin === true) {
-//         res.redirect("/admin");
-//     }
-//     if (req.user.isAdmin === false && req.user.isActivated === true) {
-//         res.redirect("/product-list");
-//     }
-//     if (req.user.isAdmin === false && req.user.isActivated === false) {
-//         req.flash("error", "Your Email has not been validated. Please check your Email");
-//         req.logout();
-//         res.redirect("/login");
-//     } 
-// });
 
 //logout route
 router.get("/logout", function(req, res) {
@@ -339,22 +296,6 @@ router.get("/product-list", function(req, res) {
     }
 });
 
-
-
-
-//
-//product type list
-// router.get("/product-list-steeringWheel", function(req, res) {
-//     Product.find({"type": "Steering Wheel"}, function(err, prods) {
-//         if (err) {
-//             res.render("shop/shop-product-list", {message: req.flash("error")});
-//         } else {
-            
-//             // var cart = new Cart(req.session.cart);
-//             res.render("shop/shop-product-list", {prods: prods, message: req.flash("success") });
-//         }
-//     }); 
-// });
 
 router.get("/product-list-:type", function(req, res) {
     Product.find({"type": req.params.type}, function(err, prods) {

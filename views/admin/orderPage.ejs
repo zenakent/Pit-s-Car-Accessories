@@ -18,19 +18,12 @@
            </thead>
            <tbody>
                <tr>
-                 <!--<th><img src="<%#= prod.image %>" height="45" width="45"></img></th>-->
                  <th><%= foundOrder.firstName %> <%= foundOrder.lastName %></th>
                  <th><%= foundOrder.address %></th>
                  <th><%= foundOrder.contactNumber %></th>
                  <th><%= foundOrder.paymentMethod %></th>
                  <th><%= foundOrder._id %></th>
                  <th><%=  moment(foundOrder.createdAt).format('MMMM Do YYYY, h:mm:ss a'); %></th>
-                 <!--<th>-->
-                 <!--     <a href="/admin/<%#= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>-->
-                 <!--     <form action="/admin/<%#= prod._id %>?_method=DELETE" method="POST" style="display:inline">-->
-                 <!--          <input type="submit" value="Delete" class="btn btn-outline-danger" />-->
-                 <!--     </form>-->
-                 <!--</th>-->
             </tr>
            </tbody>
          </table>

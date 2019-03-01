@@ -28,9 +28,7 @@ router.get('/add-to-cart/:id', function(req, res) {
             } else {
                cart.add(product, product._id);
                req.session.cart = cart;
-               
-            //   console.log(req.session.cart);
-            //   eval(require('locus'));
+
               res.redirect("back");
             }
         }
@@ -77,7 +75,7 @@ router.delete("/add-to-cart/:id", function(req, res) {
 router.get("/api", function(req, res) {
     let cart = new Cart(req.session.cart ? req.session.cart : {});
     
-    res.json(req.session);
+    res.json(req.session.cart.items);
 });
 
 module.exports = router;

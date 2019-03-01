@@ -10,7 +10,7 @@
 
   
   <!--<link rel="shortcut icon" href="favicon.ico">-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
   
   <!-- Fonts START -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|PT+Sans+Narrow:400,700|Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet">
@@ -112,20 +112,7 @@
                 <% if (!session.cart) { %>
                   Cart is Empty
                 <% } else { %>
-                  <%var arr = [] %>
-                    <% for ( var id in session.cart.items ) { %>
-                      <% arr.push(session.cart.items[id]) %>
-                    <% } %>
                   
-                  <% arr.forEach(function(cartItems) { %>
-                    <li>
-                      <a href="shop-item.html"><img src="<%= cartItems.item.image %>" alt="<%= cartItems.item.name %>" width="37" height="34"></a>
-                      <span class="cart-content-count">x <%= cartItems.qty %></span>
-                      <strong><a href="shop-item.html"><%= cartItems.item.name %></a></strong>
-                      <em>₱<%= cartItems.price %></em>
-                      <a href="/cart/remove/<%= cartItems.item._id %>" class="del-goods">&nbsp;</a>
-                    </li>
-                  <% }) %>
                 <% } %>
               </ul>
               <div class="text-right">

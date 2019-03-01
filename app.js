@@ -103,18 +103,11 @@ app.use(async function(req, res, next) {
 ROUTES 
 =====================*/
 
-// app.get("/admin", function(req, res) {
-//     res.render("admin/admin");
-// });
-
-
-
-
 app.use("/", shopRoutes);
 app.use("/admin", indexRoutes);
 app.use("/cart", cartRoutes);
 app.use("/checkout", checkoutRoutes);
-// app.use("/shop-item/:id/reviews", reviewRoutes);
+
 //====================================================
 //Ecommerce Server Start
 //====================================================
