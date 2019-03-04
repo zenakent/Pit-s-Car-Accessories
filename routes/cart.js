@@ -75,7 +75,7 @@ router.delete("/add-to-cart/:id", function(req, res) {
 router.get("/api", function(req, res) {
     let cart = new Cart(req.session.cart ? req.session.cart : {});
     
-    res.json(req.session.cart.items);
+    res.json(req.session);
 });
 
 module.exports = router;

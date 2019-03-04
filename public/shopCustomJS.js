@@ -1,16 +1,18 @@
-// $(document).ready(function() {
-//     $('#cashOnDelivery').click(function() {
-//         if($('#cashOnDelivery').is(':checked')) { 
-//             $("#paymentMethodNote").text("Item's are delivered through LBC"); 
-//         }
-//     });
+$(document).ready(function() {
+    $('#cashOnDelivery').click(function() {
+        if($('#cashOnDelivery').is(':checked')) { 
+            $("#paymentMethodNote").text("Item's are delivered through LBC. We will contact you when your order has been shipped."); 
+        }
+    });
     
-//     $('#remittance').click(function() {
-//         if($('#remittance').is(':checked')) { 
-//             $("#paymentMethodNote").text("We'll get in contact with you to assist on how to pay for the remittance"); 
-//         }
-//     });
-// })
+    $('#remittance').click(function() {
+        if($('#remittance').is(':checked')) { 
+            $("#paymentMethodNote").text("We'll get in contact with you to assist on how to pay for the remittance"); 
+        }
+    });
+})
+
+
 
 function showModal(id)
 {
@@ -31,18 +33,41 @@ function showModal(id)
   }
 }
 
+// $(document).ready(function() {
+//   $.getJSON("/cart/api")
+//   .then(function(data) {
+//     console.log(data);
+//   });
+// });
+                            
 $(document).ready(function() {
   $.getJSON("/cart/api")
   .then(addItems);
+  // .then(function(data) {
+  //   console.log(data.cart.items);
+  // });
+  
+  $('.addItemToCart').click(function() {
+    
+    var id = $(this).attr('id');
+    console.log("/add-to-cart/" + id)
+    
+    $.post('api/todos', {name: "maui"})
+    .then(function(test){
+      console.log(test);
+    })
+  })
+  
 });
 
 function addItems(items) {
   //add items to cart here
   // console.log(items)
   var arr = [];
-  for ( var id in items) {
-    arr.push(items[id]);
+  for ( var id in items.cart.items) {
+    arr.push(items.cart.items[id]);
   }
+  console.log(arr)
   // console.log(arr);
   arr.forEach(function(item) {
     // console.log(item.item._id);
