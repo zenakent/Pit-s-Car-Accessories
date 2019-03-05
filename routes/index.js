@@ -291,6 +291,7 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
 
 //add a mark all as read
 
+
 //=============================
 //Admin ORDER END
 //=============================
@@ -439,6 +440,53 @@ router.post("/removeAdmin/:id", middleware.isLoggedIn, middleware.isSuperAdmin, 
        }
    }); 
 });
+
+
+
+//===================
+//admin product list
+//==================
+
+router.get("/productList", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+    var perPage = 100;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    
+    if (req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Product.find().or([{name: regex}, {brand: regex}, {type: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, prods) {
+            console.log(prods)
+            
+           Product.countDocuments({name: regex}).exec(function(err, count) {
+              if (err) {
+                  console.log(err);
+                  res.redirect("back");
+              } else {
+                  if (prods.length < 1) {
+                      noMatch = "No product could match that query, please try again";
+                      req.flash("error", noMatch);
+                  }
+                  
+                  res.render("admin/productList", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: req.query.search, csrfToken: req.csrfToken()});
+              }
+           });
+        });
+    } else {
+        Product.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, prods) {
+           Product.countDocuments().exec(function(err, count) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   req.flash("error", noMatch);
+                   console.log(prods)
+                   res.render("admin/productList", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, csrfToken: req.csrfToken()});
+               }
+           }) ;
+        });
+    }
+})
+
 
 //function for protection from regex attacks
 function escapeRegex(text) {
