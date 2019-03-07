@@ -91,6 +91,7 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         
         
         req.session.cart = null;
+        req.user.cart = {};
         req.flash('success', 'Your Cart has been succesfully ORDERED');
         res.redirect("/profile/" + req.user._id + "/orders");
         

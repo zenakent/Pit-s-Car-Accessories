@@ -45,8 +45,17 @@ middlewareObj.isSuperAdmin = function(req, res, next) {
     if (req.user.isSuperAdmin) {
         return next();
     } else {
-        req.flash("error", "You are not Admin!");
+        req.flash("error", "You are not SuperAdmin!");
         res.redirect("/");
+    }
+};
+
+middlewareObj.isActivated = function(req, res, next) {
+    if (req.user.isActivated) {
+        return next();
+    } else {
+        req.flash("error", "Please Validate Your Email");
+        res.redirect("/login");
     }
 };
 

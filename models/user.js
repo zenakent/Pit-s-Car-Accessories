@@ -43,6 +43,7 @@ var UserSchema = new mongoose.Schema({
     	   ref: 'Notification'
     	}
     ],
+    cart: { type: mongoose.Schema.Types.Mixed, default: {} },
     isActivated: {
         type: Boolean,
         default: false

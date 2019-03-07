@@ -108,7 +108,7 @@ router.post("/register", function(req, res, next) {
 router.get('/register/:token', function(req, res) {
     User.findOne({ emailToken: req.params.token}, function(err, user) {
         if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
+          req.flash('error', 'Token is invalid or has expired.');
           return res.redirect('/forgot');
         }
         res.render('shop/emailValidate', {token: req.params.token, csrfToken: req.csrfToken()});
@@ -164,10 +164,44 @@ router.post("/login/login", middleware.sessionMW, function(req, res, next) {
                     } else if (user.isAdmin === true) {
                         res.redirect("/admin");
                     } else if (user.isAdmin === false && user.isActivated === true) {
-                        res.redirect("/product-list");
+                        // req.session.cart= req.user.cart;
+                        if (!req.session.cart) {
+                            req.session.cart= req.user.cart;
+                            res.redirect("/product-list");
+                        } else {
+                            let cart = new Cart(req.session.cart ? req.session.cart : {});
+                            let arrUserCart = [];
+                            for (let id in req.user.cart.items) {
+                                arrUserCart.push(req.user.cart.items[id]);
+                            }
+                            
+                            arrUserCart.forEach(function(item) {
+                                Product.findById(item.item._id, function(err, product) {
+                                   if (err) {
+                                       console.log(err)
+                                   } else {
+                                    //   console.log(product)
+                                       if (product.quantity <= 0) {
+                                           req.flash("error", "Sorry, This product is not available");
+                                           res.redirect("back");
+                                       } else {
+                                           cart.add(product, product._id);
+                                           console.log("/////////////////////////////////////////")
+                                           console.log(cart);
+                                           console.log("/////////////////////////////////////////")
+                                           req.session.cart = cart;
+                                           req.session.save()
+                                       }
+                                   }
+                                });
+                            });
+                            res.redirect("/product-list");
+                        }
+                        
                     } else {
                         if (user.isAdmin === false && user.isActivated === false) {
                             req.flash("error", "Your Email has not been validated. Please check your Email");
+                            req.logout();
                             res.redirect("/login");
                         } else {
                             req.flash("error", "Wrong Email or Password. Try again");
@@ -184,13 +218,13 @@ router.post("/login/login", middleware.sessionMW, function(req, res, next) {
 
 //logout route
 router.get("/logout", function(req, res) {
-    req.session.save();
-    req.logout();
-    req.session.cart = null
-    res.redirect("/");
-    // req.session.save();
-    // req.session.cart = null
     
+    req.user.cart =  req.session.cart;
+    req.user.save();
+    req.session.cart = null;
+    req.user.cart = {};
+    req.logout();
+    res.redirect("/");
 });
 
 
