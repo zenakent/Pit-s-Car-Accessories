@@ -195,6 +195,7 @@ router.post("/login/login", middleware.sessionMW, function(req, res, next) {
                                    }
                                 });
                             });
+                            req.user.cart = {};
                             res.redirect("/product-list");
                         }
                         
@@ -222,7 +223,7 @@ router.get("/logout", function(req, res) {
     req.user.cart =  req.session.cart;
     req.user.save();
     req.session.cart = null;
-    req.user.cart = {};
+    // req.user.cart = {};
     req.logout();
     res.redirect("/");
 });

@@ -42,21 +42,22 @@ function showModal(id)
                             
 $(document).ready(function() {
   $.getJSON("/cart/api")
-  .then(addItems);
+  .then(addItems)
+  .then(showTotalQty);
   // .then(function(data) {
   //   console.log(data.cart.items);
   // });
   
-  $('.addItemToCart').click(function() {
+  // $('.addItemToCart').click(function() {
     
-    var id = $(this).attr('id');
-    console.log("/add-to-cart/" + id)
+  //   var id = $(this).attr('id');
+  //   console.log("/add-to-cart/" + id)
     
-    $.post('api/todos', {name: "maui"})
-    .then(function(test){
-      console.log(test);
-    })
-  })
+  //   $.post('api/todos', {name: "maui"})
+  //   .then(function(test){
+  //     console.log(test);
+  //   })
+  // })
   
 });
 
@@ -75,4 +76,12 @@ function addItems(items) {
     // console.log(newItem)
     $('.scroller').append(newItem);
   });
+  
+  console.log(items.cart.totalQty);
+  $('#totalQty').text(items.cart.totalQty)
+  $('#totalPrice').text(items.cart.totalPrice)
+}
+
+function showTotalQty(item) {
+  console.log(item)
 }

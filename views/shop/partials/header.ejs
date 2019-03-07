@@ -93,14 +93,15 @@
               <% if (!session.cart) { %>
                 0
               <% } else { %>
-                <%= session.cart.totalQty %>
+              <span id="totalQty"></span>
               <% } %>
             </a>
             <a  class="top-cart-info-value">
               <% if (!session.cart) { %>
                 <span>₱</span>0.00
               <% } else { %>
-                <span>₱</span><%= session.cart.totalPrice %>.00
+                
+                <span>₱</span><span id="totalPrice"></span>.00
               <% } %>
             </a>
           </div>
