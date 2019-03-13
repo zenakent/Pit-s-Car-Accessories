@@ -20,6 +20,20 @@ function showModal(id)
 
 
 
+$(document).ready(function() {
+
+$.getJSON('https://ron-swanson-quotes.herokuapp.com/v2/quotes', function(data) {
+    console.log(data[0])
+  $("#quote").text(data[0])
+})
+
+$.getJSON('https://complimentr.com/api ', function(data) {
+    console.log(data.compliment)
+  $("#compliment").text(data.compliment)
+})
+})
+
+
 
 var pusher = new Pusher('db76396892f7f71a4340', { cluster: 'ap1' });
 

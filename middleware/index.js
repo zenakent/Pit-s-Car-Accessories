@@ -19,7 +19,10 @@ middlewareObj.sessionMW = session({
             // touchAfter: 24 * 3600, //24 hours
         }
     ), // stores session in db,
-    cookie: {maxAge: 180 * 60 * 1000} //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+    cookie: {
+        maxAge: 180 * 60 * 1000, //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+        cookieconsent_status: {type: Boolean, default: false}
+    } 
 });
 
 //middleware to see if logged in

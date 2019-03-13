@@ -52,3 +52,17 @@ hr {
   text-decoration: none;
   cursor: pointer;
 }
+
+#shopSearch {
+  width: 300px;
+}
+
+.sep {
+  top: 35px;
+  width: 1px;
+  height: 26px;
+  background: #eaeaea;
+  position: relative;
+  margin: 0 18px 0 16px;
+  display: inline-block;
+}

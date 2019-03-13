@@ -15,15 +15,15 @@ let orderSchema = new mongoose.Schema({
    },
    address: {
        type: String,
-       required: true,
+      //  required: true,
    },
    firstName: {
        type: String,
-       required: true,
+      //  required: true,
    },
    lastName: {
        type: String,
-       required: true,
+      //  required: true,
    },
    contactNumber: {
        type: Number,
@@ -31,8 +31,10 @@ let orderSchema = new mongoose.Schema({
    },
    city: {
        type: String,
-       required: true,
+       
    },
+   fullName: String,
+   remitMethod: String,
    paymentMethod: {
        type: String,
    },

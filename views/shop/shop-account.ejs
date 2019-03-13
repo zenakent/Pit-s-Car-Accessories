@@ -9,11 +9,7 @@
           <div class="sidebar col-md-3 col-sm-3">
             <ul class="list-group margin-bottom-25 sidebar-menu">
               
-              
-              <li class="list-group-item clearfix"><a href="/profile/<%= currentUser._id %>"><i class="fa fa-angle-right"></i> My account</a></li>
-              <li class="list-group-item clearfix"><a href="/profile/<%= currentUser.id %>/orders"><i class="fa fa-angle-right"></i> Orders</a></li>
-              
-              
+              <% include ./partials/profileSideBar %>
             </ul>
           </div>
           <!-- END SIDEBAR -->

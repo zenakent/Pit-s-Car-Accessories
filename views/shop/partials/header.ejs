@@ -68,7 +68,7 @@
                           <% if (currentUser.isAdmin) { %>
                             <li><a href="/admin">Admin Page</a></li>
                           <% } %>
-                          <li><a href="/profile/<%= currentUser._id %>"><%= currentUser.firstName %></a></li>
+                          <li><a href="/profile/<%= currentUser._id %>">My Account</a></li>
                           <li><a href="/logout">Log Out</a></li>
                         <% } %>
                     </ul>
@@ -127,14 +127,34 @@
 
         <!-- BEGIN NAVIGATION -->
         <div class="header-navigation">
-          <ul>
+          <ul style="display:inline;">
             <li><a href="/product-list">Store</a></li>
+            
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="javascript:;">
+                Categories
+                
+              </a>
+                
+              <ul class="dropdown-menu">
+                <li><a href="/product-list-Steering Wheel"> Steering Wheels</a></li>
+                <li><a href="/product-list-Alarm"> Alarms</a></li>
+                <li><a href="/product-list-Strut Bar"> Strut Bars</a></li>
+                <li><a href="/product-list-Air Intake"> Air Intake</a></li>
+                <li><a href="/product-list-Plate Accessories"> Plate Accessories</a></li>
+                <li><a href="/product-list-Visor"> Visor</a></li>
+                <li><a href="/product-list-Body"> Body</a></li>
+                <li><a href="/product-list-Emblem"> Emblem</a></li>
+                <li><a href="/product-list-Grill"> Grill</a></li>
+                <li><a href="/product-list-Bumper"> Bumper</a></li>
+                <li><a href="/product-list-Adaptor"> Adaptor</a></li>
+                <li><a href="/product-list-Visor"> Visor</a></li>
+              </ul>
+            </li>
+            <li><span class="sep"></span></li>
             <!-- BEGIN TOP SEARCH -->
             <li class="menu-search">
-              <span class="sep"></span>
-              <i class="fa fa-search search-btn"></i>
-              <div class="search-box">
-                <form action="/product-list" method="GET">
+                <form action="/product-list" id="shopSearch"method="GET" width="10">
                   <div class="input-group">
                     <input type="text" placeholder="Search" class="form-control" name="search">
                     <span class="input-group-btn">
@@ -142,10 +162,10 @@
                     </span>
                   </div>
                 </form>
-              </div> 
+              
             </li>
             <!-- END TOP SEARCH -->
-            <span class="sep"></span><span class="sep"></span><span class="sep"></span>
+            
             <li><a style="color: red;">              <%= error %><%= success %></a></li>
           </ul>
         </div>

@@ -66,59 +66,59 @@
     <div class="main">
       <div class="container">
         <!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
-        <div class="row margin-bottom-40">
+        <!--<div class="row margin-bottom-40">-->
           <!-- BEGIN SALE PRODUCT -->
-          <div class="col-md-12 sale-product">
-            <div class="owl-carousel owl-carousel3">
-              <% if (prods.length <= 4) { %>
-              <% prods.forEach(function(prod) { %>
-              <div>
-                <div class="product-item">
-                  <div class="pi-img-wrapper">
-                    <img src="<%= prod.image %>" class="img-responsive image-same-size-landing" alt="<%= prod.name %>">
-                    <div>
-                      <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>
-                      <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>
-                    </div>
-                  </div>
-                  <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
-                  <div class="pi-price"><span>₱</span><%= prod.price %></div>
-                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
-                </div>
-              </div>
+        <!--  <div class="col-md-12 sale-product">-->
+        <!--    <div class="owl-carousel owl-carousel3">-->
+        <!--      <% if (prods.length <= 4) { %>-->
+        <!--      <% prods.forEach(function(prod) { %>-->
+        <!--      <div>-->
+        <!--        <div class="product-item">-->
+        <!--          <div class="pi-img-wrapper">-->
+        <!--            <img src="<%= prod.image %>" class="img-responsive image-same-size-landing" alt="<%= prod.name %>">-->
+        <!--            <div>-->
+        <!--              <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>-->
+        <!--              <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>-->
+        <!--          <div class="pi-price"><span>₱</span><%= prod.price %></div>-->
+        <!--          <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>-->
+        <!--        </div>-->
+        <!--      </div>-->
               
-              <% }) %>
+        <!--      <% }) %>-->
               
-              <% } else { %>
-              <% var itemArr = [] %>
-              <% for (var i = 0; i <= 4; i++) { %>
-              <% itemArr.push(prods[i]) %>
-              <% } %>
-              <% itemArr.forEach(function(prod) { %>
+        <!--      <% } else { %>-->
+        <!--      <% var itemArr = [] %>-->
+        <!--      <% for (var i = 0; i <= 4; i++) { %>-->
+        <!--      <% itemArr.push(prods[i]) %>-->
+        <!--      <% } %>-->
+        <!--      <% itemArr.forEach(function(prod) { %>-->
               
-              <div>
-                <div class="product-item">
-                  <div class="pi-img-wrapper">
-                    <img src="<%= prod.image %>" class="img-responsive image-same-size-landing" alt="<%= prod.name %>">
-                    <div>
-                      <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>
-                      <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>
-                    </div>
-                  </div>
-                  <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>
-                  <div class="pi-price"><span>₱</span><%= prod.price %></div>
-                  <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>
-                </div>
-              </div>
+        <!--      <div>-->
+        <!--        <div class="product-item">-->
+        <!--          <div class="pi-img-wrapper">-->
+        <!--            <img src="<%= prod.image %>" class="img-responsive image-same-size-landing" alt="<%= prod.name %>">-->
+        <!--            <div>-->
+        <!--              <a href="<%= prod.image %>" class="btn btn-default fancybox-button">Zoom</a>-->
+        <!--              <a href="#product-pop-up-<%= prod._id%>" class="btn btn-default fancybox-fast-view">View</a>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <h3><a href="/shop-item/<%= prod.id %>"><%= prod.name %></a></h3>-->
+        <!--          <div class="pi-price"><span>₱</span><%= prod.price %></div>-->
+        <!--          <a href="/cart/add-to-cart/<%= prod._id %>" class="btn btn-default add2cart">Add to cart</a>-->
+        <!--        </div>-->
+        <!--      </div>-->
               
               
-              <% }) %>
-              <% } %>
+        <!--      <% }) %>-->
+        <!--      <% } %>-->
               
-            </div>
-          </div>
+        <!--    </div>-->
+        <!--  </div>-->
           <!-- END SALE PRODUCT -->
-        </div>
+        <!--</div>-->
         <!-- END SALE PRODUCT & NEW ARRIVALS -->
       </div>
     </div>
@@ -127,8 +127,8 @@
     <div class="row margin-bottom-40">
         
           <div class="col-md-6">
-              <h1 style="color: white;">About us</h1>
-              <p style="line-height: 2; color: white; ">
+              <h1 style="color: white;font-size: 3em;">About us</h1>
+              <p style="line-height: 2; color: white; font-size: 1.3em">
                   We are a Car Accessories business, that sells car accessories for old model cars and recent car models. If you don’t see a product that you would want, please contact us. We do installations when you buy our products, meet ups and as well as cash on delivery thru LBC and remittances.
                 <br>
                 
@@ -147,13 +147,13 @@
                 </ol>
                 <div class="carousel-inner">
                   <div class="item active">
-                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43346076_263413117693468_6809108453768822784_n.jpg?_nc_cat=101&_nc_ht=scontent.fmnl17-1.fna&oh=0a5ac6ea9684014f0f0795051be60408&oe=5CB657CE" class="img-responsive" height="auto" width="455">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43443909_263643287670451_7629810213645713408_n.jpg?_nc_cat=109&_nc_eui2=AeHpIxkRTlgPYGp8E6VofXXR4N5nGuMxgUlQnmV2ngMY0vF38JbUS0ISSe7yaw8jtCk-AG6-IEMYtN84x6LBVmMmsOKQ5yObxF6NXF8TgJLeDQ&_nc_ht=scontent.fmnl17-1.fna&oh=bb011962db00b3376f5e6ae471c5b4fb&oe=5D20FB42" class="img-responsive" height="auto" width="455">
                   </div>
                   <div class="item">
-                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43632656_264354137599366_892901238159441920_n.jpg?_nc_cat=108&_nc_ht=scontent.fmnl17-1.fna&oh=43804527f1732685e24062e9780b5c00&oe=5CFAE7FD" class="img-responsive" height="auto" width="455">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/45701108_273703809997732_1660545235509313536_n.jpg?_nc_cat=103&_nc_eui2=AeFbwp4Z6eu0pqmhoYpPf2p9Q7Hy2JbgQYbNxtto9u5NS_zKO_RjxOzBPVD-Ju5DV-STSyfJWSgeeejSKr7GxLzVzSOjtBQuCzNX7AneWglvbg&_nc_ht=scontent.fmnl17-1.fna&oh=e0782c645c57be09e41344a76049f276&oe=5D0CC8E0" class="img-responsive" height="auto" width="455">
                   </div>
                   <div class="item">
-                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/38072264_228840071150773_5692702597903810560_n.jpg?_nc_cat=106&_nc_ht=scontent.fmnl17-1.fna&oh=fa1018a7b3def8c642d595fc94999601&oe=5CB75808" class="img-responsive" height="auto" width="455">
+                    <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/45859653_273720193329427_4673585052737601536_n.jpg?_nc_cat=108&_nc_ht=scontent.fmnl17-1.fna&oh=277d16510e562ba5f053fdc1a2194775&oe=5D0E414C" class="img-responsive" height="auto" width="455">
                   </div>
                 </div>
               </div>

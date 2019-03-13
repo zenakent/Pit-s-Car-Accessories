@@ -1,0 +1,145 @@
+<% include ./partials/header %>
+
+<div class="main margin-bottom-40">
+      <div class="container">
+        
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-100">
+          <!-- BEGIN SIDEBAR -->
+          <div class="sidebar col-md-3 col-sm-3">
+            <ul class="list-group margin-bottom-25 sidebar-menu">
+             <% include ./partials/profileSideBar %>
+            </ul>
+          </div>
+          <!-- END SIDEBAR -->
+
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-7">
+            <h2><a href="https://goo.gl/forms/evVXrZFcCbmhzR4z1">Please click here Take our Survey to tell us your shopping experience</a></h2>
+            <h1 style="color: white">Address Book</h1>
+            <a href="#" id="myBtn" onclick="showModal('myModal-addAddress')">Add an address</a>
+            
+            <!-- The Modal -->
+            <div id="myModal-addAddress" class="modal">
+            
+              <!-- Modal content -->
+              <div class="modal-content">
+                 
+                 <div class="container d-flex justify-content-center">
+                    <!--BEGIN CONTENT -->
+                    <div class="col-md-9 col-sm-7">
+                      <div class="content-form-page pt-4">
+                          <h1>Add New Shippping Address</h1>
+                          <hr>
+                        <form role="form" class="form-horizontal form-without-legend" action="/shippidingAddress/<%= currentUser._id%>?_csrf=<%= csrfToken %>" method="post">
+                         <h1 style="color: red;"><%= error %><%= success %></h1>
+                          
+                          
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" for="fullName">Full Name <span class="require">*</span></span></label>
+                            <div class="col-lg-8">
+                              <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" for="contactNumber">Contact Number <span class="require">*</span></span></label>
+                            <div class="col-lg-8">
+                              <input type="text" class="form-control" name="contactNumber" placeholder="Mobile/Phone Number" required>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" for="address">Address<span class="require">*</span></span></label>
+                            <div class="col-lg-8">
+                              
+                              <textarea class="form-control" rows="6" name="address" placeholder="Type your address here" required></textarea>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
+                              <button class="btn btn-primary" type="submit">Submit</button>
+                              <input type="button" value="Close" class="btn btn-warning addressClose" />
+                              <script>
+                                var addressClose = document.getElementsByClassName("addressClose")[0];
+                                 addressClose.onclick = function() {
+                                   document.getElementById('myModal-addAddress').style.display = "none";
+                                 };
+                              </script>
+                            </div>
+                          </div>
+                        </form>
+                        
+                      </div>
+                    </div>
+                    <!--END CONTENT -->
+                </div>
+              </div>
+            </div>
+            
+            <div class="goods-page">
+             
+              <div class="goods-data clearfix">
+                <div class="table-wrapper-responsive">
+                
+                <table summary="Address Book">
+                  <thead>
+                    <tr>
+                    <th>Full Name</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% address.forEach(function(address) { %>
+                  <tr>
+                    <td><%= address.fullName%></td>
+                    <td><%= address.address%></td>
+                    <td><%= address.contactNumber%></td>
+                    <% if (!address.defaultAddress) { %>
+                    <td>
+                      <button class="btn btn-warning" id="myBtn" onclick="showModal('myModal-<%= address._id%>')">Make Default Address</button>
+                      
+                      <!-- The EDIT Modal -->
+                      <div id="myModal-<%= address._id%>" class="modal">
+                          
+                        <!-- Modal content -->
+                         <div class="modal-content ">
+                          <form action="/makeDefaultShippingAddress/<%= currentUser._id %>/<%= address._id%>" method="GET" class="d-flex justify-content-center">
+                            <span class="close d-flex justify-content-end ">&times;</span>   
+                            <h2 style="display: inline;">ARE YOU SURE YOU WANT TO MAKE THIS YOUR DEFAULT ADDRESS?</h2>
+                            <input type="submit" value="Yes" class="btn btn-danger" />
+                            <input type="button" value="No" class="btn btn-warning noClose" />
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <script>
+                                var no = document.getElementsByClassName("noClose")[0];
+                                 no.onclick = function() {
+                                   document.getElementById('myModal-<%= address._id%>').style.display = "none";
+                                 };
+                              </script>
+                          </form>
+                        </div>
+                          
+                      </div>
+                    </td>
+                    <% } else { %>
+                    <td>Default Shipping Address</td>
+                    <% } %>
+                    <td><a href="/makeDefaultShippingAddress/<%= currentUser._id%>/remove/<%= address._id %>">Delete Address</a></td>
+                  </tr>
+                  <% }) %>
+                </tbody>  
+                </table>
+                
+                </div>
+
+                
+              </div>
+              
+            </div>
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+      </div>
+    </div>
+
+<% include ./partials/footer %>

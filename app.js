@@ -17,6 +17,11 @@ var User = require("./models/user");
 let Cart = require("./models/cart");
 let Order = require("./models/order");
 
+
+//Facebook Strategy
+var FacebookStrategy = require('passport-facebook').Strategy;
+var facebookAuth = require("./config/facebook.js")
+
 //routes example var reviewRoutes = require("./routes/reviews");
 let indexRoutes = require("./routes/index");
 let shopRoutes = require("./routes/shop");
@@ -58,15 +63,75 @@ app.use(require("express-session")({
             touchAfter: 24 * 3600, //24 hours
         }
     ), // stores session in db,
-    cookie: {maxAge: 180 * 60 * 10000} //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+    cookie: {
+        maxAge: 180 * 60 * 10000,
+        cookieconsent_status: {type: Boolean, default: false}
+        } //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new FacebookStrategy({
+    clientID: facebookAuth.facebookAuth.clientID,
+    clientSecret: facebookAuth.facebookAuth.clientSecret,
+    callbackURL: facebookAuth.facebookAuth.callbackURL,
+    // passReqToCallback : true,
+    profileFields: ['emails', 'address', 'displayName', 'name'] //This
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // User.findOrCreate(..., function(err, user) {
+    //   if (err) { return done(err); }
+    //   done(null, user);
+    // });
+    process.nextTick(function() {
+        User.findOne({'facebook.id': profile.id}, function(err, user) {
+            // console.log(user);
+            if (err) {
+                return done(err);
+            }
+            if (user) {
+                return done(null, user);
+            } else {
+               
+                var newUser = new User();
+                
+                // console.log(newUser);
+                newUser.email = profile.emails[0].value;
+                newUser.firstName = profile.name.givenName;
+                newUser.lastName = profile.name.familyName;
+                newUser.facebook.id = profile.id;
+                newUser.facebook.token = accessToken;
+                newUser.facebook.firstName = profile.name.givenName;
+                newUser.facebook.lastName = profile.name.familyName;
+                newUser.facebook.email = profile.emails[0].value;
+                
+                newUser.save(function(err) {
+                    if(err) {
+                        console.log(err);
+                    }
+                    done(null, newUser);
+                });
+            }
+        });
+    });
+  }
+));
+
 passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
     
 app.use(async function(req, res, next) {
     res.locals.session = req.session;

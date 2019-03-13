@@ -1,16 +1,3 @@
-// var mongoose = require("mongoose");
-
-// var cartSchema = new mongoose.Schema({
-    
-// });
-
-// module.exports = mongoose.model("Cart", cartSchema);
-
-
-
-
-
-
 module.exports = function Cart(oldCart) {
     this.items = oldCart.items || {};
     this.totalQty = oldCart.totalQty || 0;

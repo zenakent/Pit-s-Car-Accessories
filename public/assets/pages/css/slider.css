@@ -115,27 +115,28 @@
 }
 
 .carousel-slider .carousel-item-four {
-    background: url(../../../assets/pages/img/shop-slider/slide1/bg4.jpg);
+    background: url(../../../assets/pages/img/shop-slider/slide1/Pitslogo.jpg);
+    
     background-size: cover;
     background-position: center center;
 }
 
 .carousel-slider .carousel-item-five {
-    background: url("https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/43614916_264431287591651_6032942502569312256_n.jpg?_nc_cat=108&_nc_ht=scontent.fmnl17-1.fna&oh=6cd07d3966b8d38d243cfd3529a2327f&oe=5CF82044");
-    background-position: center center; 
-    background-size: cover;
+    background: url(../../../assets/pages/img/shop-slider/slide2/lugnuts.jpg);
+    background-position: 70% 10%; 
+    background-size: contain;
 }
 
 .carousel-slider .carousel-item-six {
     background: url(../../../assets/pages/img/shop-slider/slide3/bg3.jpg);
     background-size: cover;
-    background-position: center 60%;
+    background-position: center 55%;
 }
 
 .carousel-slider .carousel-item-seven {
-    background: url(../../../assets/pages/img/shop-slider/slide4/bg3.jpg);
+    background: url(https://scontent.fmnl17-1.fna.fbcdn.net/v/t1.0-9/47323824_282869892414457_3122390053951635456_n.jpg?_nc_cat=107&_nc_ht=scontent.fmnl17-1.fna&oh=fe8733083db94652cfd333128c622a0b&oe=5D1BF6E4);
     background-size: cover;
-    background-position: center 15%;
+    background-position: center 33%;
 }
 
 .carousel-slider .carousel-item-eight {

@@ -15,10 +15,18 @@ var UserSchema = new mongoose.Schema({
     },
     firstName: {
         type: String, 
-        
+        required: 'You must provide your first name',
     },
     lastName: {
         type: String, 
+        
+    },
+    address: {
+        type: String, 
+        
+    },
+    contactNumber: {
+        type: Number, 
         
     },
     isAdmin: {
@@ -44,20 +52,8 @@ var UserSchema = new mongoose.Schema({
         id: String,
         token: String,
         email: String,
-        firstName: String,
-        lastName: String,
+        name: String,
     },
-    shippingAddress: [
-        {
-            fullName: String,
-            address: String,
-            contactNumber: Number,
-            defaultAddress: {
-                type: Boolean,
-                default: false,
-            }
-        }
-        ],
     resetPasswordToken: String,
     emailToken: String,
     resetPasswordExpires: Date,

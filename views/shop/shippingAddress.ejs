@@ -51,16 +51,24 @@
                 <div class="col-md-6 col-sm-6 additional-shop-info">
                     <ul class="list-unstyled list-inline">
                         <li><i class="fa fa-phone"></i><span>0927-771-1193</span></li>
-                        <li class=""><i class="fas fa-address-card"></i> <span>Treelane III Bayan Luma V Imus, Cavite 4103</span></li>
+                        <li><i class="fas fa-envelope"></i>pitsCarAccessories@gmail.com</li>   
                     </ul>
                 </div>
                 <!-- END TOP BAR LEFT PART -->
                 <!-- BEGIN TOP BAR MENU -->
                 <div class="col-md-6 col-sm-6 additional-nav">
                     <ul class="list-unstyled list-inline pull-right">
-                        <!--<li><a href="shop-account.html">My Account</a></li>-->
-                        <li><a href="/register">Register</a></li>
-                        <li><a href="/login">Log In</a></li>
+                        
+                        <% if (!currentUser) { %>
+                          <li><a href="/register">Register</a></li>
+                          <li><a href="/login">Log In</a></li>
+                        <% } else { %>
+                          <% if (currentUser.isAdmin) { %>
+                            <li><a href="/admin">Admin Page</a></li>
+                          <% } %>
+                          <li><a href="/profile/<%= currentUser._id %>">My Account</a></li>
+                          <li><a href="/logout">Log Out</a></li>
+                        <% } %>
                     </ul>
                 </div>
                 <!-- END TOP BAR MENU -->
@@ -75,33 +83,16 @@
         <!--BEGIN CONTENT -->
         <div class="col-md-9 col-sm-7">
           <div class="content-form-page pt-4">
-              <h1>Make an account</h1>
+              <h1>Add New Shippping Address</h1>
               <hr>
-            <form role="form" class="form-horizontal form-without-legend" action="/register?_csrf=<%= csrfToken %>" method="post">
+            <form role="form" class="form-horizontal form-without-legend" action="/shippidingAddress/<%= currentUser._id%>?_csrf=<%= csrfToken %>" method="post">
              <h1 style="color: red;"><%= error %><%= success %></h1>
               
+              
               <div class="form-group">
-                <label class="col-lg-2 control-label" for="email">E-Mail <span class="require">*</span></span></label>
+                <label class="col-lg-2 control-label" for="fullName">Full Name <span class="require">*</span></span></label>
                 <div class="col-lg-8">
-                  <input type="email" class="form-control" name="email" placeholder="Email" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label" for="last-name">Password <span class="require">*</span></label>
-                <div class="col-lg-8">
-                  <input type="password" class="form-control" name="password" placeholder="Password" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label" for="firstName">First Name <span class="require">*</span></span></label>
-                <div class="col-lg-8">
-                  <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label" for="lastName">Last Name <span class="require">*</span></span></label>
-                <div class="col-lg-8">
-                  <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+                  <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
                 </div>
               </div>
               <div class="form-group">
@@ -111,7 +102,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-lg-2 control-label" for="address">Address  <span class="require">*</span></span></label>
+                <label class="col-lg-2 control-label" for="address">Address<span class="require">*</span></span></label>
                 <div class="col-lg-8">
                   
                   <textarea class="form-control" rows="6" name="address" placeholder="Type your address here" required></textarea>
@@ -119,12 +110,12 @@
               </div>
               <div class="row">
                 <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
-                  <button class="btn btn-primary" type="submit">Register</button>
-                  <a href="/login" class="btn btn-link"><button type="button" class="btn btn-link">go back</button></a>
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                  <a href="/shippingAddress" class="btn btn-link"><button type="button" class="btn btn-link">go back</button></a>
                 </div>
               </div>
             </form>
-            <a href="/auth/facebook" class="btn btn-info">Login with Facebook</a>
+            
           </div>
         </div>
         <!--END CONTENT -->

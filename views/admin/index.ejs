@@ -1,101 +1,31 @@
 <% include ./partials/header %>
 
 <!-- Page Content Start -->
-       <div class="col-lg-12">
+     <div class="col-lg-12">
           <div class="block margin-bottom-sm">
-          <div class="title" ><strong>Product List</strong>
-               <div class="row">
-                    <div class="col-md-6" style="display: inline;">
-                         <form class="form-inline" action="/admin" method="GET" >
-                              <div class="form-group col-sm-4">
-                                   <label for="inlineFormInput" class="sr-only">Name</label>
-                                   <input id="inlineFormInput" type="search" name="search" placeholder="Search Product" class="mr-sm-3 form-control">
-                              </div>
-                              <button type="submit" class="submit btn btn-primary ">Search</button>
-                           </form>
+               <h1>Welcome <%= currentUser.firstName %></h1>
+           
+               <hr>
+               <p id="compliment">Compliment Goes Here...</p>
+          </div>
+     </div>
+     <div class="container-fluid">
+          <div class="row">
+               <div class="col-lg-6">
+                    <div class="block margin-bottom-sm">
+                         <h3>Quotes of the Day from Ron Swanson</h3>
+                         <p id="quote">Quote Goes Here...</p>
                     </div>
-                    <div class="col-md-6">
-                         <label class="col-sm-3 form-control-label">View By Type</label>
-                         <form class="form-inline" action="/admin" method="GET" style="display: inline;">
-                              
-                              <select name="search" class="form-control mb-3 mb-3" onchange='if(this.value != 0) { this.form.submit(); }'>
-                                   <option></option>
-                                   <option>Body</option>
-                                   <option>Steering Wheel</option>
-                                   <option>Alarms</option>
-                                   <option>Strut Bars</option>
-                                   <option>Air Intake</option>
-                                   <option>Plate Accessories</option>
-                                   <option>Visor</option>
-                                   <option>Emblem</option>
-                                   <option>Grill</option>
-                                   <option>Bumper</option>
-                                   <option>Adaptor</option>
-                                   <option>Visor</option>
-                              </select>
-                         </form>
+               </div>
+               <div class="col-lg-6">
+                    <div class="block margin-bottom-sm">
+                         <h3>You have <span class="badge dashbg-1 orderCount" style="color: white;"></span> New Orders</h3>
+                         <p>Check them out here <a href="https://capstone-e-commerce-zenakent.c9users.io/admin/orders/newOrders" >New Orders</a></p>
                     </div>
                </div>
           </div>
-            <div class="table-responsive"> 
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Image</th>
-                    <th>Brand</th>
-                    <th>Type</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (prods <= 0) { %>
-                       <tr>
-                         <th>There</th>
-                         <th>are</th>
-                         <th>No</th>
-                         <th>Products</th>
-                         <th>at All</th>
-                       </tr>
-                  <% } else { %>
-                       <% prods.forEach(function(prod) { %>
-                            <tr>
-                                 <th><img src="<%= prod.image %>" height="45" width="45"></img></th>
-                                 <th><%= prod.brand %></th>
-                                 <th><%= prod.type %></th>
-                                 <th><%= prod.name %></th>
-                                 <th><%= prod.price %></th>
-                                 <th><%= prod.quantity %></th>
-                                 <th>
-                                      <a href="/admin/<%= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>
-                                      <!-- Trigger/Open The Modal -->
-                                        <button id="myBtn" class="btn btn-outline-danger" onclick="showModal('myModal-<%= prod._id%>')">Delete</button>
-                                        
-                                        <!-- The Modal -->
-                                        <div id="myModal-<%= prod._id%>" class="modal">
-                                        
-                                          <!-- Modal content -->
-                                          <div class="modal-content">
-                                             <span class="close d-flex justify-content-end ">&times;</span>
-                                             <h2 class="d-flex justify-content-center">Are you sure your want to Delete '<%= prod.name %>'?</h2>
-                                             <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>?_method=DELETE" method="POST" style="display:inline">
-                                                 <input type="submit" value="Delete" class="btn btn-danger" />
-                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                             </form>
-                                          </div>
-                                        </div>
-                                 </th>
-                            </tr>
-                       <% }) %>
-                  <% } %>
-                </tbody>
-                
-              </table>
-            </div>
-          </div>
-        </div>
+     </div>
         
-        <!-- Page Content End -->
+<!-- Page Content End -->
 
 <% include ./partials/footer %>
