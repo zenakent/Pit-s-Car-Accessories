@@ -77,8 +77,7 @@ function showModal(id)
                             
 $(document).ready(function() {
   $.getJSON("/cart/api")
-  .then(addItems)
-  .then(showTotalQty);
+  .then(addItems);
   // .then(function(data) {
   //   console.log(data.cart.items);
   // });
@@ -94,6 +93,9 @@ $(document).ready(function() {
   //   })
   // })
   
+  $.getJSON("/admin/product/api")
+  .then(bestSelling);
+  
 });
 
 function addItems(items) {
@@ -103,10 +105,8 @@ function addItems(items) {
   for ( var id in items.cart.items) {
     arr.push(items.cart.items[id]);
   }
-  console.log(arr)
-  // console.log(arr);
+
   arr.forEach(function(item) {
-    // console.log(item.item._id);
     var newItem = $('<li><a href="/shop-item/' +item.item._id + '"><img src="' + item.item.image + '" width="37" height="34"></a><span class="cart-content-count">x ' + item.qty + '</span><strong><a href="/shop-item/' + item.item._id+ '">' + item.item.name + '</a></strong><em>₱' + item.item.price + '</em><a href="/cart/remove/' + item.item._id + '" class="del-goods">&nbsp;</a></li>')
     // console.log(newItem)
     $('.scroller').append(newItem);
@@ -117,6 +117,6 @@ function addItems(items) {
   $('#totalPrice').text(items.cart.totalPrice)
 }
 
-function showTotalQty(item) {
-  console.log(item)
-}
+
+
+

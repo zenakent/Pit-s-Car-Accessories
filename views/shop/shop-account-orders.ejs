@@ -28,26 +28,33 @@
                   <thead>
                     <tr>
                       <th>Order Status: </th>
-                      <th><% if (product.orderFulfilled === false) { %>
+                      <td><% if (product.orderFulfilled === false) { %>
                         Your order is being processed
                         <% } else { %>
                         Your Order has been Shipped
                         <% } %>
-                      </th>
-                      
+                      </td>
+                      <th>Tracking Number: </th>
+                      <td>
+                        <% if (product.trackingNumber) { %>
+                        <a style="font-size: 20px" href="https://www.lbcexpress.com/track/?tracking_no=<%= product.trackingNumber %>"><%= product.trackingNumber %></a>
+                        <% } else { %>
+                        We'll give post the tracking number once the Item has Shipped
+                        <% } %>
+                      </td>
                       
                     </tr>
                     <tr>
                     <th>Order ID: </th>
-                    <th> <%= product._id %></th>
+                    <td> <%= product._id %></td>
                     <th>Ordred at: </th>
-                    <th> <%= moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></th>
+                    <td> <%= moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></td>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
                     <th>Payment Method</th>
-                    <th>
+                    <td>
                         <% if (product.paymentMethod === 'Remittance') { %>
                             <%= product.paymentMethod %> - <%= product.remitMethod %> 
                             <% if (product.remitMethod == 'Cebuana Pera Padala') { %>
@@ -59,9 +66,9 @@
                             Cash on Delivery - LBC
                         <% } %>
                         
-                      </th>
+                      </td>
                     <th>Deliver to</th>
-                    <th><%= product.fullName %> - <%= product.address %></th>
+                    <td><%= product.fullName %> - <%= product.address %></td>
                   </tr>
                   <tr>
                     <th class="goods-page-image">Image</th>

@@ -107,10 +107,10 @@
                             <span class="close d-flex justify-content-end ">&times;</span>   
                             <h2 style="display: inline;">ARE YOU SURE YOU WANT TO MAKE THIS YOUR DEFAULT ADDRESS?</h2>
                             <input type="submit" value="Yes" class="btn btn-danger" />
-                            <input type="button" value="No" class="btn btn-warning noClose" />
+                            <input type="button" value="No" class="btn btn-warning noClose-<%= address._id %>" />
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <script>
-                                var no = document.getElementsByClassName("noClose")[0];
+                                var no = document.getElementsByClassName("noClose-<%= address._id %>")[0];
                                  no.onclick = function() {
                                    document.getElementById('myModal-<%= address._id%>').style.display = "none";
                                  };

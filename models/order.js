@@ -35,6 +35,7 @@ let orderSchema = new mongoose.Schema({
    },
    fullName: String,
    remitMethod: String,
+   trackingNumber: Number,
    paymentMethod: {
        type: String,
    },

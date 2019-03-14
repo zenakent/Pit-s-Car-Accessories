@@ -46,7 +46,22 @@
             
             <!--=========================================================-->
             
-            
+            <div class="list-inline-item dropdown"><a id="navbarDropdownMenuLink1" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link messages-toggle"><i class="icon-email"></i><span  class="badge dashbg-1 notifcount"></span></a>
+              <div  aria-labelledby="navbarDropdownMenuLink1" class="dropdown-menu messages">
+                <div id="notifList">
+                  <% notifications.forEach(function(notification) { %>
+                    <a href="/admin/notifications/<%= notification._id %>" class="dropdown-item message d-flex align-items-center">
+                    <div class="content">
+                      <img src="<%= notification.prodImage %>" height="45" width="45" style="display: inline">
+                      <strong style="display: inline"><%= notification.prodName %></strong>
+                      <span class="d-block">is running low. Only <%= notification.prodQuantity %> are left</span>
+                      <span>Click here to add more</span>
+                    </div>
+                    </a>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
             <!--=========================================================-->
                      
             
@@ -76,8 +91,8 @@
                 <li id="addItem"><a href="/admin/addItem"> <i class="icon icon-new-file"></i>Add Item</a></li>
                 <li><a id="orderMain" href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Orders<span class="badge dashbg-1 orderCount" style="color: white;"></span></a>
                   <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                    <li id="orders"><a href="/admin/orders/newOrders"> <i class="icon-padnote"></i>New Orders <span  class="badge dashbg-1 orderCount" style="color: white;"></span></a></li>
-                    <li id="ordersOld"><a href="/admin/orders/oldOrders"> <i class="icon-padnote"></i>Old Orders</a></li>
+                    <li id="orders"><a href="/admin/orders/newOrders"> <i class="icon-padnote"></i>Incomplete Orders <span  class="badge dashbg-1 orderCount" style="color: white;"></span></a></li>
+                    <li id="ordersOld"><a href="/admin/orders/oldOrders"> <i class="icon-padnote"></i>Completed Orders</a></li>
                   </ul>
                 </li>
                 

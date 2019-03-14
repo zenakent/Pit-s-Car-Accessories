@@ -45,7 +45,7 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         let cart = new Cart(req.session.cart);
         let user = await User.find({"isAdmin": true}).exec();
         
-        console.log( typeof req.body.chooseAddress);
+        // console.log( typeof req.body.chooseAddress);
         
         var jsonStr = req.body.chooseAddress.replace(/(\w+:)|(\w+ :)/g, function(matchedStr, value, string) {
             return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
@@ -66,52 +66,56 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         
         let order = await Order.create(newOrder);
         
-        console.log(order);
-        // var arr = [];
-        // for (var id in cart.items) {
-        //     arr.push(cart.items[id]);
-        // }
         
-        // arr.forEach(function(quant) {
-        //     Product.findById(quant.item._id, function(err, prod) {
-        //         if (err) {
-        //             console.log(err);
-        //         } else {
-        //             if (prod.quantity < 1) {
-        //                 res.redirect("back");
-        //             } else {
-        //                 prod.quantity = prod.quantity - quant.qty;
-        //                 prod.save();
-        //             }
-        //         }
-        //     });
-        // });
+        var arr = [];
+        for (var id in cart.items) {
+            arr.push(cart.items[id]);
+        }
         
-        // let newNotification = {
-        //     name: req.user.firstName,
-        //     orderId: order._id,
-        // };
-        
-        // let notification = await Notification.create(newNotification);
-        
-        // user.forEach(function(admin) {
-        //     admin.notifications.push(notification);
-        //     admin.save();
-        // });
-        
-        
-        // //pusher talk
-        // let Pusher = require('pusher');
-        // let pusher = new Pusher({
-        //     appId: process.env.PUSHER_APP_ID,
-        //     key: process.env.PUSHER_APP_KEY,
-        //     secret: process.env.PUSHER_APP_SECRET,
-        //     cluster: process.env.PUSHER_APP_CLUSTER
-        // });
-
-        // pusher.trigger('notifications', 'post_updated', notification, req.headers['x-socket-id']);
-        
-        
+        arr.forEach(function(quant) {
+            Product.findById(quant.item._id, async function(err, prod) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (prod.quantity < 1) {
+                        res.redirect("back");
+                    } else {
+                        prod.quantity = prod.quantity - quant.qty;
+                        prod.totalSold = prod.totalSold + 1;
+                        prod.save();
+                        
+                        if (prod.quantity <= 10) {
+                            let newNotification = {
+                                prodQuantity: prod.quantity,
+                                prodName: prod.name,
+                                prodId: prod._id,
+                                prodImage: prod.image,
+                                
+                            }
+                            
+                            console.log(newNotification);
+                            let notification = await Notification.create(newNotification);
+                            
+                            user.forEach(function(admin) {
+                                admin.notifications.push(notification);
+                                admin.save();
+                            });
+                            
+                            //pusher talk
+                            let Pusher = require('pusher');
+                            let pusher = new Pusher({
+                                appId: process.env.PUSHER_APP_ID,
+                                key: process.env.PUSHER_APP_KEY,
+                                secret: process.env.PUSHER_APP_SECRET,
+                                cluster: process.env.PUSHER_APP_CLUSTER
+                            });
+                    
+                            pusher.trigger('notifications', 'post_updated', notification, req.headers['x-socket-id']);
+                        }
+                    }
+                }
+            });
+        });
         
         req.session.cart = null;
         req.user.cart = {};

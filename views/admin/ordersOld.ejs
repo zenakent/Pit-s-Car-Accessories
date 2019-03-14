@@ -27,7 +27,7 @@
                   <% orders.forEach(function(order) { %>
                         
                             <tr>
-                                 <th><a href="/admin/orders/<%= order._id %>"><%= order.firstName %> <%= order.lastName %> </a></th>
+                                 <th><a href="/admin/orders/<%= order._id %>"><%= order.fullName %></a></th>
                                  <th><%= order._id %></th>
                                  <th><%=  moment(order.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></th>
                                  <th><%= order.contactNumber %></th>

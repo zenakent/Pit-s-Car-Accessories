@@ -5,13 +5,13 @@
           <div class="block margin-bottom-sm">
           <div class="title" ><strong>Product List</strong>
                <div class="row">
-                    <div class="col-md-6" style="display: inline;">
+                    <div class="col-md-6" >
                          <form class="form-inline" action="/admin/productList" method="GET" >
-                              <div class="form-group col-sm-4">
+                              <div class="form-group ">
                                    <label for="inlineFormInput" class="sr-only">Name</label>
                                    <input id="inlineFormInput" type="search" name="search" placeholder="Search Brand, Name, Type" class="mr-sm-3 form-control">
                               </div>
-                              <button type="submit" class="submit btn btn-primary ">Search</button>
+                              <button style="margin-left: 1em;"type="submit" class="submit btn btn-primary ">Search</button>
                            </form>
                     </div>
                     <div class="col-md-6">
@@ -42,9 +42,9 @@
                 <thead>
                   <tr>
                     <th>Image</th>
+                    <th>Product Name</th>
                     <th>Brand</th>
                     <th>Type</th>
-                    <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                   </tr>
@@ -62,29 +62,71 @@
                        <% prods.forEach(function(prod) { %>
                             <tr>
                                  <th><img src="<%= prod.image %>" height="45" width="45"></img></th>
-                                 <th><%= prod.brand %></th>
-                                 <th><%= prod.type %></th>
-                                 <th><%= prod.name %></th>
-                                 <th><%= prod.price %></th>
-                                 <th><%= prod.quantity %></th>
+                                 <th><a href="/admin/<%= prod._id %>/edit"><%= prod.name %></a></th>
+                                 <td><%= prod.brand %></td>
+                                 <td><%= prod.type %></td>
+                                 <td><%= prod.price %></td>
+                                 <td><%= prod.quantity %></td>
+                                 <!--<th>-->
+                                 <!--    <button id="myBtn" class="btn btn-outline-info" onclick="showModal('myModal-add-<%= prod._id%>')">Add</button>-->
+                                     
+                                 <!--    <div id="myModal-add-<%= prod._id%>" class="modal">-->
+                                        
+                                           <!--Modal content -->
+                                 <!--         <div class="modal-content">-->
+                                 <!--            <span class="close d-flex justify-content-end ">&times;</span>-->
+                                 <!--            <h2 class="d-flex justify-content-center">How many would you like to add to '<%= prod.name %>'?</h2>-->
+                                 <!--            <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>/addQuantity" method="POST" style="display:inline">-->
+                                 <!--                <div class="form-group">-->
+                                 <!--                   <input type="number" class="form-control" name="addQuantity" placeholder="Put Number Here" required>-->
+                                 <!--                </div>-->
+                                 <!--                <div class="form-group" style="margin-left: 1em;">-->
+                                 <!--                   <input type="submit" value="Submit" class="btn btn-primary">-->
+                                 <!--                </div>-->
+                                 <!--                <input type="hidden" name="_csrf" value="<%= csrfToken %>">-->
+                                 <!--            </form>-->
+                                 <!--         </div>-->
+                                 <!--       </div>-->
+                                 <!--</th>-->
+                                 <!--<th>-->
+                                 <!--    <button id="myBtn" class="btn btn-outline-secondary" onclick="showModal('myModal-subtract-<%= prod._id%>')">Subtract</button>-->
+                                     
+                                 <!--    <div id="myModal-subtract-<%= prod._id%>" class="modal">-->
+                                        
+                                           <!--Modal content -->
+                                 <!--         <div class="modal-content">-->
+                                 <!--            <span class="close d-flex justify-content-end ">&times;</span>-->
+                                 <!--            <h2 class="d-flex justify-content-center">How many would you like to subtract to '<%= prod.name %>'?</h2>-->
+                                 <!--            <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>/subtractQuantity" method="POST" style="display:inline">-->
+                                 <!--                <div class="form-group">-->
+                                 <!--                   <input type="number" class="form-control" name="subtractQuantity" placeholder="Put Number Here" required>-->
+                                 <!--                </div>-->
+                                 <!--                <div class="form-group" style="margin-left: 1em;">-->
+                                 <!--                   <input type="submit" value="Submit" class="btn btn-primary">-->
+                                 <!--                </div>-->
+                                 <!--                <input type="hidden" name="_csrf" value="<%= csrfToken %>">-->
+                                 <!--            </form>-->
+                                 <!--         </div>-->
+                                 <!--       </div>-->
+                                 <!--</th>-->
                                  <th>
-                                      <a href="/admin/<%= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>
+                                      <!--<a href="/admin/<%= prod._id %>/edit" class="btn btn-outline-warning">Edit</a>-->
                                       <!-- Trigger/Open The Modal -->
-                                        <button id="myBtn" class="btn btn-outline-danger" onclick="showModal('myModal-<%= prod._id%>')">Delete</button>
+                                      <!--  <button id="myBtn" class="btn btn-outline-danger" onclick="showModal('myModal-<%= prod._id%>')">Delete</button>-->
                                         
                                         <!-- The Modal -->
-                                        <div id="myModal-<%= prod._id%>" class="modal">
+                                        <!--<div id="myModal-<%= prod._id%>" class="modal">-->
                                         
-                                          <!-- Modal content -->
-                                          <div class="modal-content">
-                                             <span class="close d-flex justify-content-end ">&times;</span>
-                                             <h2 class="d-flex justify-content-center">Are you sure your want to Delete '<%= prod.name %>'?</h2>
-                                             <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>?_method=DELETE" method="POST" style="display:inline">
-                                                 <input type="submit" value="Delete" class="btn btn-danger" />
-                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                             </form>
-                                          </div>
-                                        </div>
+                                        <!--   Modal content -->
+                                        <!--  <div class="modal-content">-->
+                                        <!--     <span class="close d-flex justify-content-end ">&times;</span>-->
+                                        <!--     <h2 class="d-flex justify-content-center">Are you sure your want to Delete '<%= prod.name %>'?</h2>-->
+                                        <!--     <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>?_method=DELETE" method="POST" style="display:inline">-->
+                                        <!--         <input type="submit" value="Delete" class="btn btn-danger" />-->
+                                        <!--         <input type="hidden" name="_csrf" value="<%= csrfToken %>">-->
+                                        <!--     </form>-->
+                                        <!--  </div>-->
+                                        <!--</div>-->
                                  </th>
                             </tr>
                        <% }) %>
@@ -101,4 +143,14 @@
   document.getElementById("home").classList.remove('active');
   document.getElementById("product").classList.add('active');
 </script>
+
+<button type="button" class="btn btn-primary">Primary</button>
+<button type="button" class="btn btn-secondary">Secondary</button>
+<button type="button" class="btn btn-success">Success</button>
+<button type="button" class="btn btn-danger">Danger</button>
+<button type="button" class="btn btn-warning">Warning</button>
+<button type="button" class="btn btn-info">Info</button>
+<button type="button" class="btn btn-light">Light</button>
+<button type="button" class="btn btn-dark">Dark</button>
+
 <% include ./partials/footer %>

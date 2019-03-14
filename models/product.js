@@ -12,6 +12,10 @@ let productSchema = new mongoose.Schema({
     quantity: Number,
     price: Number,
     description: String,
+    totalSold: {
+        type: Number,
+        default: 0,
+    },
     type: String,
     reviews: [
         {

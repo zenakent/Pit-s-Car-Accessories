@@ -816,7 +816,7 @@ nav#sidebar li a:hover i {
 }
 
 nav#sidebar li a i {
-  margin-right: 20px;
+  margin-right: 10px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   padding-right: 20px;

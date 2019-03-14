@@ -18,7 +18,7 @@
            </thead>
            <tbody>
                <tr>
-                 <th><%= foundOrder.firstName %> <%= foundOrder.lastName %></th>
+                 <th><%= foundOrder.fullName %></th>
                  <th><%= foundOrder.address %></th>
                  <th><%= foundOrder.contactNumber %></th>
                  <th><%= foundOrder.paymentMethod %></th>
@@ -60,13 +60,35 @@
            </tbody>
          </table>
        </div>
-       <div class="row justify-content-end">
-           <h4><strong>Total Price: </strong> <%= foundOrder.cart.totalPrice %></h4>
-           <% if (foundOrder.orderFulfilled == false) { %>
-               <a style="margin-left: 50px; margin-right: 10px;"href="/admin/orders/update/<%= foundOrder.id %>" class="btn btn-primary"> Complete Order</a>
-           <% } %>
-           
+       <div class="row justify-content-center">
+           <div class="row"><h4><strong>Total Price: </strong> <%= foundOrder.cart.totalPrice %></h4></div>
        </div>
+       <% if (foundOrder.orderFulfilled == false) { %>
+       <div class="row justify-content-center mb-3 mt-2"><span>Enter Tracking/Shipping number to Complete Order</span></div>
+       <% } else { %>
+       <div class="row justify-content-center mb-3 mt-2"><span>This Order has been Completed</span></div>
+       <% } %>
+       
+       <div class="row justify-content-center">
+           <% if (foundOrder.orderFulfilled == false) { %>
+               
+                
+                <form class="form-inline" action="/admin/orders/update/<%= foundOrder.id %>" method="POST">
+                    
+                    <div class="form-group">
+                        
+                        <label for="inlineFormInputGroup" class="sr-only">Tracking/Shipping Number</label>
+                        <input id="inlineFormInputGroup" type="text" placeholder="Tracking/Shipping Number" name="trackingNumber"class="mr-sm-3 form-control form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Complete Order" class="btn btn-primary">
+                    </div>
+                    <!--<a style="margin-left: 50px; margin-right: 10px;"href="/admin/orders/update/<%= foundOrder.id %>" class="btn btn-primary"> Complete Order</a>-->
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+               </form>
+               
+           <% } %>
+           </div>
      </div>
 </div>
 

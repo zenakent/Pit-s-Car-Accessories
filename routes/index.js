@@ -81,7 +81,7 @@ router.post("/", middleware.isLoggedIn, middleware.isAdmin, upload.single('image
     });
 });
 
-//admin edit route
+//admin product list edit show route
 router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
     Product.findById(req.params.id, function(err, foundProduct) {
         if (err) {
@@ -93,7 +93,7 @@ router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, function(req,
     });
 });
 
-//admin update route
+//admin product list update route
 router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('image'), function(req, res) {
     Product.findById(req.params.id, async function(err, prod) {
         if (err) {
@@ -111,6 +111,7 @@ router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('im
                 }
             }
             
+            console.log(req.body)
             prod.name = req.body.name;
             prod.price = req.body.price;
             prod.quantity = req.body.quantity;
@@ -147,6 +148,39 @@ router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, r
            }
        }
    });
+});
+
+//admin product add quantity
+router.post("/:id/addQuantity", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+   Product.findById(req.params.id, function(err, prod) {
+       if (err) {
+           console.log(err);
+       } else {
+            prod.quantity = prod.quantity + parseInt(req.body.addQuantity);
+            prod.save()
+            req.flash("success", "Quantity has been added");
+            res.redirect("/admin/productList");
+       }
+   }); 
+});
+
+//admin product subtract quantity
+router.post("/:id/subtractQuantity", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+   Product.findById(req.params.id, function(err, prod) {
+       if (err) {
+           console.log(err);
+       } else {
+            prod.quantity = prod.quantity - parseInt(req.body.subtractQuantity);
+            
+            if (prod.quantity < 0) {
+                req.flash("error", "Quantity cannot be negative number");
+                res.redirect("/admin/productList");
+            }
+            prod.save()
+            req.flash("success", "Quantity has been subtracted");
+            res.redirect("/admin/productList");
+       }
+   }); 
 });
 
 //=============================
@@ -216,12 +250,12 @@ router.get("/orders/:id", middleware.isLoggedIn, middleware.isAdmin, function(re
             console.log(err);
         } else {
             // console.log(foundOrder);
-            res.render("admin/orderPage", {foundOrder: foundOrder});
+            res.render("admin/orderPage", {foundOrder: foundOrder, csrfToken: req.csrfToken()});
         }
     });
 });
 
-router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
+router.post("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, function(req, res) {
   Order.findById(req.params.id, function(err, foundOrder) {
       if (err) {
           console.log(err);
@@ -229,6 +263,7 @@ router.get("/orders/update/:id", middleware.isLoggedIn, middleware.isAdmin, func
       } else {
          //find the notification partnered with the order and set the isRead to true !?!?!?
         
+        foundOrder.trackingNumber = req.body.trackingNumber
         foundOrder.orderFulfilled = true;
         foundOrder.save();
         //   console.log(foundOrder);
@@ -247,7 +282,7 @@ router.get("/notifications/:id", middleware.isLoggedIn, middleware.isAdmin, asyn
         let notification = await Notification.findById(req.params.id);
         notification.isRead = true;
         notification.save();
-        res.redirect("/admin/orders/" + notification.orderId);
+        res.redirect("/admin/" + notification.prodId + "/edit");
     } catch(err) {
         console.log(err);
         res.redirect("back");
@@ -422,8 +457,6 @@ router.get("/productList", middleware.isLoggedIn, middleware.isAdmin, function(r
     if (req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         Product.find().or([{name: regex}, {brand: regex}, {type: regex}]).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, prods) {
-            console.log(prods)
-            
            Product.countDocuments({name: regex}).exec(function(err, count) {
               if (err) {
                   console.log(err);
@@ -445,13 +478,32 @@ router.get("/productList", middleware.isLoggedIn, middleware.isAdmin, function(r
                    console.log(err);
                } else {
                    req.flash("error", noMatch);
-                   console.log(prods)
+                   
                    res.render("admin/productList", {prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), "error": noMatch, search: false, csrfToken: req.csrfToken()});
                }
            }) ;
         });
     }
 })
+
+
+
+//===================================
+// API's
+//===================================
+
+//product API
+router.get("/product/api", function(req, res) {
+    Product.find({}, function(err, prod) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(prod);
+        }
+    })
+    
+    
+});
 
 
 //function for protection from regex attacks

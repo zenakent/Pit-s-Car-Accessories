@@ -9,39 +9,52 @@
           <form action="/admin/<%= prod._id %>?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
            <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Product Name</label>
-              <div class="col-sm-9">
-              <input type="text" class="form-control" name="name" value="<%= prod.name %>" required>
+              <label class="col-sm-2 form-control-label">Product Name</label>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" name="name" value="<%= prod.name %>" required disabled>
+              </div>
+              <label class="col-sm-1 form-control-label">Product Total Sold</label>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" name="totalSold" value="<%= prod.totalSold %>" required disabled>
               </div>
             </div>
             <div class="form-group row">
-              <label for="image" class="col-sm-3 form-control-label">Product Image</label>
+              
+            </div>
+            <div class="form-group row">
+              <label for="image" class="col-sm-2 form-control-label">Product Image</label>
               <div class="col-sm-9">
               <input type="file" id="image" name="image" accept="image/*" >
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Product Price</label>
+              <label class="col-sm-2 form-control-label">Product Price</label>
               <div class="col-sm-3">
               <input type="text" class="form-control" name="price" value="<%= prod.price %>" required>
               </div>
               <label class="col-sm-1 form-control-label">Product Quantity</label>
+              <div class="col-sm-1">
+              <input type="text" class="form-control" name="quantity" value="<%= prod.quantity %>" required disabled>
+              </div>
+              <div class="col-sm-1" >
+                <a href="#" id="myBtn" class="btn btn-outline-info" onclick="showModal('myModal-add-<%= prod._id%>')">Add</a>
+              </div>
               <div class="col-sm-2">
-              <input type="text" class="form-control" name="quantity" value="<%= prod.quantity %>" required>
+                <a href="#" id="myBtn" class="btn btn-outline-light" onclick="showModal('myModal-subtract-<%= prod._id%>')">Subtract</a>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Product Brand</label>
+              <label class="col-sm-2 form-control-label">Product Brand</label>
               <div class="col-sm-3">
-              <input type="text" class="form-control" name="brand" value="<%= prod.brand %>"  required>
+              <input type="text" class="form-control" name="brand" value="<%= prod.brand %>"  required disabled>
               </div>
               <label class="col-sm-1 form-control-label">Product type</label>
               <div class="col-sm-2">
-              <input type="text" class="form-control" name="type" placeholder="Types of produces. i.e Wheels, Lights, Steering Wheels..." value="<%= prod.type %>" required>
+              <input type="text" class="form-control" name="type" placeholder="Types of produces. i.e Wheels, Lights, Steering Wheels..." value="<%= prod.type %>" required disabled>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Product Description</label>
+              <label class="col-sm-2 form-control-label">Product Description</label>
               <div class="col-sm-9">
               <textarea cols="30" rows="10" class="form-control" name="description" required> <%= prod.description%> </textarea>
               </div>
@@ -60,4 +73,45 @@
   </div>
 </section>
 
+
+
+
+<!--Modal for add-->
+<div id="myModal-add-<%= prod._id%>" class="modal">
+                  
+  <!--Modal content -->
+  <div class="modal-content">
+    <span class="close d-flex justify-content-end ">&times;</span>
+    <h2 class="d-flex justify-content-center">How many would you like to add to '<%= prod.name %>'?</h2>
+    <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>/addQuantity" method="POST" style="display:inline">
+      <div class="form-group">
+        <input type="number" class="form-control" name="addQuantity" placeholder="Put Number Here" required>
+      </div>
+      <div class="form-group" style="margin-left: 1em;">
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </form>
+  </div>
+</div>
+
+<!--modal for subtract-->
+
+<div id="myModal-subtract-<%= prod._id%>" class="modal">
+                
+  <!--Modal content -->
+  <div class="modal-content">
+    <span class="close d-flex justify-content-end ">&times;</span>
+    <h2 class="d-flex justify-content-center">How many would you like to subtract to '<%= prod.name %>'?</h2>
+    <form class="d-flex justify-content-center" action="/admin/<%= prod._id %>/subtractQuantity" method="POST" style="display:inline">
+      <div class="form-group">
+        <input type="number" class="form-control" name="subtractQuantity" placeholder="Put Number Here" required>
+      </div>
+      <div class="form-group" style="margin-left: 1em;">
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </div>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    </form>
+  </div>
+</div>
 <% include ./partials/footer %>
