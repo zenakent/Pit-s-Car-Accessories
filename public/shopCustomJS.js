@@ -93,9 +93,6 @@ $(document).ready(function() {
   //   })
   // })
   
-  $.getJSON("/admin/product/api")
-  .then(bestSelling);
-  
 });
 
 function addItems(items) {
