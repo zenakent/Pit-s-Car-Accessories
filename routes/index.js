@@ -111,7 +111,6 @@ router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('im
                 }
             }
             
-            console.log(req.body)
             prod.name = req.body.name;
             prod.price = req.body.price;
             prod.quantity = req.body.quantity;
@@ -486,7 +485,10 @@ router.get("/productList", middleware.isLoggedIn, middleware.isAdmin, function(r
     }
 })
 
-
+//charts reports
+router.get("/charts", function(req, res) {
+    res.render("admin/charts");
+})
 
 //===================================
 // API's

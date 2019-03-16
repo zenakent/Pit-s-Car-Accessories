@@ -23,10 +23,12 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var facebookAuth = require("./config/facebook.js")
 
 //routes example var reviewRoutes = require("./routes/reviews");
+let salesRoutes = require("./routes/sales");
 let indexRoutes = require("./routes/index");
 let shopRoutes = require("./routes/shop");
 let cartRoutes = require("./routes/cart");
 let checkoutRoutes = require("./routes/checkout");
+
 // let reviewRoutes = require("./routes/review");
 
 //========================================
@@ -169,6 +171,7 @@ ROUTES
 =====================*/
 
 app.use("/", shopRoutes);
+app.use("/sales", salesRoutes);
 app.use("/admin", indexRoutes);
 app.use("/cart", cartRoutes);
 app.use("/checkout", checkoutRoutes);
@@ -180,3 +183,4 @@ app.use("/checkout", checkoutRoutes);
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("E-Commerce App server has started");
 })
+
