@@ -39,7 +39,6 @@ router.get("/", middleware.isLoggedIn, function(req, res) {
 
 
 router.post("/", middleware.isLoggedIn, async function(req, res) {
-    
     try {
             if (!req.session.cart) {
             return res.redirect("/cart");
@@ -48,14 +47,10 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
         let cart = new Cart(req.session.cart);
         let user = await User.find({"isAdmin": true}).exec();
         
-        // console.log( typeof req.body.chooseAddress);
-        
         var jsonStr = req.body.chooseAddress.replace(/(\w+:)|(\w+ :)/g, function(matchedStr, value, string) {
             return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
         });
         var shippidingAddress = JSON.parse(jsonStr);
-        
-        // console.log(shippidingAddress)
         
         let newOrder = ({
             user: req.user,
@@ -67,7 +62,7 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
             remitMethod: req.body.remitMethod,
         });
         
-        // let order = await Order.create(newOrder);
+        let order = await Order.create(newOrder);
         
         
         var arr = [];

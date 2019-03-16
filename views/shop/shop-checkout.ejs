@@ -84,12 +84,16 @@
                              <tr>
                                <td>
                                  <input type="button" value="Done" class="btn btn-warning chooseAddressClose" />
+                                 
                                  <script>
                                    var chooseAddress = document.getElementsByClassName("chooseAddressClose")[0];
                                    chooseAddress.onclick = function() {
                                      document.getElementById('myModal-chooseAddress').style.display = "none";
                                    };
                                  </script>
+                               </td>
+                               <td>
+                                 <a href="#" id="myBtn" onclick="showModal('myModal-addAddress')" class="btn btn-primary" style="color: white">Add an address</a>
                                </td>
                              </tr>
                            </table>
@@ -210,6 +214,64 @@
 
 
 
+            
+<!-- The Modal -->
+<div id="myModal-addAddress" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+
+    <div class="container d-flex justify-content-center">
+      <!--BEGIN CONTENT -->
+      <div class="col-md-9 col-sm-7">
+        <div class="content-form-page pt-4">
+          <h1>Add New Shippping Address</h1>
+          <hr>
+          <form role="form" class="form-horizontal form-without-legend" action="/shippidingAddress/<%= currentUser._id%>?_csrf=<%= csrfToken %>" method="post">
+            <h1 style="color: red;">
+              <%= error %>
+                <%= success %>
+            </h1>
+            <div class="form-group">
+              <label class="col-lg-2 control-label" for="fullName">Full Name <span class="require">*</span></span></label>
+              <div class="col-lg-8">
+                <input type="text" class="form-control" name="fullName" placeholder="Full Name" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label" for="contactNumber">Contact Number <span class="require">*</span></span></label>
+              <div class="col-lg-8">
+                <input type="text" class="form-control" name="contactNumber" placeholder="Mobile/Phone Number" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label" for="address">Address<span class="require">*</span></span></label>
+              <div class="col-lg-8">
+
+                <textarea class="form-control" rows="6" name="address" placeholder="Type your address here" required></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <input type="button" value="Close" class="btn btn-warning addressClose" />
+                <script>
+                  var addressClose = document.getElementsByClassName("addressClose")[0];
+                  addressClose.onclick = function() {
+                    document.getElementById('myModal-addAddress').style.display = "none";
+                  };
+                </script>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <!--END CONTENT -->
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
 
 
 <% include ./partials/footer %>
