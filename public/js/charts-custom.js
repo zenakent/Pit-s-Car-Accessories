@@ -155,12 +155,20 @@ function weeklyChart(weeklySales) {
                     display: true,
                     gridLines: {
                         color: 'transparent'
+                    },
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Days'
                     }
                 }],
                 yAxes: [{
                     display: true,
                     gridLines: {
                         color: 'transparent'
+                    },
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Total Sales'
                     }
                 }]
             },
@@ -220,12 +228,20 @@ function monthlyChart(month) {
                     display: true,
                     gridLines: {
                         color: 'transparent'
+                    },
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Months'
                     }
                 }],
                 yAxes: [{
                     display: true,
                     gridLines: {
                         color: 'transparent'
+                    },
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Total Sales'
                     }
                 }]
             },

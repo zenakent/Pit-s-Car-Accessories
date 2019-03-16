@@ -84,13 +84,13 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
                         res.redirect("back");
                     } else {
                         
-                        // prod.quantity = prod.quantity - quant.qty;
-                        // prod.totalSold = prod.totalSold + 1;
-                        // prod.save();
+                        prod.quantity = prod.quantity - quant.qty;
+                        prod.totalSold = prod.totalSold + 1;
+                        prod.save();
                         
-                        // let addSales = ({
-                        //     dailySales: prod.price,
-                        // })
+                        let addSales = ({
+                            dailySales: prod.price,
+                        })
                         
                         DaySales.findOne().sort({_id: -1}).limit(1).exec(function(err, day) {
                             if (err) {
@@ -221,8 +221,8 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
             });
         });
         
-        // req.session.cart = null;
-        // req.user.cart = {};
+        req.session.cart = null;
+        req.user.cart = {};
         req.flash('success', 'Your Cart has been succesfully ORDERED');
         res.redirect("/profile/" + req.user._id + "/orders");
         
