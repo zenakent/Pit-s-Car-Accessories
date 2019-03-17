@@ -100,8 +100,6 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
                                         console.log(err);
                                     } else {
                                         var today = new Date()
-                                        console.log(foundWeek);
-                                        console.log(foundWeek[0])
                                        
                                         //switch case for sales week
                                         
@@ -192,7 +190,7 @@ router.post("/", middleware.isLoggedIn, async function(req, res) {
                                 prodImage: prod.image,
                             };
                             
-                            console.log(newNotification);
+                            
                             let notification = await Notification.create(newNotification);
                             
                             user.forEach(function(admin) {

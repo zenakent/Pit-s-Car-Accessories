@@ -66,7 +66,7 @@ app.use(require("express-session")({
         }
     ), // stores session in db,
     cookie: {
-        maxAge: 180 * 60 * 10000,
+        maxAge: 180 * 60 * 1000,
         cookieconsent_status: {type: Boolean, default: false}
         } //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
 }));

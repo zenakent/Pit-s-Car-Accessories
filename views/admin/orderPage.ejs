@@ -12,6 +12,9 @@
                <th>Address</th>
                <th>Contact Number</th>
                <th>Payment Method</th>
+               <% if (foundOrder.paymentMethod == 'Remittance') { %>
+                   <th>Remit Method</th>
+               <% } %>
                <th>Order ID</th>
                <th>Order At</th>
              </tr>
@@ -22,6 +25,9 @@
                  <th><%= foundOrder.address %></th>
                  <th><%= foundOrder.contactNumber %></th>
                  <th><%= foundOrder.paymentMethod %></th>
+                 <% if (foundOrder.paymentMethod == 'Remittance') { %>
+                     <th><%= foundOrder.remitMethod %></th>
+                 <% } %>
                  <th><%= foundOrder._id %></th>
                  <th><%=  moment(foundOrder.createdAt).format('MMMM Do YYYY, h:mm:ss a'); %></th>
             </tr>

@@ -111,11 +111,11 @@ router.post("/:id", middleware.isLoggedIn, middleware.isAdmin, upload.single('im
                 }
             }
             
-            prod.name = req.body.name;
+            // prod.name = req.body.name;
             prod.price = req.body.price;
-            prod.quantity = req.body.quantity;
-            prod.brand = req.body.brand;
-            prod.type = req.body.type;
+            // prod.quantity = req.body.quantity;
+            // prod.brand = req.body.brand;
+            // prod.type = req.body.type;
             prod.description = req.body.description;
             
             prod.save();
@@ -158,7 +158,7 @@ router.post("/:id/addQuantity", middleware.isLoggedIn, middleware.isAdmin, funct
             prod.quantity = prod.quantity + parseInt(req.body.addQuantity);
             prod.save()
             req.flash("success", "Quantity has been added");
-            res.redirect("/admin/productList");
+            res.redirect("back");
        }
    }); 
 });
@@ -177,7 +177,7 @@ router.post("/:id/subtractQuantity", middleware.isLoggedIn, middleware.isAdmin, 
             }
             prod.save()
             req.flash("success", "Quantity has been subtracted");
-            res.redirect("/admin/productList");
+            res.redirect("back");
        }
    }); 
 });
