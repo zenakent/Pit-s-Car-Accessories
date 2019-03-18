@@ -37,9 +37,9 @@ mongoose.set("useFindAndModify", false);
 // require('./config/passport');
 // mongodb://maui:a12345@ds123783.mlab.com:23783/library //used to connect to onlineDB
 // mongoose.connect("mongodb://maui:a12345@ds123783.mlab.com:23783/library", { useNewUrlParser: true });
-mongoose.connect('mongodb+srv://pit:pit1@cluster0-hrlea.mongodb.net/test?retryWrites=true', {dbName: 'ecommerce', useNewUrlParser: true}); // this is how you connect to mongodb atlas
+mongoose.connect('mongodb+srv://pit:pit1@cluster0-hrlea.mongodb.net/test?retryWrites=true', { dbName: 'ecommerce', useNewUrlParser: true }); // this is how you connect to mongodb atlas
 // mongodb+srv://pit:<PASSWORD>@cluster0-hrlea.mongodb.net/test?retryWrites=true
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -59,65 +59,65 @@ app.use(require("express-session")({
     secret: "Hello There",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore(
-        { 
-            mongooseConnection: mongoose.connection, 
-            touchAfter: 24 * 3600, //24 hours
-        }
-    ), // stores session in db,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection,
+        touchAfter: 24 * 3600, //24 hours
+    }), // stores session in db,
     cookie: {
         maxAge: 180 * 60 * 1000,
-        cookieconsent_status: {type: Boolean, default: false}
-        } //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
+        cookieconsent_status: { type: Boolean, default: false }
+    } //maxAge sets cookie/session expires in 3 hours (mins * hours * milliseconds)
 }));
 
 
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new FacebookStrategy({
-    clientID: facebookAuth.facebookAuth.clientID,
-    clientSecret: facebookAuth.facebookAuth.clientSecret,
-    callbackURL: facebookAuth.facebookAuth.callbackURL,
-    // passReqToCallback : true,
-    profileFields: ['emails', 'address', 'displayName', 'name'] //This
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // User.findOrCreate(..., function(err, user) {
-    //   if (err) { return done(err); }
-    //   done(null, user);
-    // });
-    process.nextTick(function() {
-        User.findOne({'facebook.id': profile.id}, function(err, user) {
-            // console.log(user);
-            if (err) {
-                return done(err);
-            }
-            if (user) {
-                return done(null, user);
-            } else {
-               
-                var newUser = new User();
-                
-                // console.log(newUser);
-                newUser.email = profile.emails[0].value;
-                newUser.firstName = profile.name.givenName;
-                newUser.lastName = profile.name.familyName;
-                newUser.facebook.id = profile.id;
-                newUser.facebook.token = accessToken;
-                newUser.facebook.firstName = profile.name.givenName;
-                newUser.facebook.lastName = profile.name.familyName;
-                newUser.facebook.email = profile.emails[0].value;
-                
-                newUser.save(function(err) {
-                    if(err) {
-                        console.log(err);
-                    }
-                    done(null, newUser);
-                });
-            }
+        clientID: facebookAuth.facebookAuth.clientID,
+        clientSecret: facebookAuth.facebookAuth.clientSecret,
+        callbackURL: facebookAuth.facebookAuth.callbackURL,
+        callbackURL2: facebookAuth.facebookAuth.callbackURL2,
+        // passReqToCallback : true,
+        profileFields: ['emails', 'address', 'displayName', 'name'] //This
+    },
+    function(accessToken, refreshToken, profile, done) {
+        // User.findOrCreate(..., function(err, user) {
+        //   if (err) { return done(err); }
+        //   done(null, user);
+        // });
+        process.nextTick(function() {
+            User.findOne({ 'facebook.id': profile.id }, function(err, user) {
+                // console.log(user);
+                if (err) {
+                    return done(err);
+                }
+                if (user) {
+                    return done(null, user);
+                }
+                else {
+
+                    var newUser = new User();
+
+                    // console.log(newUser);
+                    newUser.email = profile.emails[0].value;
+                    newUser.firstName = profile.name.givenName;
+                    newUser.lastName = profile.name.familyName;
+                    newUser.facebook.id = profile.id;
+                    newUser.facebook.token = accessToken;
+                    newUser.facebook.firstName = profile.name.givenName;
+                    newUser.facebook.lastName = profile.name.familyName;
+                    newUser.facebook.email = profile.emails[0].value;
+
+                    newUser.save(function(err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        done(null, newUser);
+                    });
+                }
+            });
         });
-    });
-  }
+    }
 ));
 
 passport.use(User.createStrategy());
@@ -126,42 +126,43 @@ passport.use(User.createStrategy());
 // passport.deserializeUser(User.deserializeUser());
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
 });
-    
+
 app.use(async function(req, res, next) {
     res.locals.session = req.session;
     res.locals.currentUser = req.user;
-    
-    
+
+
     if (req.user) {
         if (req.user.isAdmin == true) {
             try {
-                let user = await User.find({"isAdmin": true}).populate('notifications', null, {isRead: false}).exec();
+                let user = await User.find({ "isAdmin": true }).populate('notifications', null, { isRead: false }).exec();
                 // console.log(user);
-                
+
                 user.forEach(function(admin) {
                     res.locals.notifications = admin.notifications;
                 });
-                
-                let order = await Order.find({"orderFulfilled": false});
+
+                let order = await Order.find({ "orderFulfilled": false });
                 res.locals.ordersAll = order;
-                
-            } catch(err) {
+
+            }
+            catch (err) {
                 console.log(err);
             }
         }
     }
-    
-   res.locals.error = req.flash("error");
-   res.locals.success = req.flash("success");
-    
+
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+
     next();
 });
 
@@ -183,4 +184,3 @@ app.use("/checkout", checkoutRoutes);
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("E-Commerce App server has started");
 })
-
