@@ -1,103 +1,140 @@
 <% include ./partials/header %>
 
-<!-- Page Content Start -->
-<div class="col-lg-12">
-     <div class="block margin-bottom-sm">
-       <div class="title"><strong>Order Page</strong></div>
-       <div class="table-responsive"> 
-         <table class="table table-striped">
-           <thead>
-             <tr>
-               <th>Deliver To</th>
-               <th>Address</th>
-               <th>Contact Number</th>
-               <th>Payment Method</th>
-               <% if (foundOrder.paymentMethod == 'Remittance') { %>
-                   <th>Remit Method</th>
-               <% } %>
-               <th>Order ID</th>
-               <th>Order At</th>
-             </tr>
-           </thead>
-           <tbody>
-               <tr>
-                 <th><%= foundOrder.fullName %></th>
-                 <th><%= foundOrder.address %></th>
-                 <th><%= foundOrder.contactNumber %></th>
-                 <th><%= foundOrder.paymentMethod %></th>
-                 <% if (foundOrder.paymentMethod == 'Remittance') { %>
-                     <th><%= foundOrder.remitMethod %></th>
-                 <% } %>
-                 <th><%= foundOrder._id %></th>
-                 <th><%=  moment(foundOrder.createdAt).format('MMMM Do YYYY, h:mm:ss a'); %></th>
-            </tr>
-           </tbody>
-         </table>
-       </div>
-       <br><hr><br>
-       <div class="title"><strong>Cart</strong></div>
-       <div class="table-responsive margin-bottom-sm"> 
-         <table class="table table-striped">
-           <thead>
-             <tr>
-               <th>Image</th>
-               <th>Product Name</th>
-               <th>Product Brand</th>
-               <th>Product Type</th>
-               <th>Quantity</th>
-               <th>Product Price</th>
-             </tr>
-           </thead>
-           <tbody>
-               <% var arr = [] %>
-               <% for (var id in foundOrder.cart.items) {%>
-                   <% arr.push(foundOrder.cart.items[id]) %>
-               <% } %>
-               <% arr.forEach(function(order) { %>
-               <tr>
-                 <th><img src="<%= order.item.image %>" height="45" width="45"></img></th>
-                 <th><%= order.item.name %></th>
-                 <th><%= order.item.brand %></th>
-                 <th><%= order.item.type %></th>
-                 <th><%= order.qty %></th>
-                 <th><%= order.price %></th>
-            </tr>
-            <% }) %>
-           </tbody>
-         </table>
-       </div>
-       <div class="row justify-content-center">
-           <div class="row"><h4><strong>Total Price: </strong> <%= foundOrder.cart.totalPrice %></h4></div>
-       </div>
-       <% if (foundOrder.orderFulfilled == false) { %>
-       <div class="row justify-content-center mb-3 mt-2"><span>Enter Tracking/Shipping number to Complete Order</span></div>
-       <% } else { %>
-       <div class="row justify-content-center mb-3 mt-2"><span>This Order has been Completed</span></div>
-       <% } %>
-       
-       <div class="row justify-content-center">
-           <% if (foundOrder.orderFulfilled == false) { %>
-               
-                
-                <form class="form-inline" action="/admin/orders/update/<%= foundOrder.id %>" method="POST">
-                    
-                    <div class="form-group">
-                        
-                        <label for="inlineFormInputGroup" class="sr-only">Tracking/Shipping Number</label>
-                        <input id="inlineFormInputGroup" type="text" placeholder="Tracking/Shipping Number" name="trackingNumber"class="mr-sm-3 form-control form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Complete Order" class="btn btn-primary">
-                    </div>
-                    <!--<a style="margin-left: 50px; margin-right: 10px;"href="/admin/orders/update/<%= foundOrder.id %>" class="btn btn-primary"> Complete Order</a>-->
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-               </form>
-               
-           <% } %>
-           </div>
-     </div>
-</div>
+    <!-- Page Content Start -->
+    <div class="col-lg-12">
+        <div class="block margin-bottom-sm">
+            <div class="title"><strong>Order Page</strong></div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Deliver To</th>
+                            <th>Address</th>
+                            <th>Contact Number</th>
+                            <th>Payment Method</th>
+                            <% if (foundOrder.paymentMethod == 'Remittance') { %>
+                                <th>Remit Method</th>
+                                <% } %>
+                                    <th>Order ID</th>
+                                    <th>Order At</th>
+                                    <th>Tracking Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>
+                                <%= foundOrder.fullName %>
+                            </th>
+                            <th>
+                                <%= foundOrder.address %>
+                            </th>
+                            <th>
+                                <%= foundOrder.contactNumber %>
+                            </th>
+                            <th>
+                                <%= foundOrder.paymentMethod %>
+                            </th>
+                            <% if (foundOrder.paymentMethod == 'Remittance') { %>
+                                <th>
+                                    <%= foundOrder.remitMethod %>
+                                </th>
+                                <% } %>
+                            <th>
+                                <%= foundOrder._id %>
+                            </th>
+                            <th>
+                                <%=  moment(foundOrder.createdAt).format('MMMM Do YYYY, h:mm:ss a'); %>
+                            </th>
+                            <th>
+                                <a style="font-size: 20px" href="https://www.lbcexpress.com/track/?tracking_no=<%= foundOrder.trackingNumber %>">
+                                    <%= foundOrder.trackingNumber %>
+                                </a>
+                            
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <hr><br>
+            <div class="title"><strong>Cart</strong></div>
+            <div class="table-responsive margin-bottom-sm">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Product Brand</th>
+                            <th>Product Type</th>
+                            <th>Quantity</th>
+                            <th>Product Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% var arr = [] %>
+                            <% for (var id in foundOrder.cart.items) {%>
+                                <% arr.push(foundOrder.cart.items[id]) %>
+                                    <% } %>
+                                        <% arr.forEach(function(order) { %>
+                                            <tr>
+                                                <th><img src="<%= order.item.image %>" height="45" width="45"></img>
+                                                </th>
+                                                <th>
+                                                    <%= order.item.name %>
+                                                </th>
+                                                <th>
+                                                    <%= order.item.brand %>
+                                                </th>
+                                                <th>
+                                                    <%= order.item.type %>
+                                                </th>
+                                                <th>
+                                                    <%= order.qty %>
+                                                </th>
+                                                <th>
+                                                    <%= order.price %>
+                                                </th>
+                                            </tr>
+                                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <div class="row">
+                    <h4><strong>Total Price: </strong>
+                        <%= foundOrder.cart.totalPrice %>
+                    </h4>
+                </div>
+            </div>
+            <% if (foundOrder.orderFulfilled == false) { %>
+                <div class="row justify-content-center mb-3 mt-2"><span>Enter Tracking/Shipping number to Complete Order</span></div>
+                <% } else { %>
+                    <div class="row justify-content-center mb-3 mt-2"><span>This Order has been Completed</span></div>
+                    <% } %>
 
-<!-- Page Content End -->
+                        <div class="row justify-content-center">
+                            <% if (foundOrder.orderFulfilled == false) { %>
 
-<% include ./partials/footer %>
+
+                                <form class="form-inline" action="/admin/orders/update/<%= foundOrder.id %>" method="POST">
+
+                                    <div class="form-group">
+
+                                        <label for="inlineFormInputGroup" class="sr-only">Tracking/Shipping Number</label>
+                                        <input id="inlineFormInputGroup" type="text" placeholder="Tracking/Shipping Number" name="trackingNumber" class="mr-sm-3 form-control form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Complete Order" class="btn btn-primary">
+                                    </div>
+                                    <!--<a style="margin-left: 50px; margin-right: 10px;"href="/admin/orders/update/<%= foundOrder.id %>" class="btn btn-primary"> Complete Order</a>-->
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                </form>
+
+                                <% } %>
+                        </div>
+        </div>
+    </div>
+
+    <!-- Page Content End -->
+
+    <% include ./partials/footer %>
