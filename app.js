@@ -17,11 +17,6 @@ var User = require("./models/user");
 let Cart = require("./models/cart");
 let Order = require("./models/order");
 
-<<<<<<< HEAD
-=======
-let PORT = process.env.PORT || 8081;
-
->>>>>>> da1fe4a15984a5dc9a0eea14eda02cc4474c4c6c
 //Facebook Strategy
 var FacebookStrategy = require("passport-facebook").Strategy;
 var facebookAuth = require("./config/facebook.js");
@@ -39,17 +34,6 @@ let PORT = process.env.PORT || 8081;
 
 //========================================
 mongoose.set("useFindAndModify", false);
-<<<<<<< HEAD
-// mongoose.connect("mongodb://localhost:27017/ecommerce", { useNewUrlParser: true }); //use for local mongodb
-// require('./config/passport');
-// mongodb://maui:a12345@ds123783.mlab.com:23783/library //used to connect to onlineDB
-// mongoose.connect("mongodb://maui:a12345@ds123783.mlab.com:23783/library", { useNewUrlParser: true });
-mongoose.connect(
-  "mongodb+srv://pit:pit1@cluster0-hrlea.mongodb.net/test?retryWrites=true",
-  { dbName: "ecommerce", useNewUrlParser: true }
-); // this is how you connect to mongodb atlas
-// mongodb+srv://pit:<PASSWORD>@cluster0-hrlea.mongodb.net/test?retryWrites=true
-=======
 
 mongoose.connect(
   `mongodb+srv://${process.env.MONGO_DB_USER}:${
@@ -58,7 +42,6 @@ mongoose.connect(
   { dbName: "ecommerce", useNewUrlParser: true }
 ); // this is how you connect to mongodb atlas
 
->>>>>>> da1fe4a15984a5dc9a0eea14eda02cc4474c4c6c
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cookieParser());
 app.set("view engine", "ejs");
@@ -202,9 +185,5 @@ app.use("/checkout", checkoutRoutes);
 //====================================================
 
 app.listen(PORT, process.env.IP, function() {
-<<<<<<< HEAD
-  console.log("E-Commerce App server has started at " + PORT);
-=======
-  console.log("E-Commerce App server has started");
->>>>>>> da1fe4a15984a5dc9a0eea14eda02cc4474c4c6c
+  console.log(`E-Commerce App server has started at ${PORT}`);
 });
