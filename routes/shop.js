@@ -18,7 +18,7 @@ let csrf = require("csurf");
 let csrfProtection = csrf();
 router.use(csrfProtection);
 
-var sr = require('screenres');
+// var sr = require('screenres');
 
 
 
@@ -418,7 +418,7 @@ router.get("/product-list", function(req, res) {
                          console.log(err);
                     }
                     else {
-                         res.render("shop/shop-product-list", { prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false, sr: sr });
+                         res.render("shop/shop-product-list", { prods: prods, current: pageNumber, pages: Math.ceil(count / perPage), noMatch: noMatch, search: false });
                     }
                });
           });
