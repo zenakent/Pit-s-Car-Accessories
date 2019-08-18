@@ -18,7 +18,6 @@ let csrf = require("csurf");
 let csrfProtection = csrf();
 router.use(csrfProtection);
 
-// var sr = require('screenres');
 
 
 
